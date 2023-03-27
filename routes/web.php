@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UseraddressController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('pharmacy.index');
 });
+
+
+// UserAddress Routes
+Route::prefix('useraddress')->group(
+    function () {
+        Route::get(
+            '/',
+            [UseraddressController::class, 'index']
+        )->name('useraddress.index');
+    }
+);
