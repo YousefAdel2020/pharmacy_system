@@ -48,7 +48,7 @@ Route::prefix('/useraddress')->group(
 
 );
 
-
+//* ================= medcine Route
 Route::get('/medicine', function () {
     return view('medicine.index');
 })->name('medicines.index');
