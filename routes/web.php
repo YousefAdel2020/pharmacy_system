@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DoctorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('pharmacy.index');
 });
+
+
+
+Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');

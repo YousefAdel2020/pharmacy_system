@@ -1,6 +1,6 @@
 @extends('layouts.adminlte')
 
-@section('title', 'Page Title')
+@section('title', 'Doctor')
 
 @section('content')
 
@@ -10,9 +10,14 @@
 <table id="myTable">
     <thead>
         <tr>
+            <th>Avatar</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Phone</th>
+            <th>National-ID</th>
+            <th>Created_At</th>
+            <th>Pharmacy Name</th>
+            <th>Status</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
