@@ -47,3 +47,16 @@ Route::prefix('/useraddress')->group(
     }
 
 );
+
+
+Route::get('/medicine', function () {
+    return view('medicine.index');
+})->name('medicines.index');
+
+
+Route::get('/medicine/create', function () {
+    return view('medicine.create');
+})->name('medicines.create');
+
+
+
