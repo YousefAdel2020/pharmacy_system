@@ -7,74 +7,55 @@
 
 
 
-<table id="myTable">
+<table id="myTable" class="table-striped">
     <thead>
         <tr>
-            <th>Avatar</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>National-ID</th>
-            <th>Created_At</th>
-            <th>Pharmacy Name</th>
-            <th>Status</th>
-            <th>Actions</th>
+            <th scope="col">Avatar</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">National-ID</th>
+            <th scope="col">Created_At</th>
+            <th scope="col">Pharmacy Name</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
         </tr>
     </thead>
     <tbody>
 
         <tr>
+            <td><img src="{{ asset('storage/unknown.png') }}" alt="Post Image" class="d-block" width="10%"></td>
             <td>shehab</td>
-            <td>jrjtrtjtj</td>
-            <td>jrrtjrtjrtjtrjrtjtrj</td>
+            <td>shehab@gmail.com</td>
+            <td>123456789</td>
+            <td>26-32023</td>
+            <td>Elezaby</td>
+            <td>Not Banned</td>
+            <td>Actions</td>
         </tr>
         <tr>
+            <td><img src="{{ asset('storage/unknown.png') }}" alt="Post Image" class="d-block" width="10%"></td>
             <td>omar</td>
-            <td>jrjtrtjtj</td>
-            <td>jrrtjrtjrtjtrjrtjtrj</td>
+            <td>omar@gmail.com</td>
+            <td>123456789</td>
+            <td>26-32023</td>
+            <td>Elezaby</td>
+            <td>Not Banned</td>
+            <td>Actions</td>
         </tr>
         <tr>
-            <td>viola</td>
-            <td>jrjtrtjtj</td>
-            <td>jrrtjrtjrtjtrjrtjtrj</td>
+            <td><img src="{{ asset('storage/unknown.png') }}" alt="Post Image" class="d-block" width="10%"></td>
+            <td>Mahmoud</td>
+            <td>Mahmoud@gmail.com</td>
+            <td>123456789</td>
+            <td>26-32023</td>
+            <td>eltyby</td>
+            <td>Banned</td>
+            <td>Actions</td>
         </tr>
 
     </tbody>
 </table>
 @endsection
-
-{{-- @section('content')
-<table id="myTable">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-        </tr>
-    </thead>
-    <tbody>
-
-        <tr>
-            <td>shehab</td>
-            <td>jrjtrtjtj</td>
-            <td>jrrtjrtjrtjtrjrtjtrj</td>
-        </tr>
-        <tr>
-            <td>omar</td>
-            <td>jrjtrtjtj</td>
-            <td>jrrtjrtjrtjtrjrtjtrj</td>
-        </tr>
-        <tr>
-            <td>viola</td>
-            <td>jrjtrtjtj</td>
-            <td>jrrtjrtjrtjtrjrtjtrj</td>
-        </tr>
-
-    </tbody>
-</table>
-@endsection --}}
-
-
-
 
 
 @section('script')
