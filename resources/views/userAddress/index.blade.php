@@ -20,8 +20,8 @@
                     <div class="form-group col-6 ">
                         <label for="country">Country</label>
                         <select id="country" name="country" class="form-control">
-                            @foreach ($cities as $country)
-                                <option value="{{ $country->id }}">{{ $country->name }}</option>
+                            @foreach ($countries as $country)
+                                <option value="{{ $country['country-code'] }}">{{ $country['name'] }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -38,11 +38,12 @@
                 <div class="row">
                     <div class="form-group col-6">
                         <label for="floorNum">Floor</label>
-                        <input type="number" class="form-control" id="floorNum" placeholder="Enter your floor Number">
+                        <input type="number" min="0" class="form-control" id="floorNum"
+                            placeholder="Enter your floor Number">
                     </div>
                     <div class="form-group col-6">
                         <label for="apartmentNum">Apartment Number </label>
-                        <input type="number" class="form-control" id="apartmentNum"
+                        <input type="number" min="0" class="form-control" id="apartmentNum"
                             placeholder="Enter your apartment Number">
                     </div>
                 </div>
@@ -50,7 +51,7 @@
 
                 <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="primaryAddress" name="isPrimaryAddress">
-                    <label class="form-check-label" for="primaryAddress">Make this a Primary Address</label>
+                    <label class="form-check-label" for="primaryAddress">Make This a Primary Address</label>
                 </div>
             </div>
             <!-- /.card-body -->

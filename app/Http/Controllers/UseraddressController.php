@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Webpatser\Countries\Countries;
 
 class UseraddressController extends Controller
 {
@@ -13,7 +14,10 @@ class UseraddressController extends Controller
     {
         //
         $cities = [];
-        return view('useraddress.index', ["cities" => $cities]);
+        $countries = new Countries();
+        $countries = $countries->getList();
+        // dd($countries);
+        return view('useraddress.index', ["cities" => $cities, "countries" => $countries]);
     }
 
     /**
