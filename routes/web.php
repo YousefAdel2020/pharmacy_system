@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('pharmacy.index');
 });
+
+
+
+Route::get('/medicines', function () {
+    return view('medicine.index');
+});
