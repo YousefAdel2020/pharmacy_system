@@ -5,30 +5,36 @@
 @section('content')
 
       
-
+<div class="text-center">
+    <a href="{{route('medicines.create')}}" class="m-4 btn btn-success">Create medicine</a>
+</div>
 
             <table id="myTable">
                 <thead>
                     <tr>
                         <th>Medicine ID</th>
-                        <th>price (in cents)</th>
-                        <th>descreption</th>
+                        <th>Medicine Name</th>
+                        <th>Price (in cents)</th>
+                        <th>Descreption</th>
                     </tr>
                 </thead>
                 <tbody>
                 
                         <tr>
-                            <td>shehab</td>
+                            <td>1</td>
+                            <td>panadol</td>
                             <td>jrjtrtjtj</td>
                             <td>jrrtjrtjrtjtrjrtjtrj</td>
                         </tr>
                         <tr>
-                            <td>omar</td>
+                            <td>2</td>
+                            <td>nerovit</td>
                             <td>jrjtrtjtj</td>
                             <td>jrrtjrtjrtjtrjrtjtrj</td>
                         </tr>
                         <tr>
-                            <td>viola</td>
+                            <td>3</td>
+                            <td>comtrex</td>
                             <td>jrjtrtjtj</td>
                             <td>jrrtjrtjrtjtrjrtjtrj</td>
                         </tr>
