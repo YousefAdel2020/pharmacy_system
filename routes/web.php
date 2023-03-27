@@ -30,11 +30,20 @@ Route::get('/users/create', [UserController::class, 'create'])->name('users.crea
 Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');
 
 //=============== UserAddress Routes
-Route::prefix('useraddress')->group(
+Route::prefix('/useraddress')->group(
     function () {
         Route::get(
             '/',
             [UseraddressController::class, 'index']
         )->name('useraddress.index');
+        Route::get(
+            '/create',
+            [UseraddressController::class, 'create']
+        )->name('useraddress.create');
+        Route::post(
+            '/store',
+            [UseraddressController::class, 'store']
+        )->name('useraddress.store');
     }
+
 );
