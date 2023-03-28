@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\UseraddressController;
@@ -65,3 +66,8 @@ Route::get('/medicine/create', function () {
 
 
 
+
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
