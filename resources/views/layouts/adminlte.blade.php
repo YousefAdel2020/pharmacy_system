@@ -133,6 +133,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                        <a href="{{route('pharmacies.index')}}" class="nav-link">
+                           <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Pharmacies
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{route('doctors.index')}}" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
