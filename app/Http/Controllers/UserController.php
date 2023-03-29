@@ -35,17 +35,23 @@ class UserController extends Controller
     }
     public function create()
     {
-        return view('users.create');
+        return view('user.create');
     }
     public function store(StoreUserRequest $request)
     {
         $data = $request->validate();
-        return view('user.index', ['Users' => $data]);
+        $post = User::create($data);
+        return redirect()->route("user.index");
     }
     public function update(User $user, UpdateUserRequest $request)
     {
         $data = $request->validate();
         $user->update($data);
-        return redirect()->route("posts.index");
+        return redirect()->route("user.index");
+    }
+    public function edit($id)
+    {
+        $user = User::find($id);
+        return view("user.edit", ["user" => $user]);
     }
 }
