@@ -7,7 +7,7 @@
 @section('content')
     <div class="container">
         <div class="text-center">
-            <a href="{{route('user.create')}}" class="mt-4 btn btn-success">Create User</a>
+            <a href="{{route('users.create')}}" class="mt-4 btn btn-success">Create User</a>
         </div>
         <div class="row justify-content-md-center mt-3">
             <div class="col col-lg-4 mr-4 small-box bg-gradient-success">
@@ -16,7 +16,7 @@
                 <p>Users</p>
               </div>
               <div class="icon">
-                <a href="{{route('user.create')}}">
+                <a href="{{route('users.create')}}">
                 <i class="fas fa-user-plus"></i>
                 </a>  
               </div>

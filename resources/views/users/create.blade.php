@@ -25,9 +25,9 @@
                  </div>
                  <!-- /.card-header -->
                  <!-- form start -->
-                 <form action="{{route("user.update",$user->id)}}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    @method("put")
+                 <form action="{{route("users.store")}}" method="post" enctype="multipart/form-data">
+                  @csrf
+                  @method("post")
                    <div class="card-body">
                     <div class="form-group">
                        <label for="exampleInputName1">Name</label>

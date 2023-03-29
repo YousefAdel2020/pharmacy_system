@@ -25,11 +25,11 @@ Route::get('/', function () {
 
 
 // ================= User Route
-Route::get('/users', [UserController::class, 'index'])->name('user.index');
-Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
-Route::post('/users', [UserController::class, "store"])->name("user.store");
-Route::get('/users/{user}/edit', [userController::class, "edit"])->name("user.edit");
-Route::put('/users/{user}', [userController::class, "update"])->name("user.update");
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+Route::post('/users', [UserController::class, "store"])->name("users.store");
+Route::get('/users/{user}/edit', [userController::class, "edit"])->name("users.edit");
+Route::put('/users/{user}', [userController::class, "update"])->name("users.update");
 
 
 // ================= Pharamacy Route

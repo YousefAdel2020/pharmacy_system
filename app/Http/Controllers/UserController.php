@@ -31,27 +31,27 @@ class UserController extends Controller
                 'is_insured' => 'false'
             ],
         ];
-        return view('user.index', ['Users' => $Users]);
+        return view('users.index', ['Users' => $Users]);
     }
     public function create()
     {
-        return view('user.create');
+        return view('users.create');
     }
     public function store(StoreUserRequest $request)
     {
         $data = $request->validate();
         $post = User::create($data);
-        return redirect()->route("user.index");
+        return redirect()->route("users.index");
     }
     public function update(User $user, UpdateUserRequest $request)
     {
         $data = $request->validate();
         $user->update($data);
-        return redirect()->route("user.index");
+        return redirect()->route("users.index");
     }
     public function edit($id)
     {
         $user = User::find($id);
-        return view("user.edit", ["user" => $user]);
+        return view("users.edit", ["user" => $user]);
     }
 }
