@@ -33,6 +33,12 @@ Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacie
 
 // ================= Doctor Route
 Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');
+Route::get('/doctors/create', [DoctorController::class, 'create'])->name('doctors.create');
+Route::post('/doctors', [DoctorController::class,'store'])->name('doctors.store');
+Route::get('/doctors/{id}', [DoctorController::class, 'show'])->name('doctors.show');
+Route::get('/doctors/{id}/edit', [DoctorController::class, 'edit'])->name('doctors.edit');
+Route::put('/doctors/{id}', [DoctorController::class, 'update'])->name('doctors.update');
+Route::delete('/doctors/{id}', [DoctorController::class, 'destroy'])->name('doctors.destroy');
 
 //=============== UserAddress Routes
 Route::prefix('/useraddress')->group(
@@ -50,7 +56,6 @@ Route::prefix('/useraddress')->group(
             [UseraddressController::class, 'store']
         )->name('useraddress.store');
     }
-
 );
 
 //* ================= medcine Route
@@ -62,6 +67,3 @@ Route::get('/medicine', function () {
 Route::get('/medicine/create', function () {
     return view('medicine.create');
 })->name('medicines.create');
-
-
-

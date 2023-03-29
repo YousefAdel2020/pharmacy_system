@@ -10,4 +10,30 @@ class DoctorController extends Controller
     {
         return view('doctor.index');
     }
+
+    public function show($id)
+    {
+    }
+
+    public function create()
+    {
+        return view('doctor.create');
+    }
+
+    public function store()
+    {
+    }
+
+    public function edit($id)
+    {
+        return view('doctor.edit');
+    }
+
+    public function update($id)
+    {
+    }
+
+    public function destroy($id)
+    {
+    }
 }
