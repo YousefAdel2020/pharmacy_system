@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UseraddressRequest;
-use App\Models\Useraddress;
+use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Webpatser\Countries\Countries;
 
@@ -51,7 +51,7 @@ class UseraddressController extends Controller
         $apartment_num = $request['apartment_num'];
         $request['is_primary_address'] == 'on' ? $is_primary_address = 1 : $is_primary_address = 0;
 
-        Useraddress::create([
+        UserAddress::create([
             'user_id' => $user_id,
             'area_id' => $area_id,
             'street' => $street,

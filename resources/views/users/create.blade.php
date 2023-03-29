@@ -31,25 +31,31 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="exampleInputName1">Name</label>
-                        <input type="name" class="form-control" id="exampleInputName1" placeholder="Enter name">
+                        <input type="name" name="name" class="form-control" id="exampleInputName1"
+                            placeholder="Enter name">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                        <input type="email" name="email" class="form-control" id="exampleInputEmail1"
+                            placeholder="Enter email">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input type="password" name="password" class="form-control" id="exampleInputPassword1"
+                            placeholder="Password">
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
-                        <div class="form-group">
-                            <strong>Role:</strong>
-                            {!! Form::select('roles[]', $roles, [], ['class' => 'form-control', 'multiple']) !!}
-                        </div>
+                        <strong>Role:</strong>
+                        {{-- @dd($roles) --}}
+                        <select id="city" name="role" class="form-control">
+                            @foreach ($roles as $role)
+                                <option value="{{ $role }}">{{ $role }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="primaryAddress" name="isPrimaryAddress">
-                        <label class="form-check-label" for="primaryAddress">Has insurance</label>
+                        <input type="checkbox" class="form-check-input" id="is_insured" name="is_insured">
+                        <label class="form-check-label" for="is_insured">Has insurance</label>
                     </div>
                 </div>
                 <!-- /.card-body -->

@@ -42,7 +42,7 @@
                         <td>{{ ++$i }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <th scope="col">insured</th>
+                        <td scope="col">{{ $user->is_insured == 1 ? 'Insured' : 'Not Insured' }}</td>
 
 
                         <td>

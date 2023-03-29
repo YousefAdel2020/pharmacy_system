@@ -41,12 +41,28 @@ class UserController extends Controller
     {
         $roles = Role::pluck('name', 'name')->all();
 
+
+
         return view('users.create', compact('roles'));
     }
     public function store(StoreUserRequest $request)
     {
-        $data = $request->validate();
-        $post = User::create($data);
+        $name = $request['name'];
+        $email = $request['email'];
+        $password = $request['password'];
+        $role = $request['role'];
+
+        $request['is_insured'] == 'on' ? $is_insured = 1 : $is_insured = 0;
+
+
+        $user = User::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+            'role' => $role,
+            'is_insured' => $is_insured,
+        ]);
+        // $user->assignRole($request->input('role'));
         return redirect()->route("users.index");
     }
     public function update(User $user, UpdateUserRequest $request)
