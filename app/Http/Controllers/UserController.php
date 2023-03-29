@@ -28,7 +28,7 @@ class UserController extends Controller
                 'is_insured' => 'false'
             ],
         ];
-        return view('users.index', ['Users' => $Users]);
+        return view('user.index', ['Users' => $Users]);
     }
     public function create()
     {

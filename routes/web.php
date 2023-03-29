@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\UseraddressController;
@@ -23,8 +24,8 @@ Route::get('/', function () {
 
 
 // ================= User Route
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
-Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+Route::get('/users', [UserController::class, 'index'])->name('user.index');
+Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
 
 
 // ================= Pharamacy Route
@@ -62,6 +63,3 @@ Route::get('/medicine', function () {
 Route::get('/medicine/create', function () {
     return view('medicine.create');
 })->name('medicines.create');
-
-
-
