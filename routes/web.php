@@ -1,9 +1,11 @@
 <?php
+
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\UseraddressController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,3 +69,8 @@ Route::get('/medicine', function () {
 Route::get('/medicine/create', function () {
     return view('medicine.create');
 })->name('medicines.create');
+
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
