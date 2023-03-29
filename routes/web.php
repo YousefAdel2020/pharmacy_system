@@ -27,6 +27,9 @@ Route::get('/', function () {
 // ================= User Route
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+Route::post('/users', [UserController::class, "store"])->name("users.store");
+Route::get('/users/{user}/edit', [userController::class, "edit"])->name("users.edit");
+Route::put('/users/{user}', [userController::class, "update"])->name("users.update");
 
 
 // ================= Pharamacy Route
@@ -42,7 +45,7 @@ Route::get('/pharmacies/restore/{pharmacies}', [PharmacyController::class, 'rest
 // ================= Doctor Route
 Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');
 Route::get('/doctors/create', [DoctorController::class, 'create'])->name('doctors.create');
-Route::post('/doctors', [DoctorController::class,'store'])->name('doctors.store');
+Route::post('/doctors', [DoctorController::class, 'store'])->name('doctors.store');
 Route::get('/doctors/{id}', [DoctorController::class, 'show'])->name('doctors.show');
 Route::get('/doctors/{id}/edit', [DoctorController::class, 'edit'])->name('doctors.edit');
 Route::put('/doctors/{id}', [DoctorController::class, 'update'])->name('doctors.update');

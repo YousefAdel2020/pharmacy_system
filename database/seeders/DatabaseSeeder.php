@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         //Seed the countries
-        $this->call('CountriesSeeder');
+        $this->call(['CountriesSeeder', UserSeeder::class]);
         $this->command->info('Seeded the countries!');
     }
 }

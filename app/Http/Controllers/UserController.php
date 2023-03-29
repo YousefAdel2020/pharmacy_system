@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -33,5 +36,22 @@ class UserController extends Controller
     public function create()
     {
         return view('users.create');
+    }
+    public function store(StoreUserRequest $request)
+    {
+        $data = $request->validate();
+        $post = User::create($data);
+        return redirect()->route("users.index");
+    }
+    public function update(User $user, UpdateUserRequest $request)
+    {
+        $data = $request->validate();
+        $user->update($data);
+        return redirect()->route("users.index");
+    }
+    public function edit($id)
+    {
+        $user = User::find($id);
+        return view("users.edit", ["user" => $user]);
     }
 }
