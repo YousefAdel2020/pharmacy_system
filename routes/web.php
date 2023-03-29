@@ -36,6 +36,12 @@ Route::put('/users/{user}', [userController::class, "update"])->name("users.upda
 
 // ================= Pharamacy Route
 Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
+Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
+Route::get('/pharmacies/edit', [PharmacyController::class, 'edit'])->name('pharmacies.edit');
+Route::put('/pharmacies/{pharmacy}', [PharmacyController::class, 'update'])->name('pharmacies.update');
+Route::delete('/pharmacies/{pharmacy}', [PharmacyController::class, 'destroy'])->name('pharmacies.destroy');
+Route::get('/pharmacies/restore/{pharmacies}', [PharmacyController::class, 'restore'])->name('pharmacies.restore');
+
 
 
 // ================= Doctor Route
