@@ -6,36 +6,42 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $Users = [
-            [
-                'id' => 1,
-                'name' => 'Mahmoud',
-                'email' => 'Mahmoud@gmail.com',
-                'is_insured' => 'true'
-            ],
-            [
-                'id' => 2,
-                'name' => 'Omar',
-                'email' => 'Omar@gmail.com',
-                'is_insured' => 'false'
-            ],
-            [
-                'id' => 3,
-                'name' => 'Shehab',
-                'email' => 'Shehab@gmail.com',
-                'is_insured' => 'false'
-            ],
-        ];
-        return view('users.index', ['Users' => $Users]);
+        // $Users = [
+        //     [
+        //         'id' => 1,
+        //         'name' => 'Mahmoud',
+        //         'email' => 'Mahmoud@gmail.com',
+        //         'is_insured' => 'true'
+        //     ],
+        //     [
+        //         'id' => 2,
+        //         'name' => 'Omar',
+        //         'email' => 'Omar@gmail.com',
+        //         'is_insured' => 'false'
+        //     ],
+        //     [
+        //         'id' => 3,
+        //         'name' => 'Shehab',
+        //         'email' => 'Shehab@gmail.com',
+        //         'is_insured' => 'false'
+        //     ],
+        // ];
+        // return view('users.index', ['Users' => $Users]);
+        $users = User::orderBy('id', 'DESC')->paginate(5);
+        return view('users.index', compact('users'))
+            ->with('i', ($request->input('page', 1) - 1) * 5);
     }
     public function create()
     {
-        return view('users.create');
+        $roles = Role::pluck('name', 'name')->all();
+
+        return view('users.create', compact('roles'));
     }
     public function store(StoreUserRequest $request)
     {
@@ -52,6 +58,14 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view("users.edit", ["user" => $user]);
+        $roles = Role::pluck('name', 'name')->all();
+
+        return view("users.edit", ["user" => $user, 'roles' => $roles]);
+    }
+    public function destroy($id)
+    {
+        User::find($id)->delete();
+        return redirect()->route('users.index')
+            ->with('success', 'User deleted successfully');
     }
 }

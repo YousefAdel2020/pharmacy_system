@@ -3,6 +3,8 @@
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\UseraddressController;
+use App\Http\Controllers\RoleController;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -73,6 +75,11 @@ Route::get('/medicine/create', function () {
     return view('medicine.create');
 })->name('medicines.create');
 
+// =================  for roles
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('roles', RoleController::class);
+    // Route::resource('users', 'UserController');
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

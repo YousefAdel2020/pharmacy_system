@@ -145,15 +145,15 @@
                         data-accordion="false">
                         <li class="nav-item">
                             <a href="{{ route('home') }}" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                                <i class="nav-icon fas fa-dashboard  "></i>
                                 <p>
                                     Dashboard
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('users.index')}}" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                            <a href="{{ route('users.index') }}" class="nav-link">
+                                <i class="nav-icon fa-solid fa-user"></i>
                                 <p>
                                     Users
                                 </p>
@@ -161,7 +161,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('pharmacies.index') }}" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                                <i class="nav-icon fa-solid fa-prescription-bottle-medical"></i>
                                 <p>
                                     Pharmacies
                                 </p>
@@ -169,7 +169,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('doctors.index') }}" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                                <i class=" nav-icon fa-solid fa-user-doctor"></i>
                                 <p>
                                     Doctors
                                 </p>
@@ -177,7 +177,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('useraddress.index') }}" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                                <i class=" nav-icon fa-solid fa-location-dot"></i>
                                 <p>
                                     Useraddress
                                 </p>
@@ -186,9 +186,16 @@
 
                         <li class="nav-item">
                             <a href="{{ route('medicines.index') }}" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                                <i class=" nav-icon fa-solid fa-tablets"></i>
                                 <p>
                                     Medicines
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/' . ($page = 'roles')) }}"><i
+                                    class="nav-icon fas fa-tasks"></i>
+                                <p>
+                                    Roles
                                 </p>
                             </a>
                         </li>
