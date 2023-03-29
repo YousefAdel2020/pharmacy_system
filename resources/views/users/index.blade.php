@@ -12,7 +12,7 @@
         <div class="row justify-content-md-center mt-3">
             <div class="col col-lg-4 mr-4 small-box bg-gradient-success">
                 <div class="inner">
-                    <h3>2</h3>
+                    <h3>{{ $users->count() }}</h3>
                     <p>Users</p>
                 </div>
                 <div class="icon">
@@ -54,15 +54,15 @@
                         </td>
 
                         <td>
-                            @can('edit user')
-                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-info" title="تعديل"><i
-                                        class="las la-pen"></i></a>
+                            @can('user-edit')
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-info" title="edit"><i
+                                        class="fa fa-edit"></i></a>
                             @endcan
 
-                            @can('delete user ')
+                            @can('user-delete')
                                 <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                     data-user_id="{{ $user->id }}" data-username="{{ $user->name }}" data-toggle="modal"
-                                    href="#modaldemo8" title="حذف"><i class="las la-trash"></i></a>
+                                    href="#modaldemo8" title="delete"><i class="fa fa-close"></i></a>
                             @endcan
                         </td>
                     </tr>
