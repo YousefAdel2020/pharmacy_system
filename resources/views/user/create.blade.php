@@ -7,6 +7,18 @@
 
 @section('content')
 
+  <div class="container">
+    <div class="my-3">
+      @if ($errors->any())
+        <div class="alert alert-danger">
+          <ul>
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
+    </div>
     <div class="card card-primary">
                  <div class="card-header">
                    <h3 class="card-title">Create User</h3>
@@ -40,4 +52,5 @@
                  </form>
                </div>
                <!-- /.card -->
+  </div>
 @endsection
