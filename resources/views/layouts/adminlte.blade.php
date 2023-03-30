@@ -144,13 +144,14 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <li class="nav-item">
-                            <a href="{{ route('home') }}" class="nav-link">
+                            <a href="{{ route('index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-dashboard  "></i>
                                 <p>
                                     Dashboard
                                 </p>
                             </a>
                         </li>
+                        @can('user-list')
                         <li class="nav-item">
                             <a href="{{ route('users.index') }}" class="nav-link">
                                 <i class="nav-icon fa-solid fa-user"></i>
@@ -159,6 +160,7 @@
                                 </p>
                             </a>
                         </li>
+                        @endcan
                         <li class="nav-item">
                             <a href="{{ route('pharmacies.index') }}" class="nav-link">
                                 <i class="nav-icon fa-solid fa-prescription-bottle-medical"></i>
@@ -192,6 +194,7 @@
                                 </p>
                             </a>
                         </li>
+                        @can('user-list')
                         <li class="nav-item"><a class="nav-link" href="{{ url('/' . ($page = 'roles')) }}"><i
                                     class="nav-icon fas fa-tasks"></i>
                                 <p>
@@ -199,6 +202,7 @@
                                 </p>
                             </a>
                         </li>
+                        @endcan
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

@@ -1,6 +1,6 @@
 @extends('layouts.adminlte')
 
-@section('title', 'Page Title')
+@section('title', 'Home Page')
 
 @section('content')
 

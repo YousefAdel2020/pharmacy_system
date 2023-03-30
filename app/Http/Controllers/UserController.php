@@ -19,27 +19,6 @@ class UserController extends Controller
     }
     public function index(Request $request)
     {
-        // $Users = [
-        //     [
-        //         'id' => 1,
-        //         'name' => 'Mahmoud',
-        //         'email' => 'Mahmoud@gmail.com',
-        //         'is_insured' => 'true'
-        //     ],
-        //     [
-        //         'id' => 2,
-        //         'name' => 'Omar',
-        //         'email' => 'Omar@gmail.com',
-        //         'is_insured' => 'false'
-        //     ],
-        //     [
-        //         'id' => 3,
-        //         'name' => 'Shehab',
-        //         'email' => 'Shehab@gmail.com',
-        //         'is_insured' => 'false'
-        //     ],
-        // ];
-        // return view('users.index', ['Users' => $Users]);
         $users = User::orderBy('id', 'DESC')->paginate(5);
         return view('users.index', compact('users'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
