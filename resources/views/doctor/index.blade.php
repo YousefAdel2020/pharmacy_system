@@ -29,12 +29,18 @@
             <td>shehab</td>
             <td>shehab@gmail.com</td>
             <td>123456789</td>
-            <td>26-32023</td>
+            <td>26-3-2023</td>
             <td>Elezaby</td>
             <td>Not Banned</td>
             <td>
-                <a href="#" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a href="#" title="Delete"><i class="fa-sharp fa-solid fa-trash black"></i></a>
+                <a href="{{ route('doctors.edit', 1) }}" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                <form action="{{ route('doctors.destroy', 1) }}" class="d-inline" method="post">
+                    @csrf
+                    @method('delete')
+                    <button type="submit" name="id" title="Delete" class="form-button">
+                        <i class="fa-sharp fa-solid fa-trash black"></i>
+                    </button>
+                </form>
                 <a href="#" title="UnBan"><i class="fa-solid fa-user-slash red"></i></a>
                 <a href="#" title="Ban"><i class="fa-solid fa-user green"></i></a>
             </td>
@@ -45,12 +51,18 @@
             <td>omar</td>
             <td>omar@gmail.com</td>
             <td>123456789</td>
-            <td>26-32023</td>
+            <td>26-3-2023</td>
             <td>Elezaby</td>
             <td>Not Banned</td>
             <td>
-                <a href="#" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a href="#" title="Delete"><i class="fa-sharp fa-solid fa-trash black"></i></a>
+                <a href="{{ route('doctors.edit', 1) }}" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                <form action="{{ route('doctors.destroy', 1) }}" class="d-inline" method="post">
+                    @csrf
+                    @method('delete')
+                    <button type="submit" name="id" title="Delete" class="form-button">
+                        <i class="fa-sharp fa-solid fa-trash black"></i>
+                    </button>
+                </form>
                 <a href="#" title="UnBan"><i class="fa-solid fa-user-slash red"></i></a>
                 <a href="#" title="Ban"><i class="fa-solid fa-user green"></i></a>
             </td>
@@ -61,12 +73,19 @@
             <td>Mahmoud</td>
             <td>Mahmoud@gmail.com</td>
             <td>123456789</td>
-            <td>26-32023</td>
+            <td>26-3-2023</td>
             <td>eltyby</td>
             <td>Banned</td>
             <td>
-                <a href="#" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a href="#" title="Delete"><i class="fa-sharp fa-solid fa-trash black"></i></a>
+                <a href="{{ route('doctors.edit', 1) }}" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                <form action="{{ route('doctors.destroy', 1) }}" class="d-inline" method="post">
+                    @csrf
+                    @method('delete')
+                    <button type="submit" name="id" title="Delete" class="form-button">
+                        <i class="fa-sharp fa-solid fa-trash black"></i>
+                    </button>
+                </form>
+
                 <a href="#" title="UnBan"><i class="fa-solid fa-user-slash red"></i></a>
                 <a href="#" title="Ban"><i class="fa-solid fa-user green"></i></a>
             </td>
@@ -74,6 +93,7 @@
 
     </tbody>
 </table>
+<a class="btn btn-success" href="{{ route('doctors.create')}}">Add New Doctor</a>
 @endsection
 
 

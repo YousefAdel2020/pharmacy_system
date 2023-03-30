@@ -5,9 +5,9 @@
 @section('content')
 
 <div class="container">
-    <form class="form" action="#" method="post" enctype="multipart/form-data">
+    <form class="form" action="{{ route('doctors.update', 1)}}" method="post" enctype="multipart/form-data">
         @csrf
-
+        @method('put')
         <div class="row pt-5">
             <div class="col-sm-3"><!--left col-->
 

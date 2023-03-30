@@ -24,7 +24,6 @@ class PermissionTableSeeder extends Seeder
             'role-delete',
         ];
         foreach ($permissions as $permission) {
-
             Permission::create(['name' => $permission]);
         }
     }

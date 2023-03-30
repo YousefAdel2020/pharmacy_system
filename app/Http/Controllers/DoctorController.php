@@ -13,6 +13,7 @@ class DoctorController extends Controller
 
     public function show($id)
     {
+        return view('doctor.show');
     }
 
     public function create()
