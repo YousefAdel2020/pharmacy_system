@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('index');
-})->name('home');
+})->name('index');
 
 
 
@@ -87,3 +87,4 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 Auth::routes();
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
