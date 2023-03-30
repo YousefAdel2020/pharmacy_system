@@ -7,35 +7,21 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
+use App\DataTables\UsersDataTable;
 
 class UserController extends Controller
 {
-    public function index(Request $request)
+    function __construct()
     {
-        // $Users = [
-        //     [
-        //         'id' => 1,
-        //         'name' => 'Mahmoud',
-        //         'email' => 'Mahmoud@gmail.com',
-        //         'is_insured' => 'true'
-        //     ],
-        //     [
-        //         'id' => 2,
-        //         'name' => 'Omar',
-        //         'email' => 'Omar@gmail.com',
-        //         'is_insured' => 'false'
-        //     ],
-        //     [
-        //         'id' => 3,
-        //         'name' => 'Shehab',
-        //         'email' => 'Shehab@gmail.com',
-        //         'is_insured' => 'false'
-        //     ],
-        // ];
-        // return view('users.index', ['Users' => $Users]);
+        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+    }
+    public function index(UsersDataTable $dataTable )
+    {
         $users = User::orderBy('id', 'DESC')->paginate(5);
-        return view('users.index', compact('users'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        return $dataTable->render('users.index',compact('users'));
     }
     public function create()
     {
