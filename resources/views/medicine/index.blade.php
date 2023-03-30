@@ -16,6 +16,7 @@
                         <th>Medicine Name</th>
                         <th>Price (in cents)</th>
                         <th>Descreption</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,18 +26,37 @@
                             <td>panadol</td>
                             <td>jrjtrtjtj</td>
                             <td>jrrtjrtjrtjtrjrtjtrj</td>
+                            <td>
+                                <a href="{{ route('medicines.edit',1) }}" title="Edit"><i
+                                        class="fa-solid fa-pen-to-square pl-4 "></i></a>
+                                <a href="#" title="Delete"><i class="fa-sharp fa-solid fa-trash black pr-4"></i></a>
+            
+                            </td>
+                            
                         </tr>
                         <tr>
                             <td>2</td>
                             <td>nerovit</td>
                             <td>jrjtrtjtj</td>
                             <td>jrrtjrtjrtjtrjrtjtrj</td>
+                            <td>
+                                <a href="{{ route('medicines.edit',1) }}" title="Edit"><i
+                                        class="fa-solid fa-pen-to-square pl-4 "></i></a>
+                                <a href="#" title="Delete"><i class="fa-sharp fa-solid fa-trash black pr-4"></i></a>
+            
+                            </td>
                         </tr>
                         <tr>
                             <td>3</td>
                             <td>comtrex</td>
                             <td>jrjtrtjtj</td>
                             <td>jrrtjrtjrtjtrjrtjtrj</td>
+                            <td>
+                                <a href="{{ route('medicines.edit',1) }}" title="Edit"><i
+                                        class="fa-solid fa-pen-to-square pl-4 "></i></a>
+                                <a href="#" title="Delete"><i class="fa-sharp fa-solid fa-trash black pr-4"></i></a>
+            
+                            </td>
                         </tr>
                  
                 </tbody>

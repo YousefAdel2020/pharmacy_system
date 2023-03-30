@@ -26,66 +26,88 @@
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
+                            class="fas fa-bars"></i></a>
                 </li>
             </ul>
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- Sign-in button with icon -->
-                <li class="nav-item">
-                    <a href="{{ url('login') }}" class="nav-link">
-                        <i class="fas fa-sign-in-alt"></i>
-                        <span class="d-none d-md-inline-block ml-1">Sign In</span>
-                    </a>
-                </li>
+                @guest
+                    @if (Route::has('login'))
+                        <li class="nav-item">
+                            <a href="{{ url('login') }}" class="nav-link">
+                                <i class="fas fa-sign-in-alt"></i>
+                                <span class="d-none d-md-inline-block ml-1">Sign In</span>
+                            </a>
+                        </li>
+                    @endif
+                    @if (Route::has('register'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        </li>
+                    @endif
+                @else
+                    <!-- Settings icon -->
 
-                <!-- Settings icon -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="fas fa-cog"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-header">Settings</span>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-user-cog mr-2"></i> Account Settings
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="fas fa-cog"></i>
                         </a>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-bell mr-2"></i> Notifications
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <span class="dropdown-header">Settings</span>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-user-cog mr-2"></i> Account Settings
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-bell mr-2"></i> Notifications
+                            </a>
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+
+                        </div>
+                    </li>
+
+                    <!-- Notification icon -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="far fa-bell"></i>
+                            <span class="badge badge-warning navbar-badge">15</span>
                         </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
-                        </a>
-                    </div>
-                </li>
-                <!-- Notification icon -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">15</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-header">15 Notifications</span>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope mr-2"></i> 4 new messages
-                            <span class="float-right text-muted text-sm">3 mins</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-users mr-2"></i> 8 friend requests
-                            <span class="float-right text-muted text-sm">12 hours</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-file mr-2"></i> 3 new reports
-                            <span class="float-right text-muted text-sm">2 days</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-                    </div>
-                </li>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <span class="dropdown-header">15 Notifications</span>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-envelope mr-2"></i> 4 new messages
+                                <span class="float-right text-muted text-sm">3 mins</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-users mr-2"></i> 8 friend requests
+                                <span class="float-right text-muted text-sm">12 hours</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-file mr-2"></i> 3 new reports
+                                <span class="float-right text-muted text-sm">2 days</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                        </div>
+                    </li>
+
+                @endguest
+
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -107,8 +129,13 @@
                             alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Ahmed Abdel-Fatah</a>
-                        <small>Administrator</small>
+                        @guest
+                            <a href="#" class="d-block">Hello , Guest</a>
+                            <small>Administrator</small>
+                        @else
+                            <a href="#" class="d-block"> {{ Auth::user()->name }}</a>
+                            <small>Administrator</small>
+                        @endguest
                     </div>
                 </div>
 
@@ -117,32 +144,40 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <li class="nav-item">
-                            <a href="{{route('home')}}" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                            <a href="{{ route('home') }}" class="nav-link">
+                                <i class="nav-icon fas fa-dashboard  "></i>
                                 <p>
                                     Dashboard
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('users.index')}}" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                            <a href="{{ route('users.index') }}" class="nav-link">
+                                <i class="nav-icon fa-solid fa-user"></i>
                                 <p>
                                     Users
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('doctors.index')}}" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                            <a href="{{ route('pharmacies.index') }}" class="nav-link">
+                                <i class="nav-icon fa-solid fa-prescription-bottle-medical"></i>
+                                <p>
+                                    Pharmacies
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('doctors.index') }}" class="nav-link">
+                                <i class=" nav-icon fa-solid fa-user-doctor"></i>
                                 <p>
                                     Doctors
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('useraddress.index')}}" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                            <a href="{{ route('useraddress.index') }}" class="nav-link">
+                                <i class=" nav-icon fa-solid fa-location-dot"></i>
                                 <p>
                                     Useraddress
                                 </p>
@@ -150,11 +185,18 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{route('medicines.index')}}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
-                            <p>
-                                Medicines
-                            </p>
+                            <a href="{{ route('medicines.index') }}" class="nav-link">
+                                <i class=" nav-icon fa-solid fa-tablets"></i>
+                                <p>
+                                    Medicines
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/' . ($page = 'roles')) }}"><i
+                                    class="nav-icon fas fa-tasks"></i>
+                                <p>
+                                    Roles
+                                </p>
                             </a>
                         </li>
                     </ul>

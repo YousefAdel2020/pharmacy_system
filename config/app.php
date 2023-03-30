@@ -197,6 +197,9 @@ return [
 
         'Webpatser\Countries\CountriesServiceProvider',
 
+        Spatie\Permission\PermissionServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+
     ],
 
     /*
@@ -213,6 +216,10 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Countries' => 'Webpatser\Countries\CountriesFacade',
+
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+
 
     ])->toArray(),
 
