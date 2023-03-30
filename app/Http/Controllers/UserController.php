@@ -7,6 +7,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
+use App\DataTables\UsersDataTable;
 
 class UserController extends Controller
 {
@@ -17,11 +18,10 @@ class UserController extends Controller
         $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
     }
-    public function index(Request $request)
+    public function index(UsersDataTable $dataTable )
     {
         $users = User::orderBy('id', 'DESC')->paginate(5);
-        return view('users.index', compact('users'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        return $dataTable->render('users.index',compact('users'));
     }
     public function create()
     {

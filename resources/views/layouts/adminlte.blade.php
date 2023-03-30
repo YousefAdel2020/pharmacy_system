@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
+     @vite('resources/sass/app.scss')
     <!-- AdminLTE CSS -->
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
     <!-- Include AdminLTE icons CSS -->
@@ -241,6 +242,7 @@
     </div>
     <!-- ./wrapper -->
 
+    @vite('resources/js/app.js')
     <!-- jQuery -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
