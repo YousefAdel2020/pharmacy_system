@@ -9,7 +9,7 @@
     <a href="{{route('medicines.create')}}" class="m-4 btn btn-success">Create medicine</a>
 </div>
 
-            <table id="myTable">
+            <table id="myTable" class="table-striped">
                 <thead>
                     <tr>
                         <th>Medicine ID</th>

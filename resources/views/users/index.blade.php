@@ -8,7 +8,7 @@
     <div class="text-center">
         <a href="{{route('users.create')}}" class="mt-4 btn btn-success">Create User</a>
     </div>
-    <table  id="myTable">
+    <table  id="myTable" class="table-striped">
         <thead>
         <tr>
             <th scope="col">#</th>

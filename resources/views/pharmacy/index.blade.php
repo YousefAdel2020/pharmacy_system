@@ -7,7 +7,7 @@
 
 
 
-<table id="myTable">
+<table id="myTable" class="table-striped">
     <thead>
         <tr>
             <th>Name</th>
