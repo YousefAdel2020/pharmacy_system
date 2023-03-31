@@ -19,6 +19,8 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Address</th>
+                                <th>Country</th>
+
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -27,6 +29,8 @@
                                 <tr>
                                     <td>{{ $area->name }}</td>
                                     <td>{{ $area->address }}</td>
+                                    <td>{{ $area->country->name }}</td>
+
                                     <td>
                                         <a href="{{ route('areas.show', $area->id) }}" class="btn btn-info btn-sm">View </a>
                                         <a href="{{ route('areas.edit', $area->id) }}"

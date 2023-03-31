@@ -24,6 +24,18 @@
                             <input type="text" class="form-control" id="name" name="name"
                                 value="{{ $area->name }}" placeholder="Enter name">
                         </div>
+                        <div class="form-group  ">
+                            <label for="country">Country</label>
+                            <select id="country" name="country_id" class="form-control">
+                                <option selected value="{{ $area->country['country-code'] }}">
+                                    @foreach ($countries as $country)
+                                        {{ $area->country['name'] }}
+                                </option>
+
+                                <option value="{{ $country['country-code'] }}">{{ $country['name'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label for="address">Address</label>
                             <input type="text" class="form-control" id="address" name="address"

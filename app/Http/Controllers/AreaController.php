@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ValidateAreaRequest;
 use App\Models\Area;
+use App\Models\Country;
 use Illuminate\Http\Request;
+use Webpatser\Countries\Countries;
 
 class AreaController extends Controller
 {
@@ -25,7 +27,8 @@ class AreaController extends Controller
     public function create()
     {
         //
-        return view('areas.create');
+        $countries = (new Countries())->getList();
+        return view('areas.create', ['countries' => $countries]);
     }
 
     /**
@@ -34,10 +37,7 @@ class AreaController extends Controller
     public function store(ValidateAreaRequest $request)
     {
         //
-        $request->validate([
-            'name' => 'required',
-            'address' => 'required',
-        ]);
+
 
         Area::create($request->all());
 
@@ -65,9 +65,12 @@ class AreaController extends Controller
     public function edit(string $id)
     {
         //
+        $countries = (new Countries())->getList();
+
         $area = Area::find($id);
 
-        return view('areas.edit', compact('area'));
+        $countries = (new Countries())->getList();
+        return view('areas.edit', compact('area', 'countries'));
     }
 
     /**
@@ -98,5 +101,12 @@ class AreaController extends Controller
 
         return redirect()->route('areas.index')
             ->with('success', 'Area deleted successfully');
+    }
+
+    public function fetchArea($id)
+    {
+        $data = Country::find($id)->area;
+        // dd(response()->json($data));
+        return response()->json($data);
     }
 }

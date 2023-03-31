@@ -13,7 +13,7 @@ class Useraddress extends Model
         "user_id",
         "area_id",
         "street",
-        "city",
+        "area",
         "country",
         "floor_num",
         "apartment_num",

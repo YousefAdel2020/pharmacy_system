@@ -25,6 +25,8 @@ class ValidateAreaRequest extends FormRequest
             //
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
+            'country_id' => 'required',
+
         ];
     }
 }
