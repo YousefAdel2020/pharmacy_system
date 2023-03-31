@@ -10,7 +10,7 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form action="{{ route('useraddress.store') }} " method="POST">
+        <form action="{{ route('user-address.store') }} " method="POST">
             @csrf
             @if ($errors->any())
                 <div class="alert alert-danger mt-2">
@@ -39,21 +39,22 @@
                     <div class="form-group col-6  ">
                         <label for="city">Area</label>
                         <select id="city" name="city" class="form-control">
-                            {{-- @foreach ($cities as $city)
-                                <option value="{{ $city->id }}">{{ $city->name }}</option>
-                            @endforeach --}}
-                            {{-- <option value="1">Cairo</option>
-                            <option value="2">Alex</option> --}}
+
                         </select>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-6">
+                    <div class="form-group col-4">
+                        <label for="building_number">Building Number</label>
+                        <input type="number" name="building_number" min="0" class="form-control"
+                            id="building_number" placeholder="Enter your floor Number">
+                    </div>
+                    <div class="form-group col-4">
                         <label for="floor_num">Floor</label>
                         <input type="number" name="floor_num" min="0" class="form-control" id="floor_num"
                             placeholder="Enter your floor Number">
                     </div>
-                    <div class="form-group col-6">
+                    <div class="form-group col-4">
                         <label for="apartment_num">Apartment Number </label>
                         <input type="number" name="apartment_num" min="0" class="form-control" id="apartment_num"
                             placeholder="Enter your apartment Number">
