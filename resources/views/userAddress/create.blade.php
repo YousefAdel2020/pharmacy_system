@@ -37,13 +37,13 @@
                     </div>
 
                     <div class="form-group col-6  ">
-                        <label for="city">city</label>
+                        <label for="city">Area</label>
                         <select id="city" name="city" class="form-control">
-                            @foreach ($cities as $city)
-                                {{-- <option value="{{ $city->id }}">{{ $city->name }}</option> --}}
-                            @endforeach
-                            <option value="1">Cairo</option>
-                            <option value="2">Alex</option>
+                            {{-- @foreach ($cities as $city)
+                                <option value="{{ $city->id }}">{{ $city->name }}</option>
+                            @endforeach --}}
+                            {{-- <option value="1">Cairo</option>
+                            <option value="2">Alex</option> --}}
                         </select>
                     </div>
                 </div>
@@ -73,4 +73,31 @@
             </div>
         </form>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#country').on('change', function() {
+                var idCountry = this.value;
+                $("#city").html('');
+                $.ajax({
+                    url: '/countries/' + idCountry + '/fetch-areas',
+                    type: "GET",
+
+
+                    success: function(result) {
+                        $('#city').html('<option value="">Select Area</option>');
+                        // alert(result[0].name);
+                        $.each(result, function(key, value) {
+                            $("#city").append(
+                                '<option value="' + value.id +
+                                '">' +
+                                value.name + '</option>');
+                        });
+
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

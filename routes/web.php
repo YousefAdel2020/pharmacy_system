@@ -10,6 +10,7 @@ use App\Http\Controllers\AreaController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Models\Area;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -50,9 +51,9 @@ Route::prefix('/users')->group(
         )->name("users.edit");
         Route::put(
             '/{user}',
-            [userController::class, "update"])
-        ->name("users.update");
-
+            [userController::class, "update"]
+        )
+            ->name("users.update");
     }
 );
 
@@ -105,13 +106,15 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::resource('users', 'UserController');
 });
 
-// =================  for Areas
+// =================  for Areas ================
 Route::group(
-    ['middleware' => ['auth', 'permission:area-all']],
+    ['middleware' => ['auth',  'permission:area-all']],
     function () {
         Route::resource('areas', AreaController::class);
     }
 );
+// ajax
+Route::get('countries/{id}/fetch-areas', [AreaController::class, 'fetchArea']);
 
 
 

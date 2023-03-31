@@ -172,14 +172,17 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/' . ($page = 'areas')) }}" class="nav-link">
-                                <i class=" nav-icon fa-solid fa-location-dot"></i>
-                                <p>
-                                    Areas
-                                </p>
-                            </a>
-                        </li>
+                        @can('area-all')
+                            <li class="nav-item">
+                                <a href="{{ url('/' . ($page = 'areas')) }}" class="nav-link">
+                                    <i class=" nav-icon fa-solid fa-location-dot"></i>
+                                    <p>
+                                        Areas
+                                    </p>
+                                </a>
+                            </li>
+                        @endcan
+
                         <li class="nav-item">
                             <a href="{{ route('useraddress.index') }}" class="nav-link">
                                 <i class=" nav-icon fa-solid fa-location-dot"></i>
@@ -254,7 +257,7 @@
     <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
     <script src="{{ asset('dist/js/all.min.js') }}"></script>
 
-   
+
     @yield('script')
 
 </body>
