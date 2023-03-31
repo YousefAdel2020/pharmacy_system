@@ -1,5 +1,6 @@
 <?php
 
+use App\DataTables\MedicinesDataTable;
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MedicineController;
@@ -72,10 +73,14 @@ Route::prefix('/useraddress')->group(
     }
 );
 
-//* ================= medcine Route
+//* ================= medicine Route
 Route::get('/medicines', [MedicineController::class,'index'])->name('medicines.index');
+
 Route::get('/medicines/create', [MedicineController::class,'create'])->name('medicines.create');
 Route::get('/medicines/{id}/edit', [MedicineController::class,'edit'])->name('medicines.edit');
+Route::post('/medicines', [MedicineController::class, 'store'])->name('medicines.store');
+
+Route::get('medicines/data', [MedicinesDataTable::class, 'query'])->name('medicines.data');
 
 
 // =================  for roles
