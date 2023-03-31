@@ -5,6 +5,8 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\UseraddressController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\AreaController;
+
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -73,9 +75,9 @@ Route::prefix('/useraddress')->group(
 );
 
 //* ================= medcine Route
-Route::get('/medicines', [MedicineController::class,'index'])->name('medicines.index');
-Route::get('/medicines/create', [MedicineController::class,'create'])->name('medicines.create');
-Route::get('/medicines/{id}/edit', [MedicineController::class,'edit'])->name('medicines.edit');
+Route::get('/medicines', [MedicineController::class, 'index'])->name('medicines.index');
+Route::get('/medicines/create', [MedicineController::class, 'create'])->name('medicines.create');
+Route::get('/medicines/{id}/edit', [MedicineController::class, 'edit'])->name('medicines.edit');
 
 
 // =================  for roles
@@ -83,6 +85,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', RoleController::class);
     // Route::resource('users', 'UserController');
 });
+
+// =================  for Areas
+Route::group(
+    ['middleware' => ['auth', 'permission:area-all']],
+    function () {
+        Route::resource('areas', AreaController::class);
+    }
+);
 
 
 

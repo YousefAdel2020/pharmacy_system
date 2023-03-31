@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
-     @vite('resources/sass/app.scss')
+    @vite('resources/sass/app.scss')
     <!-- AdminLTE CSS -->
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
     <!-- Include AdminLTE icons CSS -->
@@ -153,14 +153,14 @@
                             </a>
                         </li>
                         @can('user-list')
-                        <li class="nav-item">
-                            <a href="{{ route('users.index') }}" class="nav-link">
-                                <i class="nav-icon fa-solid fa-user"></i>
-                                <p>
-                                    Users
-                                </p>
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="{{ route('users.index') }}" class="nav-link">
+                                    <i class="nav-icon fa-solid fa-user"></i>
+                                    <p>
+                                        Users
+                                    </p>
+                                </a>
+                            </li>
                         @endcan
                         <li class="nav-item">
                             <a href="{{ route('pharmacies.index') }}" class="nav-link">
@@ -175,6 +175,14 @@
                                 <i class=" nav-icon fa-solid fa-user-doctor"></i>
                                 <p>
                                     Doctors
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/' . ($page = 'areas')) }}" class="nav-link">
+                                <i class=" nav-icon fa-solid fa-location-dot"></i>
+                                <p>
+                                    Areas
                                 </p>
                             </a>
                         </li>
@@ -196,13 +204,13 @@
                             </a>
                         </li>
                         @can('user-list')
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/' . ($page = 'roles')) }}"><i
-                                    class="nav-icon fas fa-tasks"></i>
-                                <p>
-                                    Roles
-                                </p>
-                            </a>
-                        </li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url('/' . ($page = 'roles')) }}"><i
+                                        class="nav-icon fas fa-tasks"></i>
+                                    <p>
+                                        Roles
+                                    </p>
+                                </a>
+                            </li>
                         @endcan
                     </ul>
                 </nav>

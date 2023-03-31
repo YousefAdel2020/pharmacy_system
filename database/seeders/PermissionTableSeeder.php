@@ -43,6 +43,9 @@ class PermissionTableSeeder extends Seeder
             'address-edit',
             'address-delete',
 
+            'area-all',
+
+
             'medicine-list',
             'medicine-create',
             'medicine-edit',

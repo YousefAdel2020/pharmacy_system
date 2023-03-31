@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
+            <div class="form-group ">
                 <strong>Permission:</strong>
                 <br />
                 @foreach ($permission as $value)
@@ -44,5 +44,5 @@
         </div>
     </div>
     {!! Form::close() !!}
-    <p class="text-center text-primary"><small>Tutorial by rscoder.com</small></p>
+
 @endsection

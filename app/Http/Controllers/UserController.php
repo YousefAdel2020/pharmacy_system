@@ -18,10 +18,10 @@ class UserController extends Controller
         $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
     }
-    public function index(UsersDataTable $dataTable )
+    public function index(UsersDataTable $dataTable)
     {
         $users = User::orderBy('id', 'DESC')->paginate(5);
-        return $dataTable->render('users.index',compact('users'));
+        return $dataTable->render('users.index', compact('users'));
     }
     public function create()
     {
@@ -44,7 +44,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $name,
             'email' => $email,
-            'password' => $password,
+            'password' => bcrypt($password),
             'role' => $role,
             'is_insured' => $is_insured,
         ]);

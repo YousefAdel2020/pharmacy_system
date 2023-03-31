@@ -19,4 +19,8 @@ class Useraddress extends Model
         "apartment_num",
         "is_primary_address"
     ];
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
+    }
 }
