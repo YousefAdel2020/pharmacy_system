@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Doctor;
+use App\Models\Pharmacy;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -16,17 +18,41 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(1)->create();
-
         $user = User::create([
-            'name' => 'doctor_1',
-            'password' => Hash::make("123456"),
-            'national_id' => '22222000022222',
-            'email' => 'doctor_1@test.com',
-            'email_verified_at' => now(),
-            'remember_token' => Str::random(10),
-            'is_insured' => true,
+            'name' => 'pharmacy1',
+            'email' => 'pharmacy1@pharmacy.com',
+            'password' => bcrypt('123456'),
+            'typeable_type'=> 'app\Models\Medicine',
+            'typeable_id'=> '2'
+        ]);
 
+    
+        $user1 = User::create([
+            'name' => 'Doctor1',
+            'email' => 'doctor@doctor.com',
+            'password' => bcrypt('123456'),
+            'typeable_type'=> 'app\Models\Doctor',
+            'typeable_id'=> '3'
+        ]);
+
+        $pharmacy = Pharmacy::create([
+            'name' => 'pharmacy1',
+            'email' => 'pharmacy1@pharmacy.com',
+            'password' => bcrypt('123456'),
+            'national_id' => '123456789',
+            'avatar' => '',
+            'priority' => '1',
+            'is_deleted'=> '1'
+        ]);
+
+        $doctor = Doctor::create([
+            'name' => 'Doctor1',
+            'email' => 'doctor@doctor.com',
+            'password' => bcrypt('123456'),
+            'national_id' => '123456789',
+            'avatar'=> '',
+            'is_banned' => false,
+            'pharmacy_id'=> '1'
         ]);
     }
 }

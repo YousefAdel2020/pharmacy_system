@@ -21,10 +21,10 @@ class Doctor extends Model
         'pharmacy_id'
     ];
 
-    public function setCreatedAtAttribute($value)
-    {
-        $this->attributes['created_at'] = date('d-m-Y', strtotime($value));
-    }
+    // public function setCreatedAtAttribute($value)
+    // {
+    //     $this->attributes['created_at'] = date('d-m-Y', strtotime($value));
+    // }
 
     public function pharmacies(): BelongsTo
     {

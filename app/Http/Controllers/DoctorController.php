@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\DoctorsDataTable;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DoctorController extends Controller
 {
-    public function index()
+    public function index(DoctorsDataTable $doctorTable)
     {
+        $user = Auth::user();
+        dd($user);
         return view('doctor.index');
     }
 
