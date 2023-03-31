@@ -53,4 +53,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class, "user_id");
     }
+     public function typeable()
+    {
+        return $this->morphTo();
+    }
 }

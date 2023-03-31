@@ -30,12 +30,31 @@ Route::get('/', function () {
 
 
 // ================= User Route
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
-Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
-Route::post('/users', [UserController::class, "store"])->name("users.store");
-Route::get('/users/{user}/edit', [userController::class, "edit"])->name("users.edit");
-Route::put('/users/{user}', [userController::class, "update"])->name("users.update");
+Route::prefix('/users')->group(
+    function () {
+        Route::get(
+            '/',
+            [UserController::class, 'index']
+        )->name('users.index');
+        Route::get(
+            '/create',
+            [userController::class, 'create']
+        )->name('users.create');
+        Route::post(
+            '/',
+            [userController::class, 'store']
+        )->name('users.store');
+        Route::get(
+            '/{user}/edit',
+            [userController::class, "edit"]
+        )->name("users.edit");
+        Route::put(
+            '/{user}',
+            [userController::class, "update"])
+        ->name("users.update");
 
+    }
+);
 
 // ================= Pharamacy Route
 Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
