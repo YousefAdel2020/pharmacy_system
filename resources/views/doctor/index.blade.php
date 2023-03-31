@@ -8,10 +8,11 @@
 
 <h1 class="text-center py-3">Doctors</h1>
 
-<table id="myTable" class="table-striped">
+<!-- <table id="doctors-table" class="table-striped">
     <thead>
         <tr>
             <th scope="col">Avatar</th>
+            <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">National-ID</th>
@@ -20,8 +21,8 @@
             <th scope="col">Status</th>
             <th scope="col">Actions</th>
         </tr>
-    </thead>
-    <tbody>
+    </thead> -->
+<!-- <tbody>
 
         <tr>
             <td style="width: 5em;"><img src="{{ asset('storage/unknown.png') }}" alt="Post Image" class="d-block"
@@ -91,8 +92,10 @@
             </td>
         </tr>
 
-    </tbody>
-</table>
+    </tbody> -->
+<!-- </table> -->
+{{ $dataTable->table() }}
+
 <a class="btn btn-success" href="{{ route('doctors.create')}}">Add New Doctor</a>
 @endsection
 
@@ -108,4 +111,5 @@
     });
 </script>
 <script src="https://kit.fontawesome.com/212d832ea4.js" crossorigin="anonymous"></script>
+{{ $dataTable->scripts() }}
 @endsection
