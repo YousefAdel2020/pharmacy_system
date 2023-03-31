@@ -12,12 +12,6 @@
     <link rel="stylesheet" href="{{ asset('dist/css/all.min.css') }}">
 
 
-
-    <!-- Include DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
-
-
-
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -252,10 +246,7 @@
     <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
     <script src="{{ asset('dist/js/all.min.js') }}"></script>
 
-    <!-- Include jQuery and DataTables JavaScript -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
-
+   
     @yield('script')
 
 </body>
