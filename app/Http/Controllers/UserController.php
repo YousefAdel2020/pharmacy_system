@@ -11,13 +11,7 @@ use App\DataTables\UsersDataTable;
 
 class UserController extends Controller
 {
-    function __construct()
-    {
-        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index', 'show']]);
-        $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
-    }
+    
     public function index(UsersDataTable $dataTable)
     {
         $users = User::orderBy('id', 'DESC')->paginate(5);
@@ -27,7 +21,7 @@ class UserController extends Controller
     {
         $roles = Role::pluck('name', 'name')->all();
 
-
+        dd($roles);
 
         return view('users.create', compact('roles'));
     }
