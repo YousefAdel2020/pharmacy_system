@@ -7,6 +7,8 @@ use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\UseraddressController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\OrderController;
+
 
 
 use Illuminate\Support\Facades\Route;
@@ -32,10 +34,11 @@ Route::get('/', function () {
 
 
 // ================= User Route
-Route::group([
-    'prefix' => 'users',
-    'middleware' =>['role:Admin', 'auth'],
-],
+Route::group(
+    [
+        'prefix' => 'users',
+        'middleware' => ['role:Admin', 'auth'],
+    ],
     function () {
         Route::get(
             '/',
@@ -58,7 +61,8 @@ Route::group([
             [userController::class, "update"]
         )
             ->name("users.update");
-    });
+    }
+);
 
 
 // ================= Pharamacy Route
@@ -106,11 +110,11 @@ Route::prefix('/user-address')->group(
 );
 
 //* ================= medicine Route
-Route::get('/medicines', [MedicineController::class,'index'])->name('medicines.index');
+Route::get('/medicines', [MedicineController::class, 'index'])->name('medicines.index');
 Route::post('/medicines', [MedicineController::class, 'store'])->name('medicines.store');
-Route::get('/medicines/create', [MedicineController::class,'create'])->name('medicines.create');
-Route::get('/medicines/{id}', [MedicineController::class,'show'])->name('medicines.show');
-Route::get('/medicines/{id}/edit', [MedicineController::class,'edit'])->name('medicines.edit');
+Route::get('/medicines/create', [MedicineController::class, 'create'])->name('medicines.create');
+Route::get('/medicines/{id}', [MedicineController::class, 'show'])->name('medicines.show');
+Route::get('/medicines/{id}/edit', [MedicineController::class, 'edit'])->name('medicines.edit');
 
 Route::put('/medicines/{id}', [MedicineController::class, 'update'])->name('medicines.update');
 Route::delete('/medicines/{id}', [MedicineController::class, 'destroy'])->name('medicines.destroy');
@@ -134,6 +138,19 @@ Route::group(
 // ajax
 Route::get('countries/{id}/fetch-areas', [AreaController::class, 'fetchArea']);
 
+
+// =================  for Areas ================
+Route::prefix('orders')->group(function () {
+    Route::get('/', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/create', [
+        OrderController::class, 'create'
+    ])->name('orders.create');
+    Route::post('/', [OrderController::class, 'store'])->name('orders.store');
+    Route::get('/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+    Route::put('/{order}', [OrderController::class, 'update'])->name('orders.update');
+    Route::delete('/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
+});
 
 
 Auth::routes();
