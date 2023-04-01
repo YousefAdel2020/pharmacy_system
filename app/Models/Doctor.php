@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
 use \Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Pharmacy;
 
 class Doctor extends Model
 {
@@ -26,7 +27,7 @@ class Doctor extends Model
     //     $this->attributes['created_at'] = date('d-m-Y', strtotime($value));
     // }
 
-    public function pharmacies(): BelongsTo
+    public function pharmacy(): BelongsTo
     {
         return $this->belongsTo(Pharmacy::class);
     }
