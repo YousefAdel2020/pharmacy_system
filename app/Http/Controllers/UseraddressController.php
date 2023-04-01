@@ -15,7 +15,9 @@ class UseraddressController extends Controller
     public function index()
     {
         //
-        return view('useraddress.index');
+        $userAddresses = UserAddress::all();
+
+        return view('user-address.index', compact('userAddresses'));
     }
 
     /**
@@ -26,8 +28,8 @@ class UseraddressController extends Controller
         $cities = [];
         $countries = new Countries();
         $countries = $countries->getList();
-        // dd($countries);
-        return view('userAddress.create', ["cities" => $cities, "countries" => $countries]);
+
+        return view('user-address.create', ["cities" => $cities, "countries" => $countries]);
     }
 
     /**
@@ -47,7 +49,9 @@ class UseraddressController extends Controller
         $country = $request['country'];
         $city = $request['city'];
 
+        $building_number = $request['building_number'];
         $floor_num = $request['floor_num'];
+
         $apartment_num = $request['apartment_num'];
         $request['is_primary_address'] == 'on' ? $is_primary_address = 1 : $is_primary_address = 0;
 
@@ -58,10 +62,11 @@ class UseraddressController extends Controller
             'city' => $city,
             'country' => $country,
             "floor_num" => $floor_num,
+            'building_number' => $building_number,
             "apartment_num" => $apartment_num,
             "is_primary_address" => $is_primary_address,
         ]);
-        return  to_route('useraddress.index');
+        return  to_route('user-address.index');
     }
 
     /**
@@ -70,6 +75,9 @@ class UseraddressController extends Controller
     public function show(string $id)
     {
         //
+        $userAddress = UserAddress::find($id);
+
+        return view('user-address.show', compact('userAddress'));
     }
 
     /**
@@ -78,14 +86,24 @@ class UseraddressController extends Controller
     public function edit(string $id)
     {
         //
+        $countries = (new Countries())->getList();
+        $userAddress = UserAddress::find($id);
+
+        return view('user-address.edit', compact('userAddress', 'countries'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UseraddressRequest $request, string $id)
     {
         //
+        $userAddress = UserAddress::find($id);
+
+        $userAddress->update($request->all());
+
+        return redirect()->route('user-address.index')
+            ->with('success', 'User address updated successfully.');
     }
 
     /**
@@ -94,5 +112,11 @@ class UseraddressController extends Controller
     public function destroy(string $id)
     {
         //
+        $userAddress = UserAddress::find($id);
+
+        $userAddress->delete();
+
+        return redirect()->route('user-address.index')
+            ->with('success', 'User address deleted successfully.');
     }
 }

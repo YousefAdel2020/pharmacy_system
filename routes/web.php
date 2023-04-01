@@ -1,5 +1,6 @@
 <?php
 
+use App\DataTables\MedicinesDataTable;
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MedicineController;
@@ -77,27 +78,41 @@ Route::put('/doctors/{id}', [DoctorController::class, 'update'])->name('doctors.
 Route::delete('/doctors/{id}', [DoctorController::class, 'destroy'])->name('doctors.destroy');
 
 //=============== UserAddress Routes
-Route::prefix('/useraddress')->group(
+Route::prefix('/user-address')->group(
     function () {
         Route::get(
             '/',
             [UseraddressController::class, 'index']
-        )->name('useraddress.index');
+        )->name('user-address.index');
         Route::get(
             '/create',
             [UseraddressController::class, 'create']
-        )->name('useraddress.create');
+        )->name('user-address.create');
+        Route::get(
+            '/{id}',
+            [UseraddressController::class, 'show']
+        )->name('user-address.show');
         Route::post(
             '/store',
             [UseraddressController::class, 'store']
-        )->name('useraddress.store');
+        )->name('user-address.store');
+        Route::get('/{id}/edit', [UseraddressController::class, 'edit'])->name('user-address.edit');
+        Route::put('/{id}', [UseraddressController::class, 'update'])->name('user-address.update');
+        Route::delete('/{id}', [UseraddressController::class, 'destroy'])->name('user-address.destroy');
     }
 );
 
-//* ================= medcine Route
-Route::get('/medicines', [MedicineController::class, 'index'])->name('medicines.index');
-Route::get('/medicines/create', [MedicineController::class, 'create'])->name('medicines.create');
-Route::get('/medicines/{id}/edit', [MedicineController::class, 'edit'])->name('medicines.edit');
+//* ================= medicine Route
+Route::get('/medicines', [MedicineController::class,'index'])->name('medicines.index');
+Route::post('/medicines', [MedicineController::class, 'store'])->name('medicines.store');
+Route::get('/medicines/create', [MedicineController::class,'create'])->name('medicines.create');
+Route::get('/medicines/{id}', [MedicineController::class,'show'])->name('medicines.show');
+Route::get('/medicines/{id}/edit', [MedicineController::class,'edit'])->name('medicines.edit');
+
+Route::put('/medicines/{id}', [MedicineController::class, 'update'])->name('medicines.update');
+Route::delete('/medicines/{id}', [MedicineController::class, 'destroy'])->name('medicines.destroy');
+
+Route::get('medicines/data', [MedicinesDataTable::class, 'query'])->name('medicines.data');
 
 
 // =================  for roles

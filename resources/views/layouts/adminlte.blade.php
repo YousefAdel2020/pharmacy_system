@@ -182,7 +182,7 @@
                         @endcan
 
                         <li class="nav-item">
-                            <a href="{{ route('useraddress.index') }}" class="nav-link">
+                            <a href="{{ route('user-address.index') }}" class="nav-link">
                                 <i class=" nav-icon fa-solid fa-location-dot"></i>
                                 <p>
                                     Useraddress

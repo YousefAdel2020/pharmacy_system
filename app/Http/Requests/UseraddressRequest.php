@@ -27,6 +27,8 @@ class UseraddressRequest extends FormRequest
             'country' => ['required'],
             'city' => ['required'],
             'floor_num' => ['required'],
+            'building_number' => ['required'],
+
             'apartment_num' => ['required'],
 
 
