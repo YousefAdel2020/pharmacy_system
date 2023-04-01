@@ -62,19 +62,18 @@ class DoctorsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('avatar'),
+            Column::make('name'),
+            Column::make('email'),
+            Column::make('national_id'),
+            Column::make('created_at'),
+            // Column::make('pharmacies.name'),
+            Column::make('is_banned'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)
                   ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('Name'),
-            Column::make('Email'),
-            Column::make('National ID'),
-            Column::make('Pharmacy Name'),
-            Column::make('Status'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 
