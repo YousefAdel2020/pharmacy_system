@@ -67,13 +67,15 @@ Route::group(
 
 // ================= Pharamacy Route
 Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
+Route::post('/pharmacies', [PharmacyController::class, 'store'])->name('pharmacies.store');
 Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
-Route::get('/pharmacies/edit', [PharmacyController::class, 'edit'])->name('pharmacies.edit');
-Route::put('/pharmacies/{pharmacy}', [PharmacyController::class, 'update'])->name('pharmacies.update');
-Route::delete('/pharmacies/{pharmacy}', [PharmacyController::class, 'destroy'])->name('pharmacies.destroy');
-Route::get('/pharmacies/restore/{pharmacies}', [PharmacyController::class, 'restore'])->name('pharmacies.restore');
+Route::get('/pharmacies/{id}', [PharmacyController::class,'show'])->name('pharmacies.show');
+Route::get('/pharmacies/{id}/edit', [PharmacyController::class,'edit'])->name('pharmacies.edit');
 
+Route::put('/pharmacies/{id}', [PharmacyController::class, 'update'])->name('pharmacies.update');
+Route::delete('/pharmacies/{id}', [PharmacyController::class, 'destroy'])->name('pharmacies.destroy');
 
+Route::get('pharmacies/data', [PharmacyController::class, 'query'])->name('pharmacies.data');
 
 // ================= Doctor Route
 Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');
