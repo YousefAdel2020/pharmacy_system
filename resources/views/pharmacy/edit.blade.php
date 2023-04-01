@@ -4,14 +4,24 @@
 
 @section('content')
 
+{{-- & the validation error message --}}
+@if ($errors->any())
+<div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
-<div class="card card-success">
+<div class="card card-primary">
                  <div class="card-header">
                    <h3 class="card-title">Add New Pharmacy</h3>
                  </div> 
-    <form class="form p-4" action="#" method="post" enctype="multipart/form-data">
+    <form class="form p-4"  method="POST" action="{{ route('pharmacies.update',$pharmacy->id) }}"  enctype="multipart/form-data">
         @csrf
-
+        @method("put")
         <div class="row pt-3">
             <div class="col-sm-3"><!--left col-->
 
@@ -76,7 +86,7 @@
 
                 <div class="form-group">
                     <div class="col-xs-12 mt-5">
-                        <button class="btn btn-lg btn-success" type="submit">Save</button>
+                        <button class="btn btn-lg btn-primary" type="submit">Save</button>
                         <button class="btn btn-lg" type="reset">Reset</button>
                     </div>
                 </div>

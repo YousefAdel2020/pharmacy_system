@@ -10,7 +10,7 @@
                  </div>
                  <!-- /.card-header -->
                  <!-- form start -->
-                 <form class="form p-4" action="#" method="post" enctype="multipart/form-data">
+                 <form class="form p-4"  action="{{route('pharmacies.store')}}"method="post" enctype="multipart/form-data">
                  @csrf
                    <div class="form-group">
                    <strong><p class="mt-3">For Uploading a different photo...</p></strong>
@@ -27,11 +27,11 @@
                      </div>
                      <div class="form-group">
                        <label for="exampleInputDescreption1">National-ID</label>
-                       <input type="text" class="form-control" id="exampleInputDescreption1" name="National-id" placeholder="National-ID">
+                       <input type="text" class="form-control" id="exampleInputDescreption1" name="national_id" placeholder="National-ID">
                      </div>
                      <div class="form-group">
                        <label for="exampleInputDescreption1">Created_At</label>
-                       <input type="time" class="form-control" id="exampleInputDescreption1" placeholder="National-ID">
+                       <input type="time" class="form-control" id="exampleInputDescreption1" placeholder="Created_At">
                      </div>
                    </div>
                    <!-- /.card-body -->

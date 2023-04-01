@@ -13,14 +13,12 @@ class Pharmacy extends Model
     protected $fillable = [
         'name',
         'email',
-        'password',
         'national_id',
         'avatar',
-        'priority',
-        'is_deleted'
+        
     ];
 
-    public function doctors()
+   /* public function pharmacies()
     {
         return $this->hasMany(Doctor::class);
     }
@@ -31,5 +29,5 @@ class Pharmacy extends Model
     public function type()
     {
         return $this->morphOne(User::class, 'typeable');
-    }
+    }*/
 }
