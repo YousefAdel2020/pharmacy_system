@@ -32,7 +32,10 @@ Route::get('/', function () {
 
 
 // ================= User Route
-Route::prefix('/users')->group(
+Route::group([
+    'prefix' => 'users',
+    'middleware' =>['role:Admin', 'auth'],
+],
     function () {
         Route::get(
             '/',
@@ -55,8 +58,8 @@ Route::prefix('/users')->group(
             [userController::class, "update"]
         )
             ->name("users.update");
-    }
-);
+    });
+
 
 // ================= Pharamacy Route
 Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
