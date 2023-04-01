@@ -1,6 +1,6 @@
 @extends('layouts.adminlte')
 
-@section('title', 'Pharmacy')
+@section('title', 'edit Pharmacy')
 
 @section('content')
 
@@ -17,16 +17,16 @@
 
 <div class="card card-primary">
                  <div class="card-header">
-                   <h3 class="card-title">Add New Pharmacy</h3>
+                   <h3 class="card-title">Edit your Pharmacy</h3>
                  </div> 
     <form class="form p-4"  method="POST" action="{{ route('pharmacies.update',$pharmacy->id) }}"  enctype="multipart/form-data">
         @csrf
-        @method("put")
+        @method("PUT")
         <div class="row pt-3">
             <div class="col-sm-3"><!--left col-->
 
                 <div class="text-center">
-                    <img src="{{ asset('storage/unknown.png') }}" class="img-circle img-thumbnail" alt="avatar">
+                    <img src="{{ asset('storage/unknown.png') }}" class="img-circle img-thumbnail" value="{{$pharmacy->avatar}}"alt="avatar">
                     <h6 class="mt-3">Upload a different photo...</h6>
                     <input type="file" name="avatar">
                 </div>
@@ -40,16 +40,27 @@
                             <label for="name">
                                 <h4>Pharmacy Name</h4>
                             </label>
-                            <input type="name" class="form-control" name="pharmacy_name" placeholder="Enter Pharmacy Name">
+                            <input type="name" class="form-control" name="pharmacy_name" value="{{$pharmacy->name}}" placeholder="Enter Pharmacy Name">
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="col-xs-6">
+                            <label for="national_id">
+                                <h4>National ID</h4>
+                            </label>
+                            <input type="number" class="form-control" name="national_id" id="national_id"
+                                value="{{ $pharmacy->national_id }}" disabled>
+                    </div>
+                </div>
+                
+               
                 
                 <div class="form-group">
                     <div class="col-xs-6">
                         <label for="email">
                             <h4>Email</h4>
                         </label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email"
+                        <input type="email" class="form-control" value="{{ $pharmacy->email }}" name="email" id="email" placeholder="Enter your email"
                             >
                     </div>
                 </div>
@@ -74,19 +85,11 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="col-xs-6">
-                        <label for="Updated_At">
-                            <h4>Updated_At</h4>
-                        </label>
-                        <input type="time"  class="form-control" name="password2" id="password2"
-                            placeholder="Repet password" required>
-                    </div>
-                </div>
+              
 
                 <div class="form-group">
                     <div class="col-xs-12 mt-5">
-                        <button class="btn btn-lg btn-primary" type="submit">Save</button>
+                        <button class="btn btn-lg btn-primary" type="submit">update</button>
                         <button class="btn btn-lg" type="reset">Reset</button>
                     </div>
                 </div>

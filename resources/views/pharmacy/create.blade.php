@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div class="card card-success">
+    <div class="card card-primary">
                  <div class="card-header">
                    <h3 class="card-title">Add New Pharmacy</h3>
                  </div>
@@ -29,15 +29,12 @@
                        <label for="exampleInputDescreption1">National-ID</label>
                        <input type="text" class="form-control" id="exampleInputDescreption1" name="national_id" placeholder="National-ID">
                      </div>
-                     <div class="form-group">
-                       <label for="exampleInputDescreption1">Created_At</label>
-                       <input type="time" class="form-control" id="exampleInputDescreption1" placeholder="Created_At">
-                     </div>
+                 
                    </div>
                    <!-- /.card-body -->
 
                    <div class="card-footer">
-                     <button type="submit" class="btn btn-success">Submit</button>
+                     <button type="submit" class="btn btn-primary">Submit</button>
                    </div>
                  </form>
                </div>

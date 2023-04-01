@@ -65,9 +65,8 @@ class PharmaciesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-           
+            Column::make('id'),
             Column::make('avatar'),
-            
             Column::make('name'),
             Column::make('email'),
             Column::make('national_id'),

@@ -15,10 +15,13 @@ class PharmacyController extends Controller
 {
     public function index(PharmaciesDataTable $dataTable)
     {
-        $pharmacies = Pharmacy::orderBy('id', 'DESC')->paginate(5);
+        $pharmacies = Pharmacy::orderBy('id', 'ASC')->paginate(5);
         return $dataTable->render('pharmacy.index', compact('pharmacies'));
     }
-
+    public function create()
+    {
+        return view('pharmacy.create');
+    }
     public function show(Pharmacy $pharmacy)
     {
        
@@ -28,10 +31,7 @@ class PharmacyController extends Controller
             'pharmacy' => $pharmacy
         ]);
     }
-    public function create()
-    {
-        return view('pharmacy.create');
-    }
+   
     public function store(StorePharmacyRequest $request)
     {
         $avatar =  $request->avatar;
@@ -53,8 +53,8 @@ class PharmacyController extends Controller
 
     public function edit($id)
     {
-        $farmacy = Pharmacy::findorFail($id);
-        return view('pharmacy.edit', ['pharmacy' => $farmacy]);
+        $pharmacy = Pharmacy::findorFail($id);
+        return view('pharmacy.edit', ['pharmacy' => $pharmacy]);
     }
 
     public function update(StorePharmacyRequest $request, $id)
@@ -84,8 +84,9 @@ class PharmacyController extends Controller
         $pharmacy->delete();
         return redirect()->route('pharmacies.index')->with('success', 'pharmacy deleted successfully');
     }
-   
-    public function softdelete(Pharmacy $pharmacy)
+   //////////////////
+
+/*  public function softdelete(Pharmacy $pharmacy)
     {    
         $pharmacy->delete();
         return response()->json([
@@ -106,6 +107,6 @@ class PharmacyController extends Controller
         $pharmacy = Pharmacy::onlyTrashed()->where('id', $request->pharmacy);
         $pharmacy->restore();
         return redirect()->route('pharmacies.index');
-    }
+    }*/
 
 }
