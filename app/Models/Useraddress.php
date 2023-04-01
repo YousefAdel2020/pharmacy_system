@@ -13,10 +13,14 @@ class Useraddress extends Model
         "user_id",
         "area_id",
         "street",
-        "city",
+        "area",
         "country",
         "floor_num",
         "apartment_num",
         "is_primary_address"
     ];
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
+    }
 }

@@ -21,10 +21,10 @@ class Doctor extends Model
         'pharmacy_id'
     ];
 
-    public function setCreatedAtAttribute($value)
-    {
-        $this->attributes['created_at'] = date('d-m-Y', strtotime($value));
-    }
+    // public function setCreatedAtAttribute($value)
+    // {
+    //     $this->attributes['created_at'] = date('d-m-Y', strtotime($value));
+    // }
 
     public function pharmacies(): BelongsTo
     {
@@ -33,5 +33,9 @@ class Doctor extends Model
     public function orders()
     {
         return $this->morphMany(Order::class, 'orderable');
+    }
+    public function type()
+    {
+        return $this->morphOne(User::class, 'typeable');
     }
 }

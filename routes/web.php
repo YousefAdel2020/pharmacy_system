@@ -6,9 +6,12 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\UseraddressController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\AreaController;
+
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Models\Area;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -29,12 +32,31 @@ Route::get('/', function () {
 
 
 // ================= User Route
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
-Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
-Route::post('/users', [UserController::class, "store"])->name("users.store");
-Route::get('/users/{user}/edit', [userController::class, "edit"])->name("users.edit");
-Route::put('/users/{user}', [userController::class, "update"])->name("users.update");
-
+Route::prefix('/users')->group(
+    function () {
+        Route::get(
+            '/',
+            [UserController::class, 'index']
+        )->name('users.index');
+        Route::get(
+            '/create',
+            [userController::class, 'create']
+        )->name('users.create');
+        Route::post(
+            '/',
+            [userController::class, 'store']
+        )->name('users.store');
+        Route::get(
+            '/{user}/edit',
+            [userController::class, "edit"]
+        )->name("users.edit");
+        Route::put(
+            '/{user}',
+            [userController::class, "update"]
+        )
+            ->name("users.update");
+    }
+);
 
 // ================= Pharamacy Route
 Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
@@ -75,10 +97,13 @@ Route::prefix('/useraddress')->group(
 
 //* ================= medicine Route
 Route::get('/medicines', [MedicineController::class,'index'])->name('medicines.index');
-
-Route::get('/medicines/create', [MedicineController::class,'create'])->name('medicines.create');
-Route::get('/medicines/{id}/edit', [MedicineController::class,'edit'])->name('medicines.edit');
 Route::post('/medicines', [MedicineController::class, 'store'])->name('medicines.store');
+Route::get('/medicines/create', [MedicineController::class,'create'])->name('medicines.create');
+Route::get('/medicines/{id}', [MedicineController::class,'show'])->name('medicines.show');
+Route::get('/medicines/{id}/edit', [MedicineController::class,'edit'])->name('medicines.edit');
+
+Route::put('/medicines/{id}', [MedicineController::class, 'update'])->name('medicines.update');
+Route::delete('/medicines/{id}', [MedicineController::class, 'destroy'])->name('medicines.destroy');
 
 Route::get('medicines/data', [MedicinesDataTable::class, 'query'])->name('medicines.data');
 
@@ -88,6 +113,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', RoleController::class);
     // Route::resource('users', 'UserController');
 });
+
+// =================  for Areas ================
+Route::group(
+    ['middleware' => ['auth',  'permission:area-all']],
+    function () {
+        Route::resource('areas', AreaController::class);
+    }
+);
+// ajax
+Route::get('countries/{id}/fetch-areas', [AreaController::class, 'fetchArea']);
 
 
 

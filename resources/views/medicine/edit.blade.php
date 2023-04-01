@@ -23,7 +23,7 @@
                  </div>
                  <!-- /.card-header -->
                  <!-- form start -->
-                 <form method="POST" action="{{ route('medicines.update',1) }}" enctype="multipart/form-data">
+                 <form method="POST" action="{{ route('medicines.update',$medicine->id) }}" enctype="multipart/form-data">
                   
                   @csrf
                   @method("put")
@@ -31,16 +31,16 @@
                    <div class="card-body">
                     <div class="form-group">
                        <label for="exampleInputName1">Medicine Name</label>
-                       <input type="name" class="form-control" id="exampleInputName1" name="name" placeholder="Enter Medicine Name">
+                       <input type="name" class="form-control" id="exampleInputName1" name="name" value="{{$medicine->name}}" placeholder="Enter Medicine Name">
                      </div> 
                     <div class="form-group">
                        <label for="exampleInputEmail1">Price (in cents)</label>
-                       <input type="text" class="form-control" id="exampleInputEmail1" name="price" placeholder="Enter Price in cents">
+                       <input type="text" class="form-control" id="exampleInputEmail1" name="price" value="{{$medicine->price}}" placeholder="Enter Price in cents">
                      </div>
-                     <div class="form-group">
-                       <label for="exampleInputDescreption1">Descreption</label>
-                       <input type="text" class="form-control" id="exampleInputDescreption1"  name="descreption" placeholder="Descreption">
-                     </div>
+                     <div class="mb-3">
+                      <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                      <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3">{{$medicine->description}}</textarea>
+                  </div>
                     
                    </div>
                    <!-- /.card-body -->

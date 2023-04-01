@@ -28,4 +28,8 @@ class Pharmacy extends Model
     {
         return $this->morphMany(Order::class, 'orderable');
     }
+    public function type()
+    {
+        return $this->morphOne(User::class, 'typeable');
+    }
 }

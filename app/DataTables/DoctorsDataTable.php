@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Medicine;
+use App\Models\Doctor;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class MedicinesDataTable extends DataTable
+class DoctorsDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,16 +22,14 @@ class MedicinesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            
-            ->addColumn('action', function ($medicine) {
-                return view('medicine.action', ['id' => $medicine->id]);})
+            ->addColumn('action', 'doctors.action')
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Medicine $model): QueryBuilder
+    public function query(Doctor $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -42,20 +40,20 @@ class MedicinesDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('medicines-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            //->dom('Bfrtip')
-            ->orderBy(1)
-            ->selectStyleSingle()
-            ->buttons([
-                Button::make('excel'),
-                Button::make('csv'),
-                Button::make('pdf'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
-            ]);
+                    ->setTableId('doctors-table')
+                    ->columns($this->getColumns())
+                    ->minifiedAjax()
+                    //->dom('Bfrtip')
+                    ->orderBy(1)
+                    ->selectStyleSingle()
+                    ->buttons([
+                        Button::make('excel'),
+                        Button::make('csv'),
+                        Button::make('pdf'),
+                        Button::make('print'),
+                        Button::make('reset'),
+                        Button::make('reload')
+                    ]);
     }
 
     /**
@@ -64,18 +62,19 @@ class MedicinesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-
+            Column::computed('action')
+                  ->exportable(false)
+                  ->printable(false)
+                  ->width(60)
+                  ->addClass('text-center'),
             Column::make('id'),
-            Column::make('name'),
-            Column::make('description'),
-            Column::make('price'),
+            Column::make('Name'),
+            Column::make('Email'),
+            Column::make('National ID'),
+            Column::make('Pharmacy Name'),
+            Column::make('Status'),
             Column::make('created_at'),
             Column::make('updated_at'),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
         ];
     }
 
@@ -84,6 +83,6 @@ class MedicinesDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Medicines_' . date('YmdHis');
+        return 'Doctors_' . date('YmdHis');
     }
 }

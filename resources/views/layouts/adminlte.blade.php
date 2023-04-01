@@ -5,17 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
-     @vite('resources/sass/app.scss')
+    @vite('resources/sass/app.scss')
     <!-- AdminLTE CSS -->
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
     <!-- Include AdminLTE icons CSS -->
     <link rel="stylesheet" href="{{ asset('dist/css/all.min.css') }}">
-
-
-
-    <!-- Include DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
-
 
 
 </head>
@@ -153,14 +147,14 @@
                             </a>
                         </li>
                         @can('user-list')
-                        <li class="nav-item">
-                            <a href="{{ route('users.index') }}" class="nav-link">
-                                <i class="nav-icon fa-solid fa-user"></i>
-                                <p>
-                                    Users
-                                </p>
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="{{ route('users.index') }}" class="nav-link">
+                                    <i class="nav-icon fa-solid fa-user"></i>
+                                    <p>
+                                        Users
+                                    </p>
+                                </a>
+                            </li>
                         @endcan
                         <li class="nav-item">
                             <a href="{{ route('pharmacies.index') }}" class="nav-link">
@@ -178,6 +172,17 @@
                                 </p>
                             </a>
                         </li>
+                        @can('area-all')
+                            <li class="nav-item">
+                                <a href="{{ url('/' . ($page = 'areas')) }}" class="nav-link">
+                                    <i class=" nav-icon fa-solid fa-location-dot"></i>
+                                    <p>
+                                        Areas
+                                    </p>
+                                </a>
+                            </li>
+                        @endcan
+
                         <li class="nav-item">
                             <a href="{{ route('useraddress.index') }}" class="nav-link">
                                 <i class=" nav-icon fa-solid fa-location-dot"></i>
@@ -196,13 +201,13 @@
                             </a>
                         </li>
                         @can('user-list')
-                        <li class="nav-item"><a class="nav-link" href="{{ url('/' . ($page = 'roles')) }}"><i
-                                    class="nav-icon fas fa-tasks"></i>
-                                <p>
-                                    Roles
-                                </p>
-                            </a>
-                        </li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url('/' . ($page = 'roles')) }}"><i
+                                        class="nav-icon fas fa-tasks"></i>
+                                    <p>
+                                        Roles
+                                    </p>
+                                </a>
+                            </li>
                         @endcan
                     </ul>
                 </nav>
@@ -252,9 +257,6 @@
     <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
     <script src="{{ asset('dist/js/all.min.js') }}"></script>
 
-    <!-- Include jQuery and DataTables JavaScript -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 
     @yield('script')
 
