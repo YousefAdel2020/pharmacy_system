@@ -6,6 +6,8 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Spatie\Permission\Models\Permission;
 
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class PermissionTableSeeder extends Seeder
 {
@@ -18,6 +20,8 @@ class PermissionTableSeeder extends Seeder
 
 
         $permissions = [
+            'admin',
+
             'role-list',
             'role-create',
             'role-edit',
@@ -38,6 +42,9 @@ class PermissionTableSeeder extends Seeder
             'doctor-edit',
             'doctor-delete',
 
+            'ban',
+            'unban',
+            
             'address-list',
             'address-create',
             'address-edit',
@@ -55,5 +62,31 @@ class PermissionTableSeeder extends Seeder
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
         }
+
+        $roleDoctor = Role::create(['name'=> 'doctor']);
+        $doctorPermissions = Permission::whereIn('name', [
+        'user-list',
+        'doctor-edit',
+        'medicine-list',
+        'medicine-create',
+        'medicine-edit',
+        'medicine-delete'])->get();
+        $roleDoctor->syncPermissions($doctorPermissions);
+
+
+        $rolePharmacy = Role::create(['name'=>'pharmacy']);
+        $pharmacyPermissions = Permission::whereIn('name', [
+            'user-list',
+            'doctor-edit',
+            'medicine-list',
+            'medicine-create',
+            'medicine-edit',
+            'medicine-delete',
+            'ban',
+            'unban',
+            'pharmacy-edit',
+            'doctor-list'
+            ])->get();
+        $rolePharmacy->syncPermissions($pharmacyPermissions);
     }
 }

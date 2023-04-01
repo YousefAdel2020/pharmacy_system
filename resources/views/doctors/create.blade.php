@@ -51,16 +51,6 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-xs-6">
-                        <label for="phone">
-                            <h4>Phone</h4>
-                        </label>
-                        <input type="number" class="form-control" name="phone" id="phone" placeholder="Enter phone"
-                            required>
-                    </div>
-                </div>
-
-                <div class="form-group">
 
                     <div class="col-xs-6">
                         <label for="password">

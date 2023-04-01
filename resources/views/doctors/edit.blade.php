@@ -5,16 +5,24 @@
 @section('content')
 
 <div class="container">
-    <form class="form" action="{{ route('doctors.update', 1)}}" method="post" enctype="multipart/form-data">
+    <form class="form" action="{{ route('doctors.update', $doctor->id)}}" method="post" enctype="multipart/form-data">
         @csrf
         @method('put')
         <div class="row pt-5">
             <div class="col-sm-3"><!--left col-->
-
-                <div class="text-center">
-                    <img src="{{ asset('storage/unknown.png') }}" class="img-circle img-thumbnail" alt="avatar">
-                    <h6 class="mt-3">Upload a different photo...</h6>
-                    <input type="file" name="avatar">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center">
+                            @if($doctor->avatar)
+                            <img src="{{ asset( $doctor->avatar )}}" alt="doctor" class="rounded-circle" width="150">
+                            @else
+                            <img src="{{ asset( 'storage/avatars/unknown.png' )}}" alt="doctor" class="rounded-circle"
+                                width="150">
+                            @endif
+                            <h6 class="mt-3">Upload a different photo...</h6>
+                            <input class="ms-5" type="file" name="avatar">
+                        </div>
+                    </div>
                 </div>
             </div><!--/col-3-->
 
@@ -26,7 +34,7 @@
                             <label for="name">
                                 <h4>Name</h4>
                             </label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="First name"
+                            <input type="text" class="form-control" name="name" id="name" value="{{ $doctor->name }}"
                                 required>
                         </div>
 
@@ -35,7 +43,7 @@
                                 <h4>National ID</h4>
                             </label>
                             <input type="number" class="form-control" name="national_id" id="national_id"
-                                placeholder="National ID" disabled>
+                                value="{{ $doctor->national_id }}" disabled>
                         </div>
                     </div>
                 </div>
@@ -45,18 +53,8 @@
                         <label for="email">
                             <h4>Email</h4>
                         </label>
-                        <input type="text" class="form-control" name="email" id="email" placeholder="Enter your email"
+                        <input type="text" class="form-control" name="email" id="email" value="{{ $doctor->email }}"
                             disabled>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-xs-6">
-                        <label for="phone">
-                            <h4>Phone</h4>
-                        </label>
-                        <input type="number" class="form-control" name="phone" id="phone" placeholder="Enter phone"
-                            required>
                     </div>
                 </div>
 
