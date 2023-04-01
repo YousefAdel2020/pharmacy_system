@@ -14,39 +14,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Address</th>
-                                <th>Country</th>
-
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($areas as $area)
-                                <tr>
-                                    <td>{{ $area->name }}</td>
-                                    <td>{{ $area->address }}</td>
-                                    <td>{{ $area->country->name }}</td>
-
-                                    <td>
-                                        <a href="{{ route('areas.show', $area->id) }}" class="btn btn-info btn-sm">View </a>
-                                        <a href="{{ route('areas.edit', $area->id) }}"
-                                            class="btn btn-primary btn-sm">Edit</a>
-                                        <form action="{{ route('areas.destroy', $area->id) }}" method="POST"
-                                            style="display: inline-block">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                Delete
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    {{ $dataTable->table() }}
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -55,4 +23,9 @@
         <!-- /.col -->
     </div>
     <!-- /.row -->
+@endsection
+
+@section('script')
+    {{ $dataTable->scripts() }}
+
 @endsection

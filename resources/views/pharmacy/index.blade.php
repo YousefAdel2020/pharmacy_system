@@ -21,7 +21,7 @@
                     </a>
             </div>
 
-            <div class="col col-lg-4 small-box bg-info">
+            <div class="col col-lg-4 small-box bg-primary">
                 <div class="inner">
                     <h3>150</h3>
                     <p>New Orders</p>
@@ -37,7 +37,7 @@
     </div>
 
 
-    <table id="myTable" class="table-striped">
+<!--  <table id="pharmacies-table" class="table-striped">
         <thead>
             <tr>
                 <th scope="col">Avatar</th>
@@ -50,60 +50,13 @@
 
             </tr>
         </thead>
-        <tbody>
-
-            <tr>
-                <td><img alt="Post Image" class="d-block" width="10%"></td>
-                <td>Elezaby</td>
-                <td>Elezaby@gmail.com</td>
-                <td>123456789</td>
-                <td>26-3-2003</td>
-                <td>15-6-2023</td>
-                <td>
-                    <a href="{{ route('pharmacies.edit') }}" title="Edit"><i
-                            class="fa-solid fa-pen-to-square pl-4 "></i></a>
-                    <a href="#" title="Delete"><i class="fa-sharp fa-solid fa-trash black pr-4"></i></a>
-
-                </td>
-
-            </tr>
-            <tr>
-                <td><img alt="Post Image" class="d-block" width="10%"></td>
-                <td>Roshdy</td>
-                <td>Roshdy@gmail.com</td>
-                <td>123456789</td>
-                <td>26-3-2003</td>
-                <td>15-6-2023</td>
-                <td>
-                    <a href="{{ route('pharmacies.edit') }}" title="Edit"><i
-                            class="fa-solid fa-pen-to-square pl-4 "></i></a>
-                    <a href="#" title="Delete"><i class="fa-sharp fa-solid fa-trash black"></i></a>
-
-                </td>
-
-            </tr>
-            <tr>
-                <td><img alt="Post Image" class="d-block" width="10%"></td>
-                <td>Eltyby</td>
-                <td>Eltyby@gmail.com</td>
-                <td>123456789</td>
-                <td>26-3-2003</td>
-                <td>15-6-2023</td>
-                <td>
-                    <a href="{{ route('pharmacies.edit') }}" title="Edit"><i
-                            class="fa-solid fa-pen-to-square pl-4 "></i></a>
-                    <a href="#" title="Delete"><i class="fa-sharp fa-solid fa-trash black"></i></a>
-
-                </td>
-
-            </tr>
-
-        </tbody>
-    </table>
-
+      
+    </table>--> 
+   
     <div class="text-center">
         <a href="{{ route('pharmacies.create') }}" class="m-4 btn btn-success">Add New Pharmacy</a>
     </div>
+    {{ $dataTable->table() }}
 @endsection
 
 
@@ -118,5 +71,9 @@
                 "info": true
             });
         });
+    
     </script>
+    {{ $dataTable->scripts() }}
+  
+
 @endsection

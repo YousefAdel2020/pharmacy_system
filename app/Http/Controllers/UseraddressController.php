@@ -6,18 +6,20 @@ use App\Http\Requests\UseraddressRequest;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Webpatser\Countries\Countries;
+use App\DataTables\UserAddressDataTable;
+
 
 class UseraddressController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(UserAddressDataTable $dataTable)
     {
         //
         $userAddresses = UserAddress::all();
 
-        return view('user-address.index', compact('userAddresses'));
+        return $dataTable->render('user-address.index', compact('userAddresses'));
     }
 
     /**

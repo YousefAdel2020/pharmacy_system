@@ -23,7 +23,6 @@ class StorePharmacyRequest extends FormRequest
     {
         return [
             'name' => ["required", "max:255"],
-            'password' => ["required", "max:255", "min:6"],
             'email' => ["required", "max:255", "unique:pharmacies,email"],
             'national_id' => ["required", "unique:pharmacies,national_id"],
             'avatar' => 'file|mimes:jpeg,png,jpg|max:2048',
