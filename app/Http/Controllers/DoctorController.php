@@ -12,18 +12,18 @@ class DoctorController extends Controller
 {
     public function index(DoctorsDataTable $doctorTable)
     {
-        $doctors = Doctor::get();
-        return $doctorTable->render('doctor.index', compact('doctors'));
+        $doctors = Doctor::with('pharmacy')->get();
+        return $doctorTable->render('doctors.index', compact('doctors'));
     }
 
     public function show($id)
     {
-        return view('doctor.show');
+        return view('doctors.show');
     }
 
     public function create()
     {
-        return view('doctor.create');
+        return view('doctors.create');
     }
 
     public function store()
@@ -32,7 +32,7 @@ class DoctorController extends Controller
 
     public function edit($id)
     {
-        return view('doctor.edit');
+        return view('doctors.edit');
     }
 
     public function update($id)

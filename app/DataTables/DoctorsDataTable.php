@@ -59,6 +59,7 @@ class DoctorsDataTable extends DataTable
     /**
      * Get the dataTable columns definition.
      */
+
     public function getColumns(): array
     {
         return [
@@ -72,7 +73,7 @@ class DoctorsDataTable extends DataTable
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  ->width(120)
                   ->addClass('text-center'),
         ];
     }
