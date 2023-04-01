@@ -46,7 +46,6 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <strong>Role:</strong>
-                        {{-- @dd($roles) --}}
                         <select id="city" name="role" class="form-control">
                             @foreach ($roles as $role)
                                 <option value="{{ $role }}">{{ $role }}</option>
