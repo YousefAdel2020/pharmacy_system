@@ -59,23 +59,25 @@ Route::prefix('/users')->group(
 );
 
 // ================= Pharamacy Route
-Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
-Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
-Route::get('/pharmacies/edit', [PharmacyController::class, 'edit'])->name('pharmacies.edit');
-Route::put('/pharmacies/{pharmacy}', [PharmacyController::class, 'update'])->name('pharmacies.update');
-Route::delete('/pharmacies/{pharmacy}', [PharmacyController::class, 'destroy'])->name('pharmacies.destroy');
-Route::get('/pharmacies/restore/{pharmacies}', [PharmacyController::class, 'restore'])->name('pharmacies.restore');
-
-
+Route::middleware(['auth', 'role:admin|pharmacy'])->group(function () {
+    Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
+    Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
+    Route::get('/pharmacies/edit', [PharmacyController::class, 'edit'])->name('pharmacies.edit');
+    Route::put('/pharmacies/{pharmacy}', [PharmacyController::class, 'update'])->name('pharmacies.update');
+    Route::delete('/pharmacies/{pharmacy}', [PharmacyController::class, 'destroy'])->name('pharmacies.destroy');
+    Route::get('/pharmacies/restore/{pharmacies}', [PharmacyController::class, 'restore'])->name('pharmacies.restore');
+});
 
 // ================= Doctor Route
-Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');
-Route::get('/doctors/create', [DoctorController::class, 'create'])->name('doctors.create');
-Route::post('/doctors', [DoctorController::class, 'store'])->name('doctors.store');
-Route::get('/doctors/{id}', [DoctorController::class, 'show'])->name('doctors.show');
-Route::get('/doctors/{id}/edit', [DoctorController::class, 'edit'])->name('doctors.edit');
-Route::put('/doctors/{id}', [DoctorController::class, 'update'])->name('doctors.update');
-Route::delete('/doctors/{id}', [DoctorController::class, 'destroy'])->name('doctors.destroy');
+Route::middleware(['auth', 'role:admin|doctor|pharmacy'])->group(function () {
+    Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');
+    Route::get('/doctors/create', [DoctorController::class, 'create'])->name('doctors.create');
+    Route::post('/doctors', [DoctorController::class, 'store'])->name('doctors.store');
+    Route::get('/doctors/{id}', [DoctorController::class, 'show'])->name('doctors.show');
+    Route::get('/doctors/{id}/edit', [DoctorController::class, 'edit'])->name('doctors.edit');
+    Route::put('/doctors/{id}', [DoctorController::class, 'update'])->name('doctors.update');
+    Route::delete('/doctors/{id}', [DoctorController::class, 'destroy'])->name('doctors.destroy');
+});
 
 //=============== UserAddress Routes
 Route::prefix('/user-address')->group(

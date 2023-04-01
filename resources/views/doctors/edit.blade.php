@@ -4,6 +4,16 @@
 
 @section('content')
 
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
 <div class="container">
     <form class="form" action="{{ route('doctors.update', $doctor->id)}}" method="post" enctype="multipart/form-data">
         @csrf
@@ -43,7 +53,7 @@
                                 <h4>National ID</h4>
                             </label>
                             <input type="number" class="form-control" name="national_id" id="national_id"
-                                value="{{ $doctor->national_id }}" disabled>
+                                value="{{ $doctor->national_id }}">
                         </div>
                     </div>
                 </div>
@@ -53,8 +63,7 @@
                         <label for="email">
                             <h4>Email</h4>
                         </label>
-                        <input type="text" class="form-control" name="email" id="email" value="{{ $doctor->email }}"
-                            disabled>
+                        <input type="text" class="form-control" name="email" id="email" value="{{ $doctor->email }}">
                     </div>
                 </div>
 
