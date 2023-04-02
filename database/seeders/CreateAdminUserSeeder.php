@@ -20,7 +20,6 @@ class CreateAdminUserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@admin.com',
             'password' => bcrypt('123456'),
-            'is_insured' => 1,
             'typeable_type' => 'admin',
             'typeable_id' => '0'
 

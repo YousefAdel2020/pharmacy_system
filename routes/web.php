@@ -69,7 +69,8 @@ Route::get('/pharmacies/{id}', [PharmacyController::class,'show'])->name('pharma
 Route::get('/pharmacies/{id}/edit', [PharmacyController::class,'edit'])->name('pharmacies.edit');
 
 Route::put('/pharmacies/{id}', [PharmacyController::class, 'update'])->name('pharmacies.update');
-Route::delete('/pharmacies/{id}', [PharmacyController::class, 'destroy'])->name('pharmacies.destroy');
+Route::delete('/pharmacies/{id}', [PharmacyController::class, 'destroy'])->name('pharmacies.destroy')->withTrashed();
+Route::post('/pharmacies/{id}/restore', [PharmacyController::class, 'restore'])->name('pharmacies.restore')->withTrashed();
 
 Route::get('pharmacies/data', [PharmacyController::class, 'query'])->name('pharmacies.data');
 

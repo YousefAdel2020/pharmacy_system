@@ -49,7 +49,7 @@
                                 <h4>National ID</h4>
                             </label>
                             <input type="number" class="form-control" name="national_id" id="national_id"
-                                value="{{ $pharmacy->national_id }}" disabled>
+                                value="{{ $pharmacy->national_id }}" >
                     </div>
                 </div>
                 

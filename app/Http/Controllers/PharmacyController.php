@@ -7,6 +7,7 @@ use App\Jobs\PruneOldPostsJob;
 use App\Http\Requests\StorePharmacyRequest;
 
 use App\Models\Pharmacy;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,13 +36,13 @@ class PharmacyController extends Controller
     public function store(StorePharmacyRequest $request)
     {
         $avatar =  $request->avatar;
-        $pharmacy_name = $request->pharmacy_name;
+        $name = $request->name;
         $email = $request->email;
         $national_id= $request->national_id;
        
         Pharmacy::create([
             'avatar' =>  $avatar,
-            'pharmacy_name' => $pharmacy_name,
+            'name' => $name,
             'email' => $email,
             'national_id' => $national_id,
 
@@ -60,7 +61,7 @@ class PharmacyController extends Controller
     public function update(StorePharmacyRequest $request, $id)
     {
         $avatar =  $request->avatar;
-        $pharmacy_name = $request->pharmacy_name;
+        $name = $request->name;
         $email = $request->email;
         $national_id= $request->national_id;
        
@@ -68,7 +69,7 @@ class PharmacyController extends Controller
 
         $medicine->update([
             'avatar' =>  $avatar,
-            'pharmacy_name' => $pharmacy_name,
+            'name' => $name,
             'email' => $email,
             'national_id' => $national_id,
 
@@ -80,13 +81,14 @@ class PharmacyController extends Controller
 
     public function destroy($id)
     {
+
         $pharmacy = Pharmacy::find($id);
         $pharmacy->delete();
         return redirect()->route('pharmacies.index')->with('success', 'pharmacy deleted successfully');
     }
    //////////////////
 
-/*  public function softdelete(Pharmacy $pharmacy)
+ public function Softdelete(Pharmacy $pharmacy, Request $request)
     {    
         $pharmacy->delete();
         return response()->json([
@@ -102,11 +104,11 @@ class PharmacyController extends Controller
             'deletedPharmacies' => $pharmacies
         ]);
     }
-    public function restore(Request $request)
+    public function restore(Pharmacy $pharmacy, Request $request)
     {
-        $pharmacy = Pharmacy::onlyTrashed()->where('id', $request->pharmacy);
+        $pharmacy = Pharmacy::withTrashed()->find($pharmacy);
         $pharmacy->restore();
         return redirect()->route('pharmacies.index');
-    }*/
+    }
 
 }
