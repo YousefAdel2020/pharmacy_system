@@ -18,10 +18,14 @@ class Kernel extends ConsoleKernel
     /**
      * Register the commands for the application.
      */
-    protected function commands(): void
+    protected function commands(): array
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
+
+        return [
+            \App\Console\Commands\CreateAdminUser::class,
+        ];
     }
 }
