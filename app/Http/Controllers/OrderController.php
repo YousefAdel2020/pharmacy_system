@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Medicine;
 use App\Models\Order;
+use App\Models\Pharmacy;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\DataTables\OrdersDataTable;
+
 
 class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(OrdersDataTable $dataTable)
     {
-        //
+        
         $orders = Order::all();
-        return view('orders.index', compact('orders'));
+        return $dataTable->render('orders.index', compact('orders'));
     }
 
     /**
@@ -22,8 +27,11 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
-        return view('orders.create');
+        $users = User::all();
+        $doctors = User::Role('Admin')->get();
+        $medicine = Medicine::all();
+        $pharmacy = Pharmacy::all();
+        return view('orders.create' ,['users'=>$users , 'medicine'=>$medicine , 'pharmacy'=>$pharmacy , 'doctors'=>$doctors]);
     }
 
     /**
@@ -53,9 +61,11 @@ class OrderController extends Controller
      */
     public function edit(string $id)
     {
-        //
+         $users = User::all();
+        $doctors = User::Role('Admin')->get();
+        $pharmacy = Pharmacy::all();
         $order = Order::find($id);
-        return view('orders.edit', compact('order'));
+        return view('orders.edit' , ['order' =>$order ,'users'=>$users , 'pharmacy'=>$pharmacy , 'doctors'=>$doctors]);
     }
 
     /**
@@ -70,7 +80,7 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         //
         $order = Order::find($id);

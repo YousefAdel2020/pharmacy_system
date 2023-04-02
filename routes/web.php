@@ -141,7 +141,7 @@ Route::group(
 Route::get('countries/{id}/fetch-areas', [AreaController::class, 'fetchArea']);
 
 
-// =================  for Areas ================
+// =================  for Order ================
 Route::prefix('orders')->group(function () {
     Route::get('/', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/create', [
