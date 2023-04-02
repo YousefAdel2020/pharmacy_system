@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('pharmacies', function (Blueprint $table) {
+            $table->integer('total_orders')->default(0);
+            $table->decimal('total_revenue', 8, 2)->default(0);
         });
     }
 
@@ -22,6 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::table('pharmacies', function (Blueprint $table) {
+            $table->dropColumn('total_orders');
+            $table->dropColumn('total_revenue');
+        });
     }
 };

@@ -22,7 +22,7 @@ class Medicine extends Model
             'order_medicine',
             'medicine_id',
             'order_id'
-        );
+        )->withPivot('quantity');
     }
 
 }

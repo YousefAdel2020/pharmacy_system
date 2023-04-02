@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\Pharmacy;
 use App\Models\Revenue;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -22,10 +23,10 @@ class RevenueDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', function ($pharmacy) {
+            ->addColumn('action', function ($id) {
                 return view(
                     'revenue.action',
-                    ['pharmacy' => $pharmacy]
+                    ['id' => $id]
                 );
             })
             ->addColumn(
@@ -37,16 +38,20 @@ class RevenueDataTable extends DataTable
             ->addColumn(
                 'total_revenue',
                 function ($pharmacy) {
-                    return $pharmacy->orders()->sum('price');
+                    return $pharmacy->orders->sum('total_price');
                 }
             )
+            ->addColumn('avatar', function ($pharmacy) {
+                return '<img src="' . asset($pharmacy->avatar) . '" width="50">';
+            })
+            ->rawColumns(['avatar'])
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Revenue $model): QueryBuilder
+    public function query(Pharmacy $model): QueryBuilder
     {
         return $model->newQuery();
     }
