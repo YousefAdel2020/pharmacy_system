@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreDoctorRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class StoreDoctorRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,10 +25,13 @@ class StoreDoctorRequest extends FormRequest
         return [
             'name' => ["required", "max:255"],
             'password' => ["required", "max:255", "min:6"],
-            'email' => ["required", "max:255", "unique:doctors,email"],
-            'national_id' => ["required", "unique:doctors,national_id"],
-            'avatar' => 'file|mimes:jpeg,png,jpg|max:2048',
-            'pharmacy_id' => ["required"],
+            'email' => [
+                ['required',"max:255",'unique:doctors,national_id,'.$this->doctor]
+            ],
+            'national_id' => [
+                ['required','unique:doctors,national_id,'.$this->doctor]
+                ],
+            'avatar' => 'file|mimes:jpeg,png,jpg|max:2048'
 
         ];
     }

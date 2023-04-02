@@ -63,6 +63,40 @@ class PermissionTableSeeder extends Seeder
             Permission::create(['name' => $permission]);
         }
 
+        $roleAdmin = Role::create(['name'=>'admin']);
+        $adminPermissions = Permission::whereIn('name', [
+            'admin',
+            'role-list',
+            'role-create',
+            'role-edit',
+            'role-delete',
+            'user-list',
+            'user-create',
+            'user-edit',
+            'user-delete',
+            'pharmacy-list',
+            'pharmacy-create',
+            'pharmacy-edit',
+            'pharmacy-delete',
+            'doctor-list',
+            'doctor-create',
+            'doctor-edit',
+            'doctor-delete',
+            'ban',
+            'unban',
+            'address-list',
+            'address-create',
+            'address-edit',
+            'address-delete',
+            'area-all',
+            'medicine-list',
+            'medicine-create',
+            'medicine-edit',
+            'medicine-delete',
+        ])->get();
+        $roleAdmin->syncPermissions($adminPermissions);
+
+
         $roleDoctor = Role::create(['name'=> 'doctor']);
         $doctorPermissions = Permission::whereIn('name', [
         'user-list',
@@ -85,7 +119,8 @@ class PermissionTableSeeder extends Seeder
             'ban',
             'unban',
             'pharmacy-edit',
-            'doctor-list'
+            'doctor-list',
+            'doctor-create'
             ])->get();
         $rolePharmacy->syncPermissions($pharmacyPermissions);
     }
