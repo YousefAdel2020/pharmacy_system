@@ -226,7 +226,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('orders.index') }}" class="nav-link">
+                            <a href="{{ route('revenues.index') }}" class="nav-link">
                                 <i class=" nav-icon fa-solid fa-tablets"></i>
                                 <p>
                                     Revenues

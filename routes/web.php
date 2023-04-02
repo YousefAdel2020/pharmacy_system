@@ -8,6 +8,8 @@ use App\Http\Controllers\UseraddressController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\RevnueController;
+
 
 
 
@@ -153,6 +155,9 @@ Route::prefix('orders')->group(function () {
     Route::put('/{order}', [OrderController::class, 'update'])->name('orders.update');
     Route::delete('/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
 });
+//=================== for revenue ==============
+Route::get('/revenue',[ RevnueController::class , 'index'])->name('revenues.index');
+Route::delete('/revenue',[ RevnueController::class , 'destroy'])->name('revenues.destroy');
 
 
 Auth::routes();
