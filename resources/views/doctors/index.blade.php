@@ -40,7 +40,8 @@
 		$('#myTable').DataTable({
 			"paging": true,
 			"ordering": true,
-			"info": true
+			"info": true,
+
 		});
 	});
 </script>

@@ -8,9 +8,12 @@ use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Comment\Doc;
+use Spatie\Permission\Traits\HasRoles;
 
 class DoctorController extends Controller
 {
+    use HasRoles;
     public function index(DoctorsDataTable $doctorTable)
     {
         $doctors = Doctor::with('pharmacy')->get();
@@ -36,21 +39,24 @@ class DoctorController extends Controller
     public function store(StoreDoctorRequest $request)
     {
         $creator = Auth::user();
-        $input = [
-            'name' => $request->name,
-            'national_id'=> $request->national_id,
-            'email'=> $request->email,
-            'password' => $request->password,
-            'avatar'=> $request->avatar,
-            'pharmacy_id'=> $creator
-        ];
-        $validated = $request->input($input);
+        $input = $request->only(['name','password','email','national_id','avatar']);
+        $path = $request->file('avatar')->store('public/images');
+        $path = str_replace('public', 'storage', $path);
+
         $password = $request->password;
         $verifiedPassword = $request->password2;
-        if ($password !== $verifiedPassword) {
+        if ($password != $verifiedPassword) {
             return redirect()->back()->withErrors(['password_confirmation' => 'The password confirmation does not match.']);
         }
-        $doctorCreate = Doctor::create($input);
+        $doctorCreate = Doctor::create([
+            'name' => $input['name'],
+            'email' => $input['email'],
+            'password'=> $password,
+            'national_id' => $input['national_id'],
+            'avatar'=> $path,
+            'is_banned'=> false,
+            'pharmacy_id' => 2,
+        ]);
         return redirect()->route('doctors.index')->with('create', $doctorCreate);
     }
 
@@ -65,20 +71,34 @@ class DoctorController extends Controller
 
     public function update(StoreDoctorRequest $request, $id)
     {
-        $input = $request->only(['name','password']);
+        $input = $request->only(['name','password','email','national_id','avatar']);
+
+        $doctorFind = Doctor::find($id);
         $password = $request->password;
         $verifiedPassword = $request->password2;
-        if ($password !== $verifiedPassword) {
+        if ($password != $verifiedPassword) {
             return redirect()->back()->withErrors(['password_confirmation' => 'The password confirmation does not match.']);
         }
-        $doctorUpdate = Doctor::where('id', $id)->update([
-            'name'=> $request->name,
-            'password'=> $password
+
+        if ($request->file('avatar')) {
+            $path = $request->file('avatar')->store('public/images');
+            $path = str_replace('public', 'storage', $path);
+
+            $doctorFind->update([
+                'avatar'=> $path
+            ]);
+        }
+
+        $doctorFind->update([
+            'name'=> $input['name'],
+            'password'=> $input['password'],
         ]);
-        return redirect()->route('doctors.index')->with('update', $doctorUpdate);
+        return redirect()->route('doctors.index')->with('update', $doctorFind);
     }
 
     public function destroy($id)
     {
+        $deleted = Doctor::where('id', $id)->delete();
+        return redirect()->route('doctors.index')->with('delete', $deleted);
     }
 }
