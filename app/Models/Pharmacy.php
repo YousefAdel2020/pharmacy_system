@@ -19,14 +19,15 @@ class Pharmacy extends Model
         
     ];
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
    /* public function pharmacies()
     {
         return $this->hasMany(Doctor::class);
     }
-    public function orders()
-    {
-        return $this->morphMany(Order::class, 'orderable');
-    }
+    
     public function type()
     {
         return $this->morphOne(User::class, 'typeable');
