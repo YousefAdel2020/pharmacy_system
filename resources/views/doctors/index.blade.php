@@ -18,7 +18,7 @@
 			<th scope="col">Created_At</th>
 			<th scope="col">Pharmacy Name</th>
 			<th scope="col">Status</th>
-			<th scope="col">Actions</th>
+			<th scope="col">Is Banned</th>
 		</tr>
 	</thead>
 </table>

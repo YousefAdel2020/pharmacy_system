@@ -53,7 +53,7 @@
                                 <h4>National ID</h4>
                             </label>
                             <input type="number" class="form-control" name="national_id" id="national_id"
-                                value="{{ $doctor->national_id }}">
+                                value="{{ $doctor->national_id }}" disabled>
                         </div>
                     </div>
                 </div>
@@ -63,28 +63,8 @@
                         <label for="email">
                             <h4>Email</h4>
                         </label>
-                        <input type="text" class="form-control" name="email" id="email" value="{{ $doctor->email }}">
-                    </div>
-                </div>
-
-                <div class="form-group">
-
-                    <div class="col-xs-6">
-                        <label for="password">
-                            <h4>Password</h4>
-                        </label>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="password"
-                            required>
-                    </div>
-                </div>
-                <div class="form-group">
-
-                    <div class="col-xs-6">
-                        <label for="password2">
-                            <h4>Verify</h4>
-                        </label>
-                        <input type="password" class="form-control" name="password2" id="password2"
-                            placeholder="password2" required>
+                        <input type="text" class="form-control" name="email" id="email" value="{{ $doctor->email }}"
+                            disabled>
                     </div>
                 </div>
 

@@ -194,9 +194,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        Cog\Laravel\Ban\Providers\BanServiceProvider::class,
         'Webpatser\Countries\CountriesServiceProvider',
-
         Spatie\Permission\PermissionServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
 

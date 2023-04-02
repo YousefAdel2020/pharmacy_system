@@ -24,13 +24,19 @@ class DoctorsDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($doctor) {
-                return view('doctors.action', ['id' => $doctor->id]);
+                return view('doctors.action', ['id' => $doctor->id, 'is_banned'=>$doctor->banned_at]);
             })->addColumn('pharmacy', function ($user) {
                 return $user->pharmacy->name;
             })->editColumn('created_at', function ($data) {
                 $formatedDate = Carbon::parse($data->created_at)->format('Y-m-d');
                 return $formatedDate;
-            })
+            })->editColumn('is_banned', function ($user) {
+                if ($user->banned_at) {
+                    return '<span class="text-danger fw-bold">Banned</span>';
+                } else {
+                    return '<span class="text-success fw-bold">Not Banned</span>';
+                }
+            })->escapeColumns('is_banned')
             ->setRowId('id');
     }
 
@@ -82,7 +88,8 @@ class DoctorsDataTable extends DataTable
                   ->exportable(false)
                   ->printable(false)
                   ->width(120)
-                  ->addClass('text-center'),
+                  ->addClass('text-center')
+                  ->escape(false),
         ];
     }
 
