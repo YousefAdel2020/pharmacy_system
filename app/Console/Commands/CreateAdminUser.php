@@ -6,6 +6,7 @@ use App\Models\User;
 use Hash;
 use Illuminate\Console\Command;
 use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 class CreateAdminUser extends Command
@@ -17,7 +18,7 @@ class CreateAdminUser extends Command
      *
      * @var string
      */
-    protected $signature = 'create:admin  {email} {password} ';
+    protected $signature = 'create:admin  {--email=} {--password=} ';
 
     /**
      * The console command description.
@@ -26,6 +27,14 @@ class CreateAdminUser extends Command
      */
     protected $description = 'Create a new admin user';
 
+    public function arguments($key = null): array
+    {
+        return [
+            ['email', InputArgument::REQUIRED, 'The email of the admin user'],
+            ['password', InputArgument::REQUIRED, 'The password of the admin user'],
+        ];
+    }
+
     /**
      * Execute the console command.
      */
@@ -33,8 +42,10 @@ class CreateAdminUser extends Command
     {
         //
 
-        $email = $this->argument('email');
-        $password = $this->argument('password');
+        $email = $this->option('email');
+        $password = $this->input->getOption('password');
+        // dd($password);
+
 
         $user = new User();
 
@@ -53,12 +64,5 @@ class CreateAdminUser extends Command
 
 
         $this->info("Admin user created successfully.");
-    }
-    protected function getOptions()
-    {
-        return [
-            ['email', 'e', InputOption::VALUE_REQUIRED, 'The email address of the admin user'],
-            ['password', 'p', InputOption::VALUE_REQUIRED, 'The password for the admin user'],
-        ];
     }
 }

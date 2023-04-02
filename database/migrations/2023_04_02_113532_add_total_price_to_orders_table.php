@@ -12,14 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->unsignedBigInteger('ordered_by_id');
-            $table->unsignedBigInteger('doctor_id');
-            $table->unsignedBigInteger('pharmacy_id')->nullable();
-            
-            
-            $table->foreign('pharmacy_id')->references('id')->on('pharmacies');
-            $table->foreign('ordered_by_id')->references('id')->on('users');
-            $table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('cascade');
+            $table->decimal('total_price', 8, 2)->after('pharmacy_id');
         });
     }
 

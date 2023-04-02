@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\DoctorsDataTable;
 use App\Http\Requests\StoreDoctorRequest;
+use App\Http\Requests\UpdateDoctorRequest;
 use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,7 +20,15 @@ class DoctorController extends Controller
         $doctors = Doctor::with('pharmacy')->get();
         $update = null;
         $delete = null;
-        return $doctorTable->render('doctors.index', compact('doctors', 'update', 'delete'));
+        $banned = null;
+        $unbanned = null;
+        return $doctorTable->render('doctors.index', compact(
+            'doctors',
+            'update',
+            'delete',
+            'banned',
+            'unbanned'
+        ));
     }
 
     public function show($id)
@@ -69,16 +78,11 @@ class DoctorController extends Controller
         return view('doctors.edit')->with('doctor', $doctor);
     }
 
-    public function update(StoreDoctorRequest $request, $id)
+    public function update(UpdateDoctorRequest $request, $id)
     {
-        $input = $request->only(['name','password','email','national_id','avatar']);
+        $input = $request->only(['name','email','avatar']);
 
         $doctorFind = Doctor::find($id);
-        $password = $request->password;
-        $verifiedPassword = $request->password2;
-        if ($password != $verifiedPassword) {
-            return redirect()->back()->withErrors(['password_confirmation' => 'The password confirmation does not match.']);
-        }
 
         if ($request->file('avatar')) {
             $path = $request->file('avatar')->store('public/images');
@@ -91,7 +95,6 @@ class DoctorController extends Controller
 
         $doctorFind->update([
             'name'=> $input['name'],
-            'password'=> $input['password'],
         ]);
         return redirect()->route('doctors.index')->with('update', $doctorFind);
     }

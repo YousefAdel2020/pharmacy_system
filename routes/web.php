@@ -7,6 +7,7 @@ use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\UseraddressController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\BanController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RevnueController;
 
@@ -90,7 +91,10 @@ Route::middleware(['auth', 'role:admin|doctor|pharmacy'])->group(function () {
     Route::put('/doctors/{id}', [DoctorController::class, 'update'])->name('doctors.update');
     Route::delete('/doctors/{id}', [DoctorController::class, 'destroy'])->name('doctors.destroy');
 });
-
+Route::middleware(['auth', 'role:admin|pharmacy'])->group(function () {
+    Route::post('/bans', [BanController::class,'ban'])->name('doctors.ban');
+    Route::post('/unbans', [BanController::class,'unban'])->name('doctors.unban');
+});
 //=============== UserAddress Routes
 Route::prefix('/user-address')->group(
     function () {
@@ -159,8 +163,8 @@ Route::prefix('orders')->group(function () {
     Route::delete('/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
 });
 //=================== for revenue ==============
-Route::get('/revenue',[ RevnueController::class , 'index'])->name('revenues.index');
-Route::delete('/revenue',[ RevnueController::class , 'destroy'])->name('revenues.destroy');
+Route::get('/revenue', [ RevnueController::class , 'index'])->name('revenues.index');
+Route::delete('/revenue', [ RevnueController::class , 'destroy'])->name('revenues.destroy');
 
 
 Auth::routes();

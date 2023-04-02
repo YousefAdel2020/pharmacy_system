@@ -23,7 +23,6 @@ class DoctorFactory extends Factory
             'password' => bcrypt('123456'),
             'national_id' => $this->faker->numberBetween(100000, 200000),
             'avatar'=> 'storage/unknown.png',
-            'is_banned' => false,
             'pharmacy_id'=> Pharmacy::inRandomOrder()->first()->id,
         ];
     }

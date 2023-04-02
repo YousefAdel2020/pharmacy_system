@@ -23,6 +23,16 @@ class Pharmacy extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    public function getTotalOrdersAttribute()
+    {
+        return $this->orders()->count();
+    }
+
+    public function getTotalRevenueAttribute()
+    {
+        return $this->orders()->sum('total_price');
+    }
    
    /* public function pharmacies()
     {

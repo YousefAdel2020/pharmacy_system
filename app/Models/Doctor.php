@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
 use \Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Pharmacy;
+use Cog\Contracts\Ban\Bannable as BannableInterface;
+use Cog\Laravel\Ban\Traits\Bannable;
 
-class Doctor extends Model
+class Doctor extends Model implements BannableInterface
 {
-    use HasFactory, HasRoles;
+    use HasFactory, HasRoles, Bannable;
 
     protected $fillable = [
         'name',

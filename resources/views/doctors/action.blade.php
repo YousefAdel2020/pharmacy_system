@@ -9,6 +9,19 @@
     </button>
 
 </form>
+@if ($is_banned)
+<form method="post" action="{{route('doctors.unban')}}" class="d-inline">
+    @csrf
+    <input type="hidden" name="id" value="{{ $id }}" />
+    <button type="submit" title="UnBan" name="unban" class="form-button"><i
+            class="fa-solid fa-user-slash red"></i></button>
+</form>
 
-<a href="#" title="UnBan"><i class="fa-solid fa-user-slash red"></i></a>
-<a href="#" title="Ban"><i class="fa-solid fa-user green"></i></a>
+@else
+<form method="post" action="{{route('doctors.ban')}}" class="d-inline">
+    @csrf
+    <input type="hidden" name="id" value="{{ $id }}" />
+    <button type="submit" title="Ban" name="ban" class="form-button"><i class="fa-solid fa-user green"></i></button>
+</form>
+
+@endif
