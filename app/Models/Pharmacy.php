@@ -20,6 +20,7 @@ class Pharmacy extends Model
         'typeable_id',
         'typeable_type',
         'is_deleted',
+        'area_id',
     ];
 
     protected $dates=['deleted_at'];
@@ -47,6 +48,10 @@ class Pharmacy extends Model
     public function type()
     {
         return $this->morphOne(User::class, 'typeable');
+    }
+    public function area()
+    {
+        return $this->belongsTo(Area::class, 'area_id');
     }
    
    /* public function pharmacies()
