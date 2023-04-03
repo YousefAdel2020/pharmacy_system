@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\DoctorsDataTable;
+use App\Http\Middleware\Authenticate;
 use App\Http\Requests\StoreDoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Models\Doctor;
@@ -12,13 +13,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use PhpParser\Comment\Doc;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Models\Role;
 
 class DoctorController extends Controller
 {
     use HasRoles;
     public function index(DoctorsDataTable $doctorTable)
     {
-        $doctors = Doctor::with('pharmacy')->get();
+        $user = Auth::user();
+        if ($user->hasRole('admin')) {
+            $doctors = Doctor::with('pharmacy')->get();
+        } else {
+            $doctors = Doctor::where('pharmacy_id', $user->id)->with('pharmacy')->get();
+        }
+
         $update = null;
         $delete = null;
         $banned = null;

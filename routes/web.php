@@ -70,7 +70,7 @@ Route::group(
 
 // =================  for Pharmacy ================
 
-Route::group(['middleware' =>['role:Admin|pharmacy', 'auth'],],function () {
+Route::group(['middleware' =>['role:Admin|pharmacy', 'auth'],], function () {
     Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
     Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
     Route::post('/pharmacies', [PharmacyController::class, 'store'])->name('pharmacies.store');
@@ -80,12 +80,11 @@ Route::group(['middleware' =>['role:Admin|pharmacy', 'auth'],],function () {
     Route::delete('/pharmacies/{id}', [PharmacyController::class, 'destroy'])->name('pharmacies.destroy')->withTrashed();
     Route::post('/pharmacies/{id}/restore', [PharmacyController::class, 'restore'])->name('pharmacies.restore')->withTrashed();
     Route::get('pharmacies/data', [PharmacyController::class, 'query'])->name('pharmacies.data');
-
 });
 
 
 // ================= Doctor Route
-Route::middleware(['auth', 'role:admin|doctor|pharmacy'])->group(function () {
+Route::middleware(['auth', 'role:admin|pharmacy'])->group(function () {
     Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');
     Route::get('/doctors/create', [DoctorController::class, 'create'])->name('doctors.create');
     Route::post('/doctors', [DoctorController::class, 'store'])->name('doctors.store');
@@ -170,11 +169,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/revenue', [ RevnueController::class , 'index'])->name('revenues.index');
     Route::delete('/revenue', [ RevnueController::class , 'destroy'])->name('revenues.destroy');
     Route::get('/revenuePer', [ RevenuePharmController::class , 'index'])->name('revenuePerPharmacy.index');
-
-
 });
 
 
 
-Auth::routes();
+// Auth::routes();
+Auth::routes(['middleware' => BanChecker::class]);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
