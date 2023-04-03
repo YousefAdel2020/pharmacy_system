@@ -37,12 +37,35 @@
                   <!-- </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" data-select2-id="2" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-o8pk-container"><span class="select2-selection__rendered" id="select2-o8pk-container" role="textbox" aria-readonly="true" title="Alabama">Alabama</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> -->
                 </div>
 
+
+
+                <div class="form-group">
+                  <label for="medicine_names">Medicine Names</label>
+                  <select class="form-control select2-tags"  name="medicine_names[]">
+                    @foreach($medicines as $medicine)
+                    <option value="{{$medicine->id}}">{{$medicine->name}}</option>
+                @endforeach
+                      <!-- Add more options as needed -->
+                  </select>
+              </div>
+                  
+
+
+              <select class="js-example-basic-multiple" name="states" >
+                <option value="AL">Alabama</option>
+                
+                <option value="WY">Wyoming</option>
+              </select>
+
+
+
+
                 <div class="form-group">
                   <label for="med[]" class="form-label">Medicine</label>
 
                   <select class="js-example-basic-multiple select2 @error('med[]') is-invalid @enderror" name="med[]" multiple="multiple" style="width: 100%;" >
                       
-                    @foreach($medicine as $med)
+                    @foreach($medicines as $med)
 
                       <option value="{{$med->name}}">{{$med->name}}</option>
 
@@ -110,6 +133,21 @@
 
 
 
+@section('script')
 
+<script>
+  $(document).ready(function() {
+      $('.select2-tags').select2({
+          tags: true,
+         
+        });
+  });
+
+  $(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+});
+</script>
+
+@endsection
 
 

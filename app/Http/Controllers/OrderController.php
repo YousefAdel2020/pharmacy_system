@@ -29,9 +29,9 @@ class OrderController extends Controller
     {
         $users = User::all();
         $doctors = User::Role('Admin')->get();
-        $medicine = Medicine::all();
+        $medicines = Medicine::all();
         $pharmacy = Pharmacy::all();
-        return view('orders.create' ,['users'=>$users , 'medicine'=>$medicine , 'pharmacy'=>$pharmacy , 'doctors'=>$doctors]);
+        return view('orders.create' ,['users'=>$users , 'medicines'=>$medicines , 'pharmacy'=>$pharmacy , 'doctors'=>$doctors]);
     }
 
     /**
