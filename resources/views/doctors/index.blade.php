@@ -8,7 +8,7 @@
 
 <h1 class="text-center py-3">Doctors</h1>
 
-<table id="doctors-table" class="table-striped">
+<!-- <table id="doctors-table" class="table-striped">
 	<thead>
 		<tr>
 			<th scope="col">ID</th>
@@ -21,8 +21,8 @@
 			<th scope="col">Is Banned</th>
 		</tr>
 	</thead>
-</table>
-
+</table> -->
+{{ $dataTable->table() }}
 <a class="btn btn-success" href="{{ route('doctors.create')}}">Add New Doctor</a>
 @endsection
 

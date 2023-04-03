@@ -22,17 +22,17 @@ class UserSeeder extends Seeder
             'name' => 'pharmacy1',
             'email' => 'pharmacy1@pharmacy.com',
             'password' => bcrypt('123456'),
-            'typeable_type'=> 'app\Models\Medicine',
-            'typeable_id'=> '2'
+            'typeable_type' => 'app\Models\Medicine',
+            'typeable_id' => '2'
         ]);
 
-    
+
         $user1 = User::create([
             'name' => 'Doctor1',
             'email' => 'doctor@doctor.com',
             'password' => bcrypt('123456'),
-            'typeable_type'=> 'app\Models\Doctor',
-            'typeable_id'=> '3'
+            'typeable_type' => 'app\Models\Doctor',
+            'typeable_id' => '3'
         ]);
 
         $pharmacy = Pharmacy::create([
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
             'national_id' => '123456789',
             'avatar' => '',
             'priority' => '1',
-            'is_deleted'=> '1'
+            'is_deleted' => '1'
         ]);
 
         $doctor = Doctor::create([
@@ -50,9 +50,9 @@ class UserSeeder extends Seeder
             'email' => 'doctor@doctor.com',
             'password' => bcrypt('123456'),
             'national_id' => '123456789',
-            'avatar'=> '',
+            'avatar' => '',
             'is_banned' => false,
-            'pharmacy_id'=> '1'
+            'pharmacy_id' => '1'
         ]);
     }
 }

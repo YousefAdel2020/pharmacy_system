@@ -34,7 +34,8 @@ class UserAddressDataTable extends DataTable
                     return
                         $userAddress->user->name;
                 }
-            )->addColumn(
+            )
+            ->addColumn(
                 'area_name',
                 function ($userAddress) {
                     return

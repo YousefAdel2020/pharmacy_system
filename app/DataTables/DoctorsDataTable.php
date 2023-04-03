@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\Doctor;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -45,7 +46,14 @@ class DoctorsDataTable extends DataTable
      */
     public function query(Doctor $model): QueryBuilder
     {
-        return $model->newQuery()->orderBy('id');
+        $user = Auth::user();
+
+        $model = $model->newQuery()->with('pharmacy');
+        
+        if (!$user->hasRole('admin')) {
+            $model->where('pharmacy_id', $user->typeable_id);
+        }
+        return $model->orderBy('id');
     }
 
     /**
@@ -77,13 +85,13 @@ class DoctorsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id')->orderable(true),
-            Column::make('name'),
-            Column::make('email'),
-            Column::make('national_id'),
-            Column::make('created_at'),
-            Column::make('pharmacy'),
-            Column::make('is_banned'),
+            Column::make('id')->title('ID')->orderable(true),
+            Column::make('name')->title('Name'),
+            Column::make('email')->title('Email'),
+            Column::make('national_id')->title('National ID'),
+            Column::make('created_at')->title('Created At'),
+            Column::make('pharmacy')->title('Pharmacy')->visible(Auth::user()->hasRole('admin')),
+            Column::make('is_banned')->title('Status'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)

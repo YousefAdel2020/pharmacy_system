@@ -3,21 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\DoctorsDataTable;
+use App\Http\Middleware\Authenticate;
 use App\Http\Requests\StoreDoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use PhpParser\Comment\Doc;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Models\Role;
 
 class DoctorController extends Controller
 {
     use HasRoles;
     public function index(DoctorsDataTable $doctorTable)
     {
-        $doctors = Doctor::with('pharmacy')->get();
+        $user = Auth::user();
+        if ($user->hasRole('admin')) {
+            $doctors = Doctor::with('pharmacy')->get();
+        } else {
+            $doctors = Doctor::where('pharmacy_id', $user->id)->with('pharmacy')->get();
+        }
+
         $update = null;
         $delete = null;
         $banned = null;
@@ -48,6 +57,7 @@ class DoctorController extends Controller
     public function store(StoreDoctorRequest $request)
     {
         $creator = Auth::user();
+
         $input = $request->only(['name','password','email','national_id','avatar']);
         $path = $request->file('avatar')->store('public/images');
         $path = str_replace('public', 'storage', $path);
@@ -60,12 +70,37 @@ class DoctorController extends Controller
         $doctorCreate = Doctor::create([
             'name' => $input['name'],
             'email' => $input['email'],
-            'password'=> $password,
+            'password'=> Hash::make($password),
             'national_id' => $input['national_id'],
             'avatar'=> $path,
             'is_banned'=> false,
             'pharmacy_id' => 2,
         ]);
+
+        $check = $this->validate($request, [
+             'name' => 'required',
+             'email' => 'required|unique:users,email',
+             'password' => 'required|max:255|min:6',
+         ]);
+
+
+        $user = User::create([
+            'name'=> $check['name'],
+            'email'=> $check['email'],
+            'password' => Hash::make($check['password']),
+            'typeable_id'=> $doctorCreate->id,
+            'typeable_type'=> 'app\Models\Doctor'
+        ]);
+
+        if (!$user) {
+            return redirect()->back()->withErrors(['Error' => 'Failed to register user']);
+        }
+        
+        $user = $user->refresh();
+        $doctor=$doctorCreate->refresh();
+
+        $doctor->type()->save($user);
+        $user->assignRole('doctor');
         return redirect()->route('doctors.index')->with('create', $doctorCreate);
     }
 
@@ -95,7 +130,23 @@ class DoctorController extends Controller
 
         $doctorFind->update([
             'name'=> $input['name'],
+            'email'=> $input['email'],
         ]);
+
+        $user = User::where('id', $doctorFind->id)->update([
+            'name'=> $input['name'],
+            'email'=> $input['email'],
+        ]);
+
+        if (!$user) {
+            return redirect()->back()->withErrors(['Error' => 'Failed to register user']);
+        }
+        
+        $user = $user->refresh();
+        $doctor=$doctorFind->refresh();
+
+        $doctor->type()->save($user);
+
         return redirect()->route('doctors.index')->with('update', $doctorFind);
     }
 
