@@ -5,6 +5,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
+use \Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Area;
+
 use App\Models\Doctor;
 
 class Pharmacy extends Model
@@ -30,7 +33,11 @@ class Pharmacy extends Model
         parent::boot();
         static::bootSoftDeletes();
     }
-    
+    public function doctor(): BelongsTo
+    {
+        return $this->belongsTo(Doctor::class);
+    }
+  
     public function orders()
     {
         return $this->hasMany(Order::class);
