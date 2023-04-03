@@ -41,7 +41,7 @@ Route::get('/', function () {
 Route::group(
     [
         'prefix' => 'users',
-        'middleware' => ['role:Admin', 'auth'],
+        'middleware' => ['role:admin', 'auth'],
     ],
     function () {
         Route::get(
@@ -65,6 +65,7 @@ Route::group(
             [userController::class, "update"]
         )
             ->name("users.update");
+        Route::delete('/{id}', [userController::class, 'destroy'])->name('user.destroy');
     }
 );
 
@@ -84,7 +85,7 @@ Route::group(['middleware' =>['role:Admin|pharmacy', 'auth'],], function () {
 
 
 // ================= Doctor Route
-Route::middleware(['auth', 'role:admin|pharmacy'])->group(function () {
+Route::middleware(['auth', 'role:admin|doctor|pharmacy'])->group(function () {
     Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');
     Route::get('/doctors/create', [DoctorController::class, 'create'])->name('doctors.create');
     Route::post('/doctors', [DoctorController::class, 'store'])->name('doctors.store');
@@ -94,8 +95,8 @@ Route::middleware(['auth', 'role:admin|pharmacy'])->group(function () {
     Route::delete('/doctors/{id}', [DoctorController::class, 'destroy'])->name('doctors.destroy');
 });
 Route::middleware(['auth', 'role:admin|pharmacy'])->group(function () {
-    Route::post('/bans', [BanController::class,'ban'])->name('doctors.ban');
-    Route::post('/unbans', [BanController::class,'unban'])->name('doctors.unban');
+    Route::post('/bans', [BanController::class, 'ban'])->name('doctors.ban');
+    Route::post('/unbans', [BanController::class, 'unban'])->name('doctors.unban');
 });
 //=============== UserAddress Routes
 Route::prefix('/user-address')->group(
@@ -172,7 +173,5 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 
-
-// Auth::routes();
-Auth::routes(['middleware' => BanChecker::class]);
+Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

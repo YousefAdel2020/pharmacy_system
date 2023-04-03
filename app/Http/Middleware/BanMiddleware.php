@@ -18,12 +18,14 @@ class BanMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->email;
-        $user = User::where('email', $user)->first();
-        $doctor = Doctor::find($user->typeable_id);
-        if ($doctor && $doctor->banned_at) {
-            auth()->logout();
-            return redirect()->route('login')->with('error', 'This account is banned.');
+        $doctor = Doctor::where('email', $user)->first();
+        if (isset($doctor)) {
+            if ($doctor && $doctor->banned_at) {
+                auth()->logout();
+                return redirect()->route('login')->with('error', 'This account is banned.');
+            }
         }
+
 
         return $next($request);
     }

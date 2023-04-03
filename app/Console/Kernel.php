@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\NotifyUsersNotLoggedInForMonthCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,6 +14,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('notify:users-not-logged-in-for-month')->daily()->at('10:00');
     }
 
     /**
@@ -26,6 +28,8 @@ class Kernel extends ConsoleKernel
 
         return [
             \App\Console\Commands\CreateAdminUser::class,
+            \App\Console\Commands\NotifyUsersNotLoggedInForMonthCommand::class,
+
         ];
     }
 }

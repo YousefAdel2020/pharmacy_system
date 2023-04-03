@@ -7,7 +7,7 @@ use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Webpatser\Countries\Countries;
 use App\DataTables\UserAddressDataTable;
-
+use App\Models\User;
 
 class UseraddressController extends Controller
 {
@@ -27,11 +27,11 @@ class UseraddressController extends Controller
      */
     public function create()
     {
-        $cities = [];
+        $users = User::all();
         $countries = new Countries();
         $countries = $countries->getList();
 
-        return view('user-address.create', ["cities" => $cities, "countries" => $countries]);
+        return view('user-address.create', ["users" => $users, "countries" => $countries]);
     }
 
     /**
@@ -42,10 +42,10 @@ class UseraddressController extends Controller
         //
 
         //get data from request
-        // $user_id = $request['user_id'] ;
-        $user_id = 1;
-        // $area_id = $request['area_id'];
-        $area_id = 1;
+        // $user_id = $request['user_id'];
+        $user_id = $request['user_id'];
+
+
 
         $street = $request['street'];
         $country = $request['country'];
@@ -59,7 +59,7 @@ class UseraddressController extends Controller
 
         UserAddress::create([
             'user_id' => $user_id,
-            'area_id' => $area_id,
+            'area_id' => $city,
             'street' => $street,
             'city' => $city,
             'country' => $country,
