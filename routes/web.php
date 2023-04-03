@@ -69,7 +69,7 @@ Route::group(
 
 // =================  for Pharmacy ================
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::group(['middleware' =>['role:Admin|pharmacy', 'auth'],],function () {
     Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
     Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
     Route::post('/pharmacies', [PharmacyController::class, 'store'])->name('pharmacies.store');
@@ -82,9 +82,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 });
 
-Route::get('/pharmacies', function () {
-    return view('Pharmacy/index');
-})->middleware(['auth','role:pharmacy'])->name('pharmacies.index');
 
 // ================= Doctor Route
 Route::middleware(['auth', 'role:admin|doctor|pharmacy'])->group(function () {
