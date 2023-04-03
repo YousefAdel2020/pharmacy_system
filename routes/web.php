@@ -10,6 +10,7 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\BanController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RevnueController;
+use App\Http\Controllers\RevenuePharmController;
 
 
 
@@ -165,8 +166,14 @@ Route::prefix('orders')->group(function () {
     Route::delete('/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
 });
 //=================== for revenue ==============
-Route::get('/revenue', [ RevnueController::class , 'index'])->name('revenues.index');
-Route::delete('/revenue', [ RevnueController::class , 'destroy'])->name('revenues.destroy');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/revenue', [ RevnueController::class , 'index'])->name('revenues.index');
+    Route::delete('/revenue', [ RevnueController::class , 'destroy'])->name('revenues.destroy');
+    Route::get('/revenuePer', [ RevenuePharmController::class , 'index'])->name('revenuePerPharmacy.index');
+
+
+});
+
 
 
 Auth::routes();
