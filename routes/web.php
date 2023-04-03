@@ -10,6 +10,7 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\BanController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RevnueController;
+use App\Http\Controllers\RevenuePharmController;
 
 
 
@@ -40,7 +41,7 @@ Route::get('/', function () {
 Route::group(
     [
         'prefix' => 'users',
-        'middleware' => ['role:Admin', 'auth'],
+        'middleware' => ['role:admin', 'auth'],
     ],
     function () {
         Route::get(
@@ -64,25 +65,27 @@ Route::group(
             [userController::class, "update"]
         )
             ->name("users.update");
+        Route::delete('/{id}', [userController::class, 'destroy'])->name('user.destroy');
     }
 );
 
+// =================  for Pharmacy ================
 
-// ================= Pharamacy Route
-Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
-Route::post('/pharmacies', [PharmacyController::class, 'store'])->name('pharmacies.store');
-Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
-Route::get('/pharmacies/{id}', [PharmacyController::class,'show'])->name('pharmacies.show');
-Route::get('/pharmacies/{id}/edit', [PharmacyController::class,'edit'])->name('pharmacies.edit');
+Route::group(['middleware' => ['role:Admin|pharmacy', 'auth'],], function () {
+    Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
+    Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
+    Route::post('/pharmacies', [PharmacyController::class, 'store'])->name('pharmacies.store');
+    Route::get('/pharmacies/{id}', [PharmacyController::class, 'show'])->name('pharmacies.show');
+    Route::get('/pharmacies/{id}/edit', [PharmacyController::class, 'edit'])->name('pharmacies.edit');
+    Route::put('/pharmacies/{id}', [PharmacyController::class, 'update'])->name('pharmacies.update');
+    Route::delete('/pharmacies/{id}', [PharmacyController::class, 'destroy'])->name('pharmacies.destroy')->withTrashed();
+    Route::post('/pharmacies/{id}/restore', [PharmacyController::class, 'restore'])->name('pharmacies.restore')->withTrashed();
+    Route::get('pharmacies/data', [PharmacyController::class, 'query'])->name('pharmacies.data');
+});
 
-Route::put('/pharmacies/{id}', [PharmacyController::class, 'update'])->name('pharmacies.update');
-Route::delete('/pharmacies/{id}', [PharmacyController::class, 'destroy'])->name('pharmacies.destroy')->withTrashed();
-Route::post('/pharmacies/{id}/restore', [PharmacyController::class, 'restore'])->name('pharmacies.restore')->withTrashed();
-
-Route::get('pharmacies/data', [PharmacyController::class, 'query'])->name('pharmacies.data');
 
 // ================= Doctor Route
-Route::middleware(['auth', 'role:admin|doctor|pharmacy'])->group(function () {
+Route::middleware(['auth', 'role:Admin|doctor|pharmacy'])->group(function () {
     Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');
     Route::get('/doctors/create', [DoctorController::class, 'create'])->name('doctors.create');
     Route::post('/doctors', [DoctorController::class, 'store'])->name('doctors.store');
@@ -92,8 +95,8 @@ Route::middleware(['auth', 'role:admin|doctor|pharmacy'])->group(function () {
     Route::delete('/doctors/{id}', [DoctorController::class, 'destroy'])->name('doctors.destroy');
 });
 Route::middleware(['auth', 'role:admin|pharmacy'])->group(function () {
-    Route::post('/bans', [BanController::class,'ban'])->name('doctors.ban');
-    Route::post('/unbans', [BanController::class,'unban'])->name('doctors.unban');
+    Route::post('/bans', [BanController::class, 'ban'])->name('doctors.ban');
+    Route::post('/unbans', [BanController::class, 'unban'])->name('doctors.unban');
 });
 //=============== UserAddress Routes
 Route::prefix('/user-address')->group(
@@ -163,8 +166,15 @@ Route::prefix('orders')->group(function () {
     Route::delete('/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
 });
 //=================== for revenue ==============
-Route::get('/revenue', [ RevnueController::class , 'index'])->name('revenues.index');
-Route::delete('/revenue', [ RevnueController::class , 'destroy'])->name('revenues.destroy');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/revenue', [RevnueController::class, 'index'])->name('revenues.index');
+    Route::delete('/revenue', [RevnueController::class, 'destroy'])->name('revenues.destroy');
+    Route::get('/revenuePer', [RevenuePharmController::class, 'index'])->name('revenuePerPharmacy.index');
+});
+//=================== for Emails ==============
+Route::get('/emails/miss-you', function () {
+    return view('emails.miss-you');
+});
 
 
 Auth::routes();

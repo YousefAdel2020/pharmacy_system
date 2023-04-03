@@ -20,7 +20,6 @@ class Doctor extends Model implements BannableInterface
         'password',
         'national_id',
         'avatar',
-        'is_banned',
         'pharmacy_id'
     ];
 

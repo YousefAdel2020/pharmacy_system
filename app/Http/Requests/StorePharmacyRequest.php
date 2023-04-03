@@ -1,31 +1,51 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Models;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
+use App\Models\Doctor;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class StorePharmacyRequest extends FormRequest
+class Pharmacy extends Model
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
+    use HasFactory, HasRoles ,SoftDeletes;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'national_id',
+        'avatar',
+        'is_deleted'
+        
+    ];
+
+    protected $dates=['deleted_at'];
+    
+    protected static function boot()
     {
-        return true;
+        parent::boot();
+        static::bootSoftDeletes();
+    }
+    
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
-     */
-    public function rules(): array
+    public function getTotalOrdersAttribute()
     {
-        return [
-            'name' => [ "max:255"],
-            'email' => ["max:255", "unique:pharmacies,email,$this->email"],
-            'national_id' => [ "unique:pharmacies,national_id"],
-            'avatar' => 'file|mimes:jpeg,png,jpg|max:2048',
-        ];
+        return $this->orders()->count();
+    }
+
+    public function getTotalRevenueAttribute()
+    {
+        return $this->orders()->sum('total_price');
+    }
+   
+    public function type()
+    {
+        return $this->morphOne(User::class, 'typeable');
     }
 }

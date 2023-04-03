@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\NotifyUsersNotLoggedInForMonthCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,15 +14,22 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('notify:users-not-logged-in-for-month')->daily()->at('10:00');
     }
 
     /**
      * Register the commands for the application.
      */
-    protected function commands(): void
+    protected function commands(): array
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
+
+        return [
+            \App\Console\Commands\CreateAdminUser::class,
+            \App\Console\Commands\NotifyUsersNotLoggedInForMonthCommand::class,
+
+        ];
     }
 }

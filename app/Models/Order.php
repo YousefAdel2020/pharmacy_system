@@ -12,8 +12,7 @@ class Order extends Model
         'doctor_id',
         'status',
         'ordered_by_id',
-        'orderable_id',
-        'orderable_type',
+        'pharmacy_id',
     ];
  
      public function orderable()
@@ -27,15 +26,15 @@ class Order extends Model
 
     public function doctor()
     {
-        return $this->belongsTo(Doctor::class);
+        return $this->belongsTo(Doctor::class,'doctor_id');
     }
     public function pharmacy()
     {
-        return $this->belongsTo(Pharmacy::class);
+        return $this->belongsTo(Pharmacy::class,'pharmacy_id');
     }
     public function client()
     {
-        return $this->morphTo('orderable', 'App\Client');
+        return $this->belongsTo(Client::class, 'ordered_by_id');
     }
     public function medicines()
     {

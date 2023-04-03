@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use App\DataTables\PharmaciesDataTable;
-use App\Jobs\PruneOldPostsJob;
 use App\Http\Requests\StorePharmacyRequest;
 
+use App\Http\Requests\UpdatePharmacyRequest;
 use App\Models\Pharmacy;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
+use Spatie\Permission\Traits\HasRoles;
+use App\Jobs\PruneOldPostsJob;
 
 class PharmacyController extends Controller
 {
@@ -23,70 +24,80 @@ class PharmacyController extends Controller
     {
         return view('pharmacy.create');
     }
-    public function show(Pharmacy $pharmacy)
+    public function show($id)
     {
        
        
-        $this->authorize('view', $pharmacy);
+        $this->authorize('view',$id);
         return view('pharmacy.show', [
-            'pharmacy' => $pharmacy
+            'pharmacy' => $id
         ]);
     }
    
     public function store(StorePharmacyRequest $request)
     {
-        $avatar =  $request->avatar;
-        $name = $request->name;
-        $email = $request->email;
-        $national_id= $request->national_id;
-       
-        Pharmacy::create([
-            'avatar' =>  $avatar,
-            'name' => $name,
-            'email' => $email,
-            'national_id' => $national_id,
+        $creator = Auth::user();
+        $input = $request->only(['name','password','email','national_id','avatar']);
+        $path = $request->file('avatar')->store('public/images');
+        $path = str_replace('public', 'storage', $path);
 
-
+        $password = $request->password;
+        $verifiedPassword = $request->password2;
+        if ($password != $verifiedPassword) {
+            return redirect()->back()->withErrors(['password_confirmation' => 'The password confirmation does not match.']);
+        }
+        $pharmacyCreate = Pharmacy::create([
+            'name' => $input['name'],
+            'email' => $input['email'],
+            'password'=> $password,
+            'national_id' => $input['national_id'],
+            'avatar'=> $path,
+            'is_deleted'=> false,
+            
         ]);
-        return to_route('pharmacies.index');
-
+        return redirect()->route('pharmacies.index')->with('create', $pharmacyCreate);
     }
 
     public function edit($id)
     {
-        $pharmacy = Pharmacy::findorFail($id);
-        return view('pharmacy.edit', ['pharmacy' => $pharmacy]);
+        //$pharmacy = Pharmacy::findorFail($id);
+        //return view('pharmacy.edit', ['pharmacy' => $pharmacy]);
+        $pharmacy = Pharmacy::where('id', $id)->first();
+        if (!$pharmacy) {
+            abort(404);
+        }
+        return view('pharmacies.edit')->with('pharmacy', $pharmacy);
+  
     }
 
-    public function update(StorePharmacyRequest $request, $id)
+    public function update(UpdatePharmacyRequest $request, $id)
     {
-        $avatar =  $request->avatar;
-        $name = $request->name;
-        $email = $request->email;
-        $national_id= $request->national_id;
-       
-        $medicine = Pharmacy::findorFail($id);
+        $input = $request->only(['name','email','avatar']);
 
-        $medicine->update([
-            'avatar' =>  $avatar,
-            'name' => $name,
-            'email' => $email,
-            'national_id' => $national_id,
+        $pharmacyFind = Pharmacy::find($id);
 
+        if ($request->file('avatar')) {
+            $path = $request->file('avatar')->store('public/images');
+            $path = str_replace('public', 'storage', $path);
+
+            $pharmacyFind->update([
+                'avatar'=> $path
+            ]);
+        }
+
+        $pharmacyFind->update([
+            'name'=> $input['name'],
         ]);
-
-
-        return to_route('pharmacies.index');
+        return redirect()->route('pharmacies.index')->with('update', $pharmacyFind);
     }
 
     public function destroy($id)
     {
 
-        $pharmacy = Pharmacy::find($id);
-        $pharmacy->delete();
-        return redirect()->route('pharmacies.index')->with('success', 'pharmacy deleted successfully');
+        $deleted = Pharmacy::where('id', $id)->delete();
+        return redirect()->route('pharmacies.index')->with('delete', $deleted);
     }
-   //////////////////
+   /////////////////////////////////
 
  public function Softdelete(Pharmacy $pharmacy, Request $request)
     {    

@@ -4,15 +4,14 @@
 
 @section('content')
 
-{{-- & the validation error message --}}
 @if ($errors->any())
 <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
 @endif
 
 <div class="card card-primary">
@@ -26,9 +25,15 @@
             <div class="col-sm-3"><!--left col-->
 
                 <div class="text-center">
-                    <img src="{{ asset('storage/unknown.png') }}" class="img-circle img-thumbnail" value="{{$pharmacy->avatar}}"alt="avatar">
-                    <h6 class="mt-3">Upload a different photo...</h6>
-                    <input type="file" name="avatar">
+                     @if($doctor->avatar)
+                            <img src="{{ asset( $pharmacy->avatar )}}" alt="pharmacy" class="rounded-circle" width="150">
+                            @else
+                            <img src="{{ asset( 'storage/avatars/unknown.png' )}}" alt="pharmacy" class="rounded-circle"
+                                width="150">
+                            @endif
+                            <h6 class="mt-3">Upload a different photo...</h6>
+                            <input class="ms-5" type="file" name="avatar">
+                        
                 </div>
             </div><!--/col-3-->
 
@@ -40,7 +45,7 @@
                             <label for="name">
                                 <h4>Pharmacy Name</h4>
                             </label>
-                            <input type="name" class="form-control" name="pharmacy_name" value="{{$pharmacy->name}}" placeholder="Enter Pharmacy Name">
+                            <input type="name" class="form-control" name="pharmacy_name" value="{{$pharmacy->name}}" required placeholder="Enter Pharmacy Name">
                     </div>
                 </div>
                 <div class="form-group">
@@ -49,7 +54,7 @@
                                 <h4>National ID</h4>
                             </label>
                             <input type="number" class="form-control" name="national_id" id="national_id"
-                                value="{{ $pharmacy->national_id }}" >
+                                value="{{ $pharmacy->national_id }}" disabled>
                     </div>
                 </div>
                 
@@ -64,29 +69,7 @@
                             >
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <div class="col-xs-6">
-                        <label for="password">
-                            <h4>Password</h4>
-                        </label>
-                        <input type="password" class="form-control" name="password" id="password" placeholder="password"
-                            required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-xs-6">
-                        <label for="password2">
-                            <h4>Verify</h4>
-                        </label>
-                        <input type="password" class="form-control" name="password2" id="password2"
-                            placeholder="Repet password" required>
-                    </div>
-                </div>
-
-              
-
+               
                 <div class="form-group">
                     <div class="col-xs-12 mt-5">
                         <button class="btn btn-lg btn-primary" type="submit">update</button>
