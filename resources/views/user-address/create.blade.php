@@ -22,9 +22,21 @@
                 </div>
             @endif
             <div class="card-body">
+                <div class="form-group" data-select2-id="13">
+                    <label for="user_id">User Name</label>
+                    <select name="user_id" class="form-control select2 select2-hidden-accessible" style="width: 100%;"
+                        data-select2-id="1" tabindex="-1" aria-hidden="true">
+                        @foreach ($users as $user)
+                            <option
+                                value="{{ $user['user_id'] }} >{{ $user->name }}</option>
+@endforeach
+                    </select>
+
+                </div>
                 <div class="form-group">
-                    <label for="street">Street</label>
-                    <input type="text" class="form-control" id="street" name="street" placeholder="Street">
+                                <label for="street">Street</label>
+                                <input type="text" class="form-control" id="street" name="street"
+                                    placeholder="Street">
                 </div>
                 <div class="row">
                     <div class="form-group col-6 ">
@@ -87,7 +99,7 @@
 
 
                     success: function(result) {
-                        $('#city').html('<option value="">Select Area</option>');
+                        $('#city').html('<option  value="">Select Area</option>');
                         // alert(result[0].name);
                         $.each(result, function(key, value) {
                             $("#city").append(

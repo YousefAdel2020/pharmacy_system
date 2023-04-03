@@ -31,11 +31,13 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="exampleInputName1">Name</label>
-                        <input type="name" class="form-control" id="exampleInputName1" placeholder="Enter name">
+                        <input value="{{ $user->name }}" type="name" class="form-control" id="exampleInputName1"
+                            placeholder="Enter name">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                        <input value="{{ $user->email }}" type="email" class="form-control" id="exampleInputEmail1"
+                            placeholder="Enter email">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Password</label>
