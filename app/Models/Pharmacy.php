@@ -16,7 +16,8 @@ class Pharmacy extends Model
         'email',
         'national_id',
         'avatar',
-        
+        'typeable_id',
+        'typeable_type',
     ];
 
     public function orders()
@@ -33,14 +34,15 @@ class Pharmacy extends Model
     {
         return $this->orders()->sum('total_price');
     }
+    public function type()
+    {
+        return $this->morphOne(User::class, 'typeable');
+    }
    
    /* public function pharmacies()
     {
         return $this->hasMany(Doctor::class);
     }
     
-    public function type()
-    {
-        return $this->morphOne(User::class, 'typeable');
-    }*/
+    */
 }
