@@ -28,4 +28,10 @@ class Useraddress extends Model
     {
         return $this->belongsTo(User::class);
     }
+    protected function isMain(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => $value == "1" ? "Yes" : "No",
+        );
+    }
 }

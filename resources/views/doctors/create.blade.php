@@ -4,6 +4,16 @@
 
 @section('content')
 
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
 <div class="container">
     <form class="form" action="{{ route('doctors.store')}}" method="post" enctype="multipart/form-data">
         @csrf
@@ -46,16 +56,6 @@
                             <h4>Email</h4>
                         </label>
                         <input type="text" class="form-control" name="email" id="email" placeholder="Enter your email"
-                            required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-xs-6">
-                        <label for="phone">
-                            <h4>Phone</h4>
-                        </label>
-                        <input type="number" class="form-control" name="phone" id="phone" placeholder="Enter phone"
                             required>
                     </div>
                 </div>

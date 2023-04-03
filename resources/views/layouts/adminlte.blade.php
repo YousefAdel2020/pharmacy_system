@@ -172,6 +172,14 @@
                                 </p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('orders.index') }}" class="nav-link">
+                                <i class=" nav-icon fa fa-tablet "></i>
+                                <p>
+                                    Orders
+                                </p>
+                            </a>
+                        </li>
                         @can('area-all')
                             <li class="nav-item">
                                 <a href="{{ url('/' . ($page = 'areas')) }}" class="nav-link">
@@ -209,6 +217,22 @@
                                 </a>
                             </li>
                         @endcan
+                        <li class="nav-item">
+                            <a href="{{ route('orders.index') }}" class="nav-link">
+                                <i class=" nav-icon fa-solid fa-tablets"></i>
+                                <p>
+                                    Orders
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('revenues.index') }}" class="nav-link">
+                                <i class=" nav-icon fa-solid fa-tablets"></i>
+                                <p>
+                                    Revenues
+                                </p>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -236,14 +260,7 @@
         <!-- /.control-sidebar -->
 
         <!-- Main Footer -->
-        <footer class="main-footer">
-            <!-- To the right -->
-            <div class="float-right d-none d-sm-inline">
-                @copyright Pharm.com
-            </div>
-            <!-- Default to the left -->
-            <strong>Powered by <a href="https://adminlte.io">AdminLTE</a>.</strong>
-        </footer>
+
     </div>
     <!-- ./wrapper -->
 

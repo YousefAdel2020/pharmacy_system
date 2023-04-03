@@ -22,7 +22,9 @@ class UsersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'users.action')
+            ->addColumn('action', function ($user) {
+                return view('users.action', ['id' => $user->id]);
+            })
             ->setRowId('id');
     }
 

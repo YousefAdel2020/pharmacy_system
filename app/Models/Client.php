@@ -16,4 +16,12 @@ class Client extends Model
     {
         return $this->morphOne(User::class, 'typeable');
     }
+    public function orders()
+    {
+        return $this->morphMany(Order::class, 'orderable');
+    }
+    public function addresses()
+    {
+        return $this->hasMany('App\UserAddress');
+    }
 }

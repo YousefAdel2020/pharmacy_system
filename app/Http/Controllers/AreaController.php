@@ -7,18 +7,20 @@ use App\Models\Area;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Webpatser\Countries\Countries;
+use App\DataTables\AreaDataTable;
+
 
 class AreaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(AreaDataTable $dataTable)
     {
         //
         $areas = Area::all();
 
-        return view('areas.index', compact('areas'));
+        return $dataTable->render('areas.index', compact('areas'));
     }
 
     /**

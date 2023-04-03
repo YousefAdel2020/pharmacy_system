@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Doctor;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Carbon;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -22,7 +23,20 @@ class DoctorsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'doctors.action')
+            ->addColumn('action', function ($doctor) {
+                return view('doctors.action', ['id' => $doctor->id, 'is_banned'=>$doctor->banned_at]);
+            })->addColumn('pharmacy', function ($user) {
+                return $user->pharmacy->name;
+            })->editColumn('created_at', function ($data) {
+                $formatedDate = Carbon::parse($data->created_at)->format('Y-m-d');
+                return $formatedDate;
+            })->editColumn('is_banned', function ($user) {
+                if ($user->banned_at) {
+                    return '<span class="text-danger fw-bold">Banned</span>';
+                } else {
+                    return '<span class="text-success fw-bold">Not Banned</span>';
+                }
+            })->escapeColumns('is_banned')
             ->setRowId('id');
     }
 
@@ -31,7 +45,7 @@ class DoctorsDataTable extends DataTable
      */
     public function query(Doctor $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('id');
     }
 
     /**
@@ -59,21 +73,23 @@ class DoctorsDataTable extends DataTable
     /**
      * Get the dataTable columns definition.
      */
+
     public function getColumns(): array
     {
         return [
-            Column::make('avatar'),
+            Column::make('id')->orderable(true),
             Column::make('name'),
             Column::make('email'),
             Column::make('national_id'),
             Column::make('created_at'),
-            // Column::make('pharmacies.name'),
+            Column::make('pharmacy'),
             Column::make('is_banned'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+                  ->width(120)
+                  ->addClass('text-center')
+                  ->escape(false),
         ];
     }
 
