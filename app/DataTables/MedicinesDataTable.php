@@ -68,6 +68,7 @@ class MedicinesDataTable extends DataTable
             Column::make('id'),
             Column::make('name'),
             Column::make('description'),
+            Column::make('type'),
             Column::make('price'),
             Column::make('created_at'),
             Column::make('updated_at'),

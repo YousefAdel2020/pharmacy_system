@@ -41,7 +41,7 @@
 
                 <div class="form-group">
                   <label for="medicine_names">Medicine Names</label>
-                  <select class="form-control select2-tags"  name="medicine_names[]">
+                  <select class="form-control select2-tags" multiple='multiple'  name="medicine_names[]">
                     @foreach($medicines as $medicine)
                     <option value="{{$medicine->id}}">{{$medicine->name}}</option>
                 @endforeach
@@ -139,6 +139,7 @@
   $(document).ready(function() {
       $('.select2-tags').select2({
           tags: true,
+          theme: 'bootstrap-5',
          
         });
   });

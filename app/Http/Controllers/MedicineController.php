@@ -16,14 +16,15 @@ class MedicineController extends Controller
     }
     public function create()
     {
-        $medicines=Medicine::all();
+       
         
-        return view('medicine.create',['medicines'=>$medicines]);
+        return view('medicine.create');
     }
     public function store(StoreMedicineRequest $request)
     {
         $name = $request->name;
         $price = $request->price;
+        $type = $request->type;
         $description = $request->description;
 
 
@@ -31,6 +32,7 @@ class MedicineController extends Controller
             'name' => $name,
             'description' => $description,
             'price' => $price,
+            'type' => $type,
 
 
         ]);
@@ -48,6 +50,7 @@ class MedicineController extends Controller
     {
         $name = $request->name;
         $price = $request->price;
+        $type = $request->type;
         $description = $request->description;
 
         $medicine = Medicine::findorFail($id);
@@ -55,7 +58,8 @@ class MedicineController extends Controller
         $medicine->update([
             'name' => $name,
             'description' => $description,
-            'price' => $price
+            'price' => $price,
+            'type' => $type
         ]);
 
 
