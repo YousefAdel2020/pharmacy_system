@@ -14,12 +14,22 @@ class Pharmacy extends Model
     protected $fillable = [
         'name',
         'email',
+        'password',
         'national_id',
         'avatar',
         'typeable_id',
         'typeable_type',
+        'is_deleted',
     ];
 
+    protected $dates=['deleted_at'];
+    
+    protected static function boot()
+    {
+        parent::boot();
+        static::bootSoftDeletes();
+    }
+    
     public function orders()
     {
         return $this->hasMany(Order::class);
@@ -45,4 +55,8 @@ class Pharmacy extends Model
     }
     
     */
+    public function type()
+    {
+        return $this->morphOne(User::class, 'typeable');
+    }
 }
