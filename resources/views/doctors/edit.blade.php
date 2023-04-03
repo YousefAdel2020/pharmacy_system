@@ -63,8 +63,7 @@
                         <label for="email">
                             <h4>Email</h4>
                         </label>
-                        <input type="text" class="form-control" name="email" id="email" value="{{ $doctor->email }}"
-                            disabled>
+                        <input type="text" class="form-control" name="email" id="email" value="{{ $doctor->email }}">
                     </div>
                 </div>
 
