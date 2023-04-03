@@ -67,19 +67,24 @@ Route::group(
     }
 );
 
+// =================  for Pharmacy ================
 
-// ================= Pharamacy Route
-Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
-Route::post('/pharmacies', [PharmacyController::class, 'store'])->name('pharmacies.store');
-Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
-Route::get('/pharmacies/{id}', [PharmacyController::class,'show'])->name('pharmacies.show');
-Route::get('/pharmacies/{id}/edit', [PharmacyController::class,'edit'])->name('pharmacies.edit');
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
+    Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
+    Route::post('/pharmacies', [PharmacyController::class, 'store'])->name('pharmacies.store');
+    Route::get('/pharmacies/{id}', [PharmacyController::class, 'show'])->name('pharmacies.show');
+    Route::get('/pharmacies/{id}/edit', [PharmacyController::class, 'edit'])->name('pharmacies.edit');
+    Route::put('/pharmacies/{id}', [PharmacyController::class, 'update'])->name('pharmacies.update');
+    Route::delete('/pharmacies/{id}', [PharmacyController::class, 'destroy'])->name('pharmacies.destroy')->withTrashed();
+    Route::post('/pharmacies/{id}/restore', [PharmacyController::class, 'restore'])->name('pharmacies.restore')->withTrashed();
+    Route::get('pharmacies/data', [PharmacyController::class, 'query'])->name('pharmacies.data');
 
-Route::put('/pharmacies/{id}', [PharmacyController::class, 'update'])->name('pharmacies.update');
-Route::delete('/pharmacies/{id}', [PharmacyController::class, 'destroy'])->name('pharmacies.destroy')->withTrashed();
-Route::post('/pharmacies/{id}/restore', [PharmacyController::class, 'restore'])->name('pharmacies.restore')->withTrashed();
+});
 
-Route::get('pharmacies/data', [PharmacyController::class, 'query'])->name('pharmacies.data');
+Route::get('/pharmacies', function () {
+    return view('Pharmacy/index');
+})->middleware(['auth','role:pharmacy'])->name('pharmacies.index');
 
 // ================= Doctor Route
 Route::middleware(['auth', 'role:admin|doctor|pharmacy'])->group(function () {

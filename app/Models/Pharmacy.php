@@ -14,11 +14,21 @@ class Pharmacy extends Model
     protected $fillable = [
         'name',
         'email',
+        'password',
         'national_id',
         'avatar',
+        'is_deleted'
         
     ];
 
+    protected $dates=['deleted_at'];
+    
+    protected static function boot()
+    {
+        parent::boot();
+        static::bootSoftDeletes();
+    }
+    
     public function orders()
     {
         return $this->hasMany(Order::class);
@@ -34,13 +44,8 @@ class Pharmacy extends Model
         return $this->orders()->sum('total_price');
     }
    
-   /* public function pharmacies()
-    {
-        return $this->hasMany(Doctor::class);
-    }
-    
     public function type()
     {
         return $this->morphOne(User::class, 'typeable');
-    }*/
+    }
 }

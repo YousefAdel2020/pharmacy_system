@@ -37,10 +37,10 @@
     </div>
 
 
-<!--  <table id="pharmacies-table" class="table-striped">
+ <table id="pharmacies-table" class="table-striped">
         <thead>
             <tr>
-                <th scope="col">Avatar</th>
+                <th scope="col">ID</th>
                 <th scope="col">Pharmacy Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">National-ID</th>
@@ -51,12 +51,20 @@
             </tr>
         </thead>
       
-    </table>--> 
+    </table>
    
     <div class="text-center">
         <a href="{{ route('pharmacies.create') }}" class="m-4 btn btn-success">Add New Pharmacy</a>
     </div>
-    {{ $dataTable->table() }}
+ @endsection
+    @if($update)
+<div id="updateMsg" class="alert alert-success">Updated Successfully</div>
+@endif
+
+@if($delete)
+<div id="deleteMsg" class="alert alert-success">Deleted Successfully</div>
+@endif
+
 @endsection
 
 
@@ -73,6 +81,19 @@
         });
     
     </script>
+    <script>
+	const updateMsg = document.getElementById("updateMsg");
+	const deleteMsg = document.getElementById("deleteMsg");
+	window.addEventListener('load', function() {
+		setTimeout(function() {
+			updateMsg.remove();
+		}, 1500);
+
+		setTimeout(function() {
+			deleteMsg.remove();
+		}, 1500);
+	});
+</script>
     {{ $dataTable->scripts() }}
   
 
