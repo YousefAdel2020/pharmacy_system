@@ -71,7 +71,7 @@ Route::group(
 
 // =================  for Pharmacy ================
 
-Route::group(['middleware' =>['role:Admin|pharmacy', 'auth'],], function () {
+Route::group(['middleware' => ['role:admin|pharmacy', 'auth'],], function () {
     Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
     Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
     Route::post('/pharmacies', [PharmacyController::class, 'store'])->name('pharmacies.store');
@@ -164,12 +164,13 @@ Route::prefix('orders')->group(function () {
     Route::get('/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
     Route::put('/{order}', [OrderController::class, 'update'])->name('orders.update');
     Route::delete('/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
+    Route::put('/{id}/assign', [OrderController::class, 'assignOrderToPharmacy']);
 });
 //=================== for revenue ==============
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/revenue', [ RevnueController::class , 'index'])->name('revenues.index');
-    Route::delete('/revenue', [ RevnueController::class , 'destroy'])->name('revenues.destroy');
-    Route::get('/revenuePer', [ RevenuePharmController::class , 'index'])->name('revenuePerPharmacy.index');
+    Route::get('/revenue', [RevnueController::class, 'index'])->name('revenues.index');
+    Route::delete('/revenue', [RevnueController::class, 'destroy'])->name('revenues.destroy');
+    Route::get('/revenuePer', [RevenuePharmController::class, 'index'])->name('revenuePerPharmacy.index');
 });
 
 
