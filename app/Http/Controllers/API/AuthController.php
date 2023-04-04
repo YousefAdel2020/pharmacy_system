@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\RegisterUserRequest;
 use App\Http\Requests\Api\SanctumTokenRequest;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\ClientResource;
 use App\Jobs\SendVerifyEmailJob;
 use App\Models\User;
 use App\Models\Client;
@@ -43,7 +43,7 @@ class AuthController extends Controller
     {
 
         //$data = $request->validate();
-        $data = $request->only(['name', 'email','password' ,'national_id', 'avatar', 'gender', 'date_of_birth', 'phone']);
+        $data = $request->only(['name', 'email','password' ,'national_id', 'avatar', 'gender', 'date_of_birth', 'mobile_number']);
         $user =User::create([
             'name'=> $data['name'],
             'email'=> $data['email'],
@@ -60,9 +60,9 @@ class AuthController extends Controller
             'name'=> $data['name'],
             'email'=> $data['email'],
             'gender'=> $data['gender'],
-            'password'=> $data['password'],
+            'password'=> Hash::make($data['password']),
             'date_of_birth'=> $data['date_of_birth'],
-            'phone' => $data['phone'],
+            'mobile_number' => $data['mobile_number'],
             'national_id'=> $data['national_id'],
         ]);
         $user = $user->refresh();
@@ -71,7 +71,7 @@ class AuthController extends Controller
         $client->type()->save($user);
         SendVerifyEmailJob::dispatch($client);
         
-        return new UserResource($client);
+        return new ClientResource($client);
     }
     
 

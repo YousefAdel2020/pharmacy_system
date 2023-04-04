@@ -29,7 +29,7 @@ class RegisterUserRequest extends FormRequest
             'password'=> ["required","confirmed","max:255","min:6"],
             'date_of_birth'=> ["required","date"],
             'profile_image'=> ["required","mimes:jpg,png","max:4096"],
-            'phone' => ["required", "digits:11"],
+            'mobile_number' => ["required", "digits:11"],
             'national_id'=> ["required","max:14","unique:clients,national_id" ],
         ];
     }

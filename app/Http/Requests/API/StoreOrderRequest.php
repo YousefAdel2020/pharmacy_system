@@ -3,6 +3,8 @@
 namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
 
 class StoreOrderRequest extends FormRequest
 {
@@ -24,7 +26,7 @@ class StoreOrderRequest extends FormRequest
         return [
             'is_insured'=>['required'],
             'prescription.*'=>['required' , 'mimes:jpg,png' ],
-            'delivering_address_id'=>['required', Rule::in(auth()->user()->addresses->pluck("id")->toArray())] ,
+            'user_id' => ["numeric","exists:users,id"],
         ];
     }
 }

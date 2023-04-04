@@ -26,9 +26,9 @@ class StoreAddressRequest extends FormRequest
             'apartment_num' => ["required" , "numeric" , "max:999" , "min:1"],
             'floor_num' => ["required" , "numeric" , "max:40" , "min:1"],
             'is_primary_address' => ["required","numeric"],
-            'area_id' => ["required", "numeric","exists:areas,id"],
-            'user_id' => ["required","numeric","exists:users,id"],
-            'client_id' => ["required","numeric","exists:users,id"],
+            'area_id' => ["numeric","exists:areas,id"],
+            'user_id' => ["numeric","exists:users,id"],
+            'client_id' => ["numeric","exists:users,id"],
         ];
     }
 }

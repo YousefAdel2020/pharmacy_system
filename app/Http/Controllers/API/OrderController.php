@@ -25,13 +25,15 @@ class OrderController extends Controller
     }
     public function store(StoreOrderRequest $request)
     {
-        $order = $request->validate();
+        $clientid = Auth::user()->id;
         $order = Order::Create([
 
-            'status'=> $order['status'],
-            'is_insured'=> $order['is_insured'],
-            'user_id'=> Auth::user()->id,
+            'status'=> $request->status,
+            'is_insured'=> $request->is_insured,
+            'ordered_by_id'=> $clientid,
+            'status'=>'new',
 
+ 
         ]);
         if ($request->hasFile('prescription')) {
 

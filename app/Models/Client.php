@@ -10,8 +10,7 @@ class Client extends Model
     use HasFactory;
     
     protected $fillable = [
-        'name', 'email', 'password','gender','mobile','avatar','national_id','birth_day','password','typeable_id',
-        'typeable_type',
+        'name', 'email', 'password','gender','mobile_number','avatar','national_id','date_of_birth','password',
     ];
     public function type()
     {
@@ -23,6 +22,6 @@ class Client extends Model
     }
     public function addresses()
     {
-        return $this->hasMany(UserAddress::class, "user_id");
+        return $this->hasMany(UserAddress::class, "client_id");
     }
 }
