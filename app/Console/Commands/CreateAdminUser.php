@@ -55,7 +55,6 @@ class CreateAdminUser extends Command
         $user->name = 'Admin';
         $user->typeable_type = 'admin';
         $user->typeable_id = '0';
-        // $user->is_insured = '1';
 
 
         $user->assignRole('admin');

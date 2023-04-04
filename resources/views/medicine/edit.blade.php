@@ -37,6 +37,13 @@
                        <label for="exampleInputEmail1">Price (in cents)</label>
                        <input type="text" class="form-control" id="exampleInputEmail1" name="price" value="{{$medicine->price}}" placeholder="Enter Price in cents">
                      </div>
+
+
+                     <div class="form-group">
+                      <label for="exampleInputEmail2">Type</label>
+                      <input type="text" class="form-control" id="exampleInputEmail2" name="type" value="{{$medicine->type}}" placeholder="Enter type of medicine">
+                    </div>
+
                      <div class="mb-3">
                       <label for="exampleFormControlTextarea1" class="form-label">Description</label>
                       <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3">{{$medicine->description}}</textarea>

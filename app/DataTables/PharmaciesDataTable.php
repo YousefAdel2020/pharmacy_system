@@ -21,9 +21,10 @@ class PharmaciesDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+        $pharmacy = Pharmacy::withTrashed();
         return (new EloquentDataTable($query))
-        ->addColumn('action', function ($pharmacy) {
-            return view('pharmacy.action', ['id' => $pharmacy->id]);
+        ->addColumn('action', function ($pharmacys) use ($pharmacy) {
+            return view('pharmacy.action', ['pharmacies'=>$pharmacys,'id' => $pharmacys->id,'pharmacy'=>$pharmacy]);
         })
     
             ->setRowId('id');

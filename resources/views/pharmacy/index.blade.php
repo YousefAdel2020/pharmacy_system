@@ -42,6 +42,7 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Pharmacy Name</th>
+                <th scope="col">Area-ID</th>
                 <th scope="col">Email</th>
                 <th scope="col">National-ID</th>
                 <th scope="col">Created_At</th>
@@ -56,7 +57,6 @@
     <div class="text-center">
         <a href="{{ route('pharmacies.create') }}" class="m-4 btn btn-success">Add New Pharmacy</a>
     </div>
- @endsection
     @if($update)
 <div id="updateMsg" class="alert alert-success">Updated Successfully</div>
 @endif

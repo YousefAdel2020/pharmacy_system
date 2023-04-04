@@ -42,8 +42,9 @@ class AuthController extends Controller
     public function register(RegisterUserRequest $request)
     {
 
-        $data = $request->validate();
-        User::create([
+        //$data = $request->validate();
+        $data = $request->only(['name', 'email','password' ,'national_id', 'avatar', 'gender', 'date_of_birth', 'phone']);
+        $user =User::create([
             'name'=> $data['name'],
             'email'=> $data['email'],
             'password' => Hash::make($data['password']),
@@ -51,7 +52,7 @@ class AuthController extends Controller
         ]);
         if ($request->hasFile("profile_image")) {
             $path = $request->file("profile_image")
-                ->store('', ["disk" => "imgs"]);
+                ->store('');
 
             $data["profile_image"] = $path;
         }
@@ -64,7 +65,10 @@ class AuthController extends Controller
             'phone' => $data['phone'],
             'national_id'=> $data['national_id'],
         ]);
+        $user = $user->refresh();
+        $client=$client->refresh();
 
+        $client->type()->save($user);
         SendVerifyEmailJob::dispatch($client);
         
         return new UserResource($client);

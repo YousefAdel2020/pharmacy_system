@@ -1,6 +1,6 @@
 @extends("layouts.adminlte")
 
-@section('title' , 'Create')
+@section('title' , 'Create order')
 
 
 
@@ -18,66 +18,66 @@
                     
                 <div class="form-group" data-select2-id="13">
                   <label for="userName">User Name</label>
-                  <select name="userName" class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                  <select name="userName" class="form-control select2" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
                     @foreach($users as $user)
                     <option>{{$user->name}}</option>
                     @endforeach
                   </select>
-                  <!-- </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" data-select2-id="2" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-o8pk-container"><span class="select2-selection__rendered" id="select2-o8pk-container" role="textbox" aria-readonly="true" title="Alabama">Alabama</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> -->
+                  
                 </div>
 
-                <div class="form-group" data-select2-id="13">
-                  <label for="insured">Is insured ?</label>
-                  <select name="insured" class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                    
-                    <option>Yes</option>
-                    <option>No</option>
-                   
+                <div class="form-group" >
+                  <label for="is_insured">Is insured</label>
+                  <select id="mySelect2" name="is_insured">
+                    <option value="1">YES</option>
+                    <option value="2">NO</option>
+                
                   </select>
-                  <!-- </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" data-select2-id="2" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-o8pk-container"><span class="select2-selection__rendered" id="select2-o8pk-container" role="textbox" aria-readonly="true" title="Alabama">Alabama</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> -->
+                
                 </div>
+
+
 
                 <div class="form-group">
-                  <label for="med[]" class="form-label">Medicine</label>
-
-                  <select class="js-example-basic-multiple select2 @error('med[]') is-invalid @enderror" name="med[]" multiple="multiple" style="width: 100%;" >
-                      
-                    @foreach($medicine as $med)
-
-                      <option value="{{$med->name}}">{{$med->name}}</option>
-
-                    @endforeach
-
+                  <label for="medicine_names">Medicine Names</label>
+                  <select class="form-control select2-tags" multiple='multiple'  name="medicine_names[]">
+                    @foreach($medicines as $medicine)
+                    <option value="{{$medicine->id}}">{{$medicine->name}}-{{$medicine->type}}</option>
+                @endforeach
+                      <!-- Add more options as needed -->
                   </select>
+              </div>
+                  
 
-                  @error('med[]')
-                      <span class="invalid-feedback fs-6" role="alert">
-                          <strong>{{ $message }}</strong>
-                      </span>
-                  @enderror
-                  </div>
+            
 
+
+
+              
+
+              
                   <div class="form-group">
                     <label for="qty[]" class="form-label">Qty</label>
 
-                    <select class="js-example-basic-multiple select2 @error('qty[]') is-invalid @enderror" name="qty[]" multiple="multiple" style="width: 100%;">
+                    <select class="form-control select2-tags @error('qty[]') is-invalid @enderror" name="qty[]" multiple="multiple" style="width: 100%;">
                         
                     @for($x=1;$x<=10;$x++)
                         <option value="{{$x}}">{{$x}}</option>
                     @endfor
                     </select>
 
-                    @error('qty[]')
-                      <span class="invalid-feedback fs-6" role="alert">
-                          <strong>{{ $message }}</strong>
-                      </span>
-                    @enderror
+                  
 
                   </div>
 
+
+
+
+                  
+
                   <div class="form-group">
                         <label for="DocName">Doctor Name</label>
-                        <select name="DocName" class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                        <select name="DocName" class="form-control " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
                           @foreach($doctors as $doctor)
                           <option>{{$doctor->name}}</option>
                           @endforeach
@@ -86,7 +86,7 @@
 
                   <div class="form-group">
                         <label for="PharmacyName">Pharmacy Name</label>
-                        <select name="PharmacyName" class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                        <select name="PharmacyName" class="form-control " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
                           @foreach($pharmacy as $phar)
                           <option>{{$phar->name}}</option>
                           @endforeach
@@ -110,6 +110,49 @@
 
 
 
+@section('script')
 
+<script>
+  $(document).ready(function() {
+      $('.select2-tags').select2({
+          tags: true,
+          theme: 'bootstrap-5',
+         
+        });
+
+
+
+        $('#mySelect2').prop('disabled', true);
+
+
+
+        $("select").on("select2:select", function (evt) {
+        var element = evt.params.data.element;
+        var $element = $(element);
+        
+        $element.detach();
+        $(this).append($element);
+        $(this).trigger("change");
+      });
+
+      $("select").on('select2:unselect', function (e) {
+
+        if (e.params.originalEvent != null && e.params.originalEvent.handleObj.type == "mouseup") {
+            $(this).append('<option value="' + e.params.data.id + '">' + e.params.data.text + '</option>');
+            let vals = $(this).val();
+            vals.push(e.params.data.id);
+            $(this).val(vals).trigger('change');
+            $(this).select2('close');
+        } else if (e.params.data.element != null) {
+            e.params.data.element.remove();
+        }
+    });
+
+  });
+
+ 
+</script>
+
+@endsection
 
 

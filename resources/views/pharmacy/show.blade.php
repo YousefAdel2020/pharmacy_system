@@ -47,6 +47,13 @@
                     <hr>
                     <div class="row">
                         <div class="col-sm-3">
+                            <h6>Area-ID</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">{{ $area->area_id}}</div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
                             <h6>National ID</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">{{ $pharmacy->national_id }}</div>

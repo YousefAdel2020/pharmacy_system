@@ -3,6 +3,7 @@
 namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RegisterUserRequest extends FormRequest
 {
@@ -29,7 +30,7 @@ class RegisterUserRequest extends FormRequest
             'date_of_birth'=> ["required","date"],
             'profile_image'=> ["required","mimes:jpg,png","max:4096"],
             'phone' => ["required", "digits:11"],
-            'national_id'=> ["required","max:14","unique:users,national_id" ],
+            'national_id'=> ["required","max:14","unique:clients,national_id" ],
         ];
     }
 }

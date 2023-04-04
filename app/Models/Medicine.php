@@ -13,6 +13,7 @@ class Medicine extends Model
     protected $fillable=[
         'name',
         'price',
+        'type',
         'description',
     ];
     public function orders()

@@ -1,7 +1,7 @@
 <a href="{{ route('doctors.edit', $id) }}" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
 
 <form action="{{ route('doctors.destroy', $id) }}" class="d-inline" method="post"
-    onsubmit="return confirm('Are you sure you want to delete this medicine?')">
+    onsubmit="return confirm('Are you sure you want to delete this doctor?')">
     @csrf
     @method('delete')
     <button type="submit" name="id" title="Delete" class="form-button">
@@ -9,7 +9,7 @@
     </button>
 
 </form>
-@if ($is_banned)
+@if ($banned_at)
 <form method="post" action="{{route('doctors.unban')}}" class="d-inline">
     @csrf
     <input type="hidden" name="id" value="{{ $id }}" />
