@@ -5,7 +5,9 @@
 
 
 @section('content')
+<div class="container">
     {{$dataTable->table()}}
+</div>
 @endsection
 
 @section('script')
