@@ -31,7 +31,7 @@ class OrderController extends Controller
         $doctors = User::Role('Admin')->get();
         $medicine = Medicine::all();
         $pharmacy = Pharmacy::all();
-        return view('orders.create' ,['users'=>$users , 'medicine'=>$medicine , 'pharmacy'=>$pharmacy , 'doctors'=>$doctors]);
+        return view('orders.create1' ,['users'=>$users , 'medicine'=>$medicine , 'pharmacy'=>$pharmacy , 'doctors'=>$doctors]);
     }
 
     /**
