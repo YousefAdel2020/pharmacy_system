@@ -11,6 +11,9 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+
 
 class OrdersDataTable extends DataTable
 {
@@ -21,30 +24,42 @@ class OrdersDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+
         return (new EloquentDataTable($query))
             ->addColumn('action', 'orders.action')
-            ->addColumn('doctor_id', function(Order $order){
-                return $order->doctor->name;
+            ->addColumn('doctor_id', function (Order $order) {
+                return $order->doctor ? $order->doctor->name : '';
             })
-            ->addColumn('User', function(Order $order){
-                return $order->user->name;
+            ->addColumn('User', function (Order $order) {
+                return $order->client->name;
+            })
+            ->addColumn('is_insured', function (Order $order) {
+                return $order->is_insured ? 'Yes' : 'No';
+            })
+            ->addColumn('creator_type', function (Order $order) {
+                $user = auth()->user();
+                $isAdmin = $user->hasRole('Admin');
+                if ($isAdmin) {
+                    return $order->user->getRoleNames()->first();
+                }
+                return '-';
+            })
+            ->addColumn('assigned_pharmacy', function (Order $order) {
+                $user = auth()->user();
+                $isAdmin = $user->hasRole('Admin');
+                if ($isAdmin) {
+                    return $order->pharmacy ? $order->pharmacy->name : '';
+                }
+                return '-';
+            })
+            ->addColumn('Creation Date', function (Order $order) {
+                return $order->created_at->diffForHumans();
+            })
+            ->addColumn('Delivering Address', function (Order $order) {
+                return $order->pharmacy->area->address;
             })
             ->setRowId('id');
     }
-
-    /*
-            ->addColumn('User', function(Order $order){
-                return $order->client->name;
-            })
-            
-            ->addColumn('creatorType', function(Order $order){
-                return $order->user->getRoleNames()[0];
-            })
-            ->addColumn('Pharmacy', function(Order $order){
-                return $order->pharmacy->name;
-            })
-     
-    */
     /**
      * Get the query source of dataTable.
      */
@@ -59,20 +74,20 @@ class OrdersDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('order-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('order-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -80,20 +95,21 @@ class OrdersDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [
-             Column::make('id')->addClass('text-center'),
-                Column::make('status')->addClass('text-center'),
-                //Column::make('is_insured')->addClass('text-center'),
-                Column::computed('User' , 'Client Name')->addClass('text-center'),
-                //Column::computed('Pharmacy' , 'Assigned Pharmacy')->addClass('text-center'),
-                //Column::computed('creatorType' , 'Creator Type')->addClass('text-center'),
-                // Column::computed('Address' , 'User Address')->addClass('text-center'),
-                Column::make('doctor_id')->addClass('text-center'),
-                Column::computed('action')
-                      ->exportable(false)
-                      ->printable(false)
-                      ->width(70)
-                      ->addClass('text-center') 
+        return   [
+            Column::make('id')->addClass('text-center')->hidden(),
+            Column::make('status')->addClass('text-center'),
+            Column::make('is_insured')->addClass('text-center'),
+            Column::computed('User', 'Client Name')->addClass('text-center'),
+            Column::make('doctor_id')->addClass('text-center')->title('doctor Name'),
+            Column::make('Creation Date')->addClass('text-center'),
+            Column::make('Delivering Address')->addClass('text-center'),
+            Column::computed('assigned_pharmacy', 'Assigned Pharmacy')->addClass('text-center'),
+            Column::computed('creator_type', 'Creator Type')->addClass('text-center'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(70)
+                ->addClass('text-center')
         ];
     }
 

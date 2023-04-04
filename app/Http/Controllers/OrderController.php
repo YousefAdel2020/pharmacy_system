@@ -6,9 +6,11 @@ use App\Models\Medicine;
 use App\Models\Order;
 use App\Models\Pharmacy;
 use App\Models\User;
+use App\Models\Doctor;
+use App\Models\Useraddress;
+use App\Http\Requests\StoreOrderRequest;
 use Illuminate\Http\Request;
 use App\DataTables\OrdersDataTable;
-use App\Models\Doctor;
 
 class OrderController extends Controller
 {
@@ -19,7 +21,8 @@ class OrderController extends Controller
     {
 
         $orders = Order::all();
-        return $dataTable->render('orders.index', compact('orders'));
+        $medicines = Medicine::all();
+        return $dataTable->render('orders.index', compact('orders', 'medicines'));
     }
 
     /**
@@ -32,15 +35,46 @@ class OrderController extends Controller
         $doctors = Doctor::all();
         $medicines = Medicine::all();
         $pharmacy = Pharmacy::all();
-        return view('orders.create', ['users' => $users, 'medicine' => $medicine, 'pharmacy' => $pharmacy, 'doctors' => $doctors]);
+        return view('orders.create', ['users' => $users, 'medicine' => $medicines, 'pharmacy' => $pharmacy, 'doctors' => $doctors]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreOrderRequest $request)
     {
-        //
+
+        $user = Auth::user();
+        //$useradd = UserAddress::find($request->delivering_address); //===needs the user address
+        $doctor = null;
+        $status = 'Processing';
+
+        if ($user->hasRole('doctor')) {
+            $doctor = Doctor::find($user->typeable_id);
+            $creator = 'doctor';
+            $pharmacy = Pharmacy::find($doctor->pharmacy_id);
+            $doctor = $doctor->id;
+        } elseif ($user->hasRole('pharmacy')) {
+            $creator = 'pharmacy';
+            $pharmacy = Pharmacy::find($user->typeable_id);
+        } else {
+            $creator = 'admin';
+            $pharmacy = 1;  // needs the pirorty logic 
+            $status = 'New';
+        }
+
+
+        $doctor = Auth::user()->typeable_id;
+
+
+        $order = Order::create([
+            'user_id' => $request->user_id,
+            //'useraddress_id' => $request->delivering_address, //===needs the user address
+            'doctor_id' => $doctor,
+            'is_insured' => $request->is_insured ? $request->is_insured : 0,
+            'status' => $status,
+            'pharmacy_id' => $pharmacy, // needs the pirorty logic
+        ]);
 
         return redirect()->route('orders.index')->with('success', 'Order created successfully.');
     }
