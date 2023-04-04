@@ -71,7 +71,7 @@ Route::group(
 
 // =================  for Pharmacy ================
 
-Route::group(['middleware' => ['role:admin|pharmacy', 'auth'],], function () {
+Route::middleware(['auth','role:admin|pharmacy'])->group(function (){
     Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
     Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
     Route::post('/pharmacies', [PharmacyController::class, 'store'])->name('pharmacies.store');
@@ -167,13 +167,9 @@ Route::prefix('orders')->group(function () {
 });
 //=================== for revenue ==============
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/revenue', [RevnueController::class, 'index'])->name('revenues.index');
-    Route::delete('/revenue', [RevnueController::class, 'destroy'])->name('revenues.destroy');
-    Route::get('/revenuePer', [RevenuePharmController::class, 'index'])->name('revenuePerPharmacy.index');
-});
-//=================== for Emails ==============
-Route::get('/emails/miss-you', function () {
-    return view('emails.miss-you');
+    Route::get('/revenue', [ RevnueController::class , 'index'])->name('revenues.index');
+    Route::delete('/revenue', [ RevnueController::class , 'destroy'])->name('revenues.destroy');
+    Route::get('/revenuePer', [ RevenuePharmController::class , 'index'])->name('revenuePerPharmacy.index');
 });
 
 

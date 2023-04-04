@@ -42,6 +42,7 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Pharmacy Name</th>
+                <th scope="col">Area-ID</th>
                 <th scope="col">Email</th>
                 <th scope="col">National-ID</th>
                 <th scope="col">Created_At</th>

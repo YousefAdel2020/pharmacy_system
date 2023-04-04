@@ -1,51 +1,38 @@
 <?php
 
-namespace App\Models;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Permission\Traits\HasRoles;
-use App\Models\Doctor;
+namespace App\Http\Requests;
 
-class Pharmacy extends Model
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
+class StorePharmacyRequest extends FormRequest
 {
-    use HasFactory, HasRoles ,SoftDeletes;
-
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'national_id',
-        'avatar',
-        'is_deleted'
-        
-    ];
-
-    protected $dates=['deleted_at'];
-    
-    protected static function boot()
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
     {
-        parent::boot();
-        static::bootSoftDeletes();
-    }
-    
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
+        return true;
     }
 
-    public function getTotalOrdersAttribute()
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     */
+    public function rules(): array
     {
-        return $this->orders()->count();
-    }
+        return [
+            'name' => ["required", "max:255"],
+            'password' => ["required", "max:255", "min:6"],
+            'email' => [
+                ['required',"max:255",'unique:pharmacies,national_id,'.$this->doctor]
+            ],
+            'national_id' => [
+                ['required','unique:pharmacies,national_id,'.$this->doctor]
+                ],
+            'avatar' => 'file|mimes:jpeg,png,jpg|max:2048'
 
-    public function getTotalRevenueAttribute()
-    {
-        return $this->orders()->sum('total_price');
-    }
-   
-    public function type()
-    {
-        return $this->morphOne(User::class, 'typeable');
+        ];
     }
 }
