@@ -17,6 +17,7 @@
         "laravel/ui": "^4.2",
         "laravelcollective/html": "^6.4",
         "spatie/laravel-permission": "^5.10",
+        "stripe/stripe-php": "^10.12",
         "webpatser/laravel-countries": "^1.5",
         "yajra/laravel-datatables": "10.0"
     },
