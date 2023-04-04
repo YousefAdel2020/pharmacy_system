@@ -17,7 +17,7 @@ class OrderController extends Controller
      */
     public function index(OrdersDataTable $dataTable)
     {
-        
+
         $orders = Order::all();
         return $dataTable->render('orders.index', compact('orders'));
     }
@@ -29,10 +29,10 @@ class OrderController extends Controller
     {
         $users = User::all();
         // $doctors = User::Role('Admin')->get();
-        $doctors=Doctor::all();
+        $doctors = Doctor::all();
         $medicines = Medicine::all();
         $pharmacy = Pharmacy::all();
-        return view('orders.create' ,['users'=>$users , 'medicines'=>$medicines , 'pharmacy'=>$pharmacy , 'doctors'=>$doctors]);
+        return view('orders.create', ['users' => $users, 'medicine' => $medicine, 'pharmacy' => $pharmacy, 'doctors' => $doctors]);
     }
 
     /**
@@ -62,11 +62,11 @@ class OrderController extends Controller
      */
     public function edit(string $id)
     {
-         $users = User::all();
+        $users = User::all();
         $doctors = User::Role('Admin')->get();
         $pharmacy = Pharmacy::all();
         $order = Order::find($id);
-        return view('orders.edit' , ['order' =>$order ,'users'=>$users , 'pharmacy'=>$pharmacy , 'doctors'=>$doctors]);
+        return view('orders.edit', ['order' => $order, 'users' => $users, 'pharmacy' => $pharmacy, 'doctors' => $doctors]);
     }
 
     /**
@@ -87,5 +87,19 @@ class OrderController extends Controller
         $order = Order::find($id);
         $order->delete();
         return redirect()->route('orders.index')->with('success', 'Order deleted successfully.');
+    }
+
+    public function assignOrderToPharmacy($orderId)
+    {
+        $order = Order::find($orderId);
+
+        if (!$order) {
+            // Handle case where order does not exist
+        }
+
+        $order->status = 'Assigned';
+        $order->save();
+
+        // Other logic for assigning order to a pharmacy
     }
 }
