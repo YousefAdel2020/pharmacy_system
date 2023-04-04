@@ -71,7 +71,7 @@ Route::group(
 
 // =================  for Pharmacy ================
 
-Route::group(['middleware' => ['role:Admin|pharmacy', 'auth'],], function () {
+Route::group(['middleware' => ['role:admin|pharmacy', 'auth'],], function () {
     Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
     Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
     Route::post('/pharmacies', [PharmacyController::class, 'store'])->name('pharmacies.store');

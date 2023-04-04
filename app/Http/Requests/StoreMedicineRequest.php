@@ -24,6 +24,7 @@ class StoreMedicineRequest extends FormRequest
         return [
             'name' => ['required','min:3'],
             'price'=>['required'],
+            'type' => ['required'],
             'description' => ['required','min:10'],
         ];
     }
