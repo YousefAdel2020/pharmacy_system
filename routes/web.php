@@ -71,7 +71,7 @@ Route::group(
 
 // =================  for Pharmacy ================
 
-Route::middleware(['auth','role:admin|pharmacy'])->group(function (){
+Route::middleware(['auth','role:admin|pharmacy'])->group(function () {
     Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
     Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
     Route::post('/pharmacies', [PharmacyController::class, 'store'])->name('pharmacies.store');
@@ -85,7 +85,7 @@ Route::middleware(['auth','role:admin|pharmacy'])->group(function (){
 
 
 // ================= Doctor Route
-Route::middleware(['auth', 'role:admin|doctor|pharmacy'])->group(function () {
+Route::middleware(['auth', 'role:admin|pharmacy'])->group(function () {
     Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');
     Route::get('/doctors/create', [DoctorController::class, 'create'])->name('doctors.create');
     Route::post('/doctors', [DoctorController::class, 'store'])->name('doctors.store');

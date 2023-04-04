@@ -25,19 +25,22 @@ class DoctorsDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($doctor) {
-                return view('doctors.action', ['id' => $doctor->id, 'is_banned'=>$doctor->banned_at]);
+                return view('doctors.action', ['id' => $doctor->id, 'banned_at'=>$doctor->banned_at]);
             })->addColumn('pharmacy', function ($user) {
+                if (!isset($user->pharmacy)) {
+                    return "Made By Admin";
+                }
                 return $user->pharmacy->name;
             })->editColumn('created_at', function ($data) {
                 $formatedDate = Carbon::parse($data->created_at)->format('Y-m-d');
                 return $formatedDate;
-            })->editColumn('is_banned', function ($user) {
+            })->editColumn('banned_at', function ($user) {
                 if ($user->banned_at) {
                     return '<span class="text-danger fw-bold">Banned</span>';
                 } else {
                     return '<span class="text-success fw-bold">Not Banned</span>';
                 }
-            })->escapeColumns('is_banned')
+            })->escapeColumns('banned_at')
             ->setRowId('id');
     }
 
@@ -90,8 +93,8 @@ class DoctorsDataTable extends DataTable
             Column::make('email')->title('Email'),
             Column::make('national_id')->title('National ID'),
             Column::make('created_at')->title('Created At'),
-            Column::make('pharmacy')->title('Pharmacy')->visible(Auth::user()->hasRole('admin')),
-            Column::make('is_banned')->title('Status'),
+            Column::make('pharmacy')->title('Pharmacy')->visible(Auth::user()->hasRole('admin'))->width(100),
+            Column::make('banned_at')->title('Status'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
