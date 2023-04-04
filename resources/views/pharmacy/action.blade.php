@@ -9,7 +9,7 @@
                    
              </form>
 
-           @if($pharmacy->trashed()) 
+           @if($pharmacies->trashed()) 
               <form action="{{ route('pharmacies.restore', $id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to restore this pharmacy?')" class="d-inline" method="post">
                     @csrf
                     @method('POST')

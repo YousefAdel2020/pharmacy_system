@@ -26,10 +26,11 @@ class PharmacyController extends Controller
         if ($user->hasRole('admin')) {
             $pharmacies  = Pharmacy::with('area')->get();
         } else {
-            $pharmacies = Pharmacy::where('area_id', $user->id)->with('pharmacy')->get();
+            $pharmacies = Pharmacy::where('area_id', $user->id)->get();
         }
         $update = null;
         $delete = null;
+        $restore = null;
     
        return $pharamcyTable->render('pharmacy.index', compact(
         'pharmacies',
