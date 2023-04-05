@@ -18,7 +18,8 @@ class Useraddress extends Model
         "floor_num",
         "building_number",
         "apartment_num",
-        "is_primary_address"
+        "is_primary_address",
+        "client_id",
     ];
     public function area()
     {

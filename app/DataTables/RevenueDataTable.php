@@ -85,7 +85,7 @@ class RevenueDataTable extends DataTable
     {
         return [
             Column::make('id')->hidden(),
-            Column::make('avatar')->title('PharmacyAvatar'),
+            Column::make('avatar')->title('PharmacyAvatar')->addClass('text-center')->width(30),
             Column::make('name')->title('PharmacyName'),
             Column::make('total_orders')->title('TotalOrders'),
             Column::make('total_revenue')->title('TotalRevenue'),

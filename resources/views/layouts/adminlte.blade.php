@@ -12,10 +12,10 @@
     <link rel="stylesheet" href="{{ asset('dist/css/all.min.css') }}">
 
 
-    {{--&  for select2  --}}
+    {{-- & for select2 --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    
+
 
 
 
@@ -42,11 +42,6 @@
                                 <i class="fas fa-sign-in-alt"></i>
                                 <span class="d-none d-md-inline-block ml-1">Sign In</span>
                             </a>
-                        </li>
-                    @endif
-                    @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
                     @endif
                 @else
@@ -163,22 +158,26 @@
                                 </a>
                             </li>
                         @endcan
-                        <li class="nav-item">
-                            <a href="{{ route('pharmacies.index') }}" class="nav-link">
-                                <i class="nav-icon fa-solid fa-prescription-bottle-medical"></i>
-                                <p>
-                                    Pharmacies
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('doctors.index') }}" class="nav-link">
-                                <i class=" nav-icon fa-solid fa-user-doctor"></i>
-                                <p>
-                                    Doctors
-                                </p>
-                            </a>
-                        </li>
+                        @hasrole('admin|pharmacy')
+                            <li class="nav-item">
+                                <a href="{{ route('pharmacies.index') }}" class="nav-link">
+                                    <i class="nav-icon fa-solid fa-prescription-bottle-medical"></i>
+                                    <p>
+                                        Pharmacies
+                                    </p>
+                                </a>
+                            </li>
+                        @endrole
+                        @hasrole('admin|pharmacy')
+                            <li class="nav-item">
+                                <a href="{{ route('doctors.index') }}" class="nav-link">
+                                    <i class=" nav-icon fa-solid fa-user-doctor"></i>
+                                    <p>
+                                        Doctors
+                                    </p>
+                                </a>
+                            </li>
+                        @endrole
                         <li class="nav-item">
                             <a href="{{ route('orders.index') }}" class="nav-link">
                                 <i class=" nav-icon fa fa-tablet "></i>
@@ -272,7 +271,7 @@
     <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
     <script src="{{ asset('dist/js/all.min.js') }}"></script>
 
-  
+
 
     @yield('script')
 

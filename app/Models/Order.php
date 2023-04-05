@@ -13,6 +13,7 @@ class Order extends Model
         'status',
         'ordered_by_id',
         'pharmacy_id',
+        'is_insured',
     ];
  
      public function orderable()

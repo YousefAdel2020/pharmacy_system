@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Http\Requests\API;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-
 
 class StoreOrderRequest extends FormRequest
 {
@@ -24,9 +22,7 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'is_insured'=>['required'],
-            'prescription.*'=>['required' , 'mimes:jpg,png' ],
-            'user_id' => ["numeric","exists:users,id"],
+            'user_id' => 'required|exists:clients,id'
         ];
     }
 }

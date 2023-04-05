@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreAddressRequest;
-use App\Models\Address;
+use App\Models\UserAddress;
 use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,23 +24,28 @@ class AddressController extends Controller
      public function store (StoreAddressRequest $request){
 
         $userId = Auth::user()->id;
-        $previousAddressIsPrim = Address::where('user_id',$userId)->where('is_primary_address', 1)->first();
+        $previousAddressIsPrim = UserAddress::where('user_id',$userId)->where('is_primary_address', 1)->first();
         if ( $request->input('is_primary_address') == 1 && !empty($previousAddressIsPrim) ) {
             $previousAddressIsPrim->is_primary_address = 0;
             $previousAddressIsPrim->save();
         }
-        Address::create([
+        $userid = Auth::user()->id;
+        $user = User::find($userid);
+        $client = $user->typeable;
+        $clientid = $client->id;
+        UserAddress::create([
             'street' => $request->street,
             'apartment_num' => $request->apartment_num,
             'floor_num' => $request->floor_num,
+            'building_number' => $request->building_number,
             'is_primary_address' => $request->is_primary_address,
-            'area_id' => $request->area_id,
             'user_id' => Auth::user()->id,
-            'client_id' => Auth::user()->id,
+            'client_id' => $clientid,
+            'area_id' => 1,
         ]);
 
     }
-    public function show (Address $address) {
+    public function show (UserAddress $address) {
         if (!$address->id){
             return response()->json(["message" => "This User does not have any addresses"],404);
         }
@@ -48,18 +53,22 @@ class AddressController extends Controller
         return new AddressResource($address);
         }
     }
-    public function update (Address $address , UpdateAddressRequest $request){
+    public function update (UserAddress $address , UpdateAddressRequest $request){
 
         if(!$address->id) {
             return response()->json(["message" => "This Address does not exists"],404);
         }
         else {
             $userId = Auth::user()->id;
-            $previousAddressIsPrim = Address::where('user_id',$userId)->where('is_primary_address', 1)->first();
+            $previousAddressIsPrim = UserAddress::where('user_id',$userId)->where('is_primary_address', 1)->first();
             if ( $request->input('is_primary_address') == 1 && !empty($previousAddressIsPrim) ) {
                 $previousAddressIsPrim->is_Prim = 0;
                 $previousAddressIsPrim->save();
             }
+            $userid = Auth::user()->id;
+            $user = User::find($userid);
+            $client = $user->typeable;
+            $clientid = $client->id;
             $address->update([
             'street' => $request->street,
             'apartment_num' => $request->apartment_num,
@@ -67,12 +76,12 @@ class AddressController extends Controller
             'is_primary_address' => $request->is_primary_address,
             'area_id' => $request->area_id,
             'user_id' => Auth::user()->id,
-            'client_id' => Auth::user()->id,
+            'client_id' => $clientid,
         ]);
 
         }
     }
-     public function destroy (Address $address) {
+     public function destroy (UserAddress $address) {
         if (!$address->id) {
             return response()->json(["message" => "This address does not exists for this user"],404);
         }

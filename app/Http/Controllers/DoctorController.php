@@ -7,6 +7,7 @@ use App\Http\Middleware\Authenticate;
 use App\Http\Requests\StoreDoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Models\Doctor;
+use App\Models\Pharmacy;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,7 @@ class DoctorController extends Controller
     public function index(DoctorsDataTable $doctorTable)
     {
         $user = Auth::user();
+        
         if ($user->hasRole('admin')) {
             $doctors = Doctor::with('pharmacy')->get();
         } else {
@@ -57,16 +59,25 @@ class DoctorController extends Controller
     public function store(StoreDoctorRequest $request)
     {
         $creator = Auth::user();
-
         $input = $request->only(['name','password','email','national_id','avatar']);
-        $path = $request->file('avatar')->store('public/images');
-        $path = str_replace('public', 'storage', $path);
+
+        $path = null;
+        if (isset($input['avatar'])) {
+            $path = $request->file('avatar')->store('public/images');
+            $path = str_replace('public', 'storage', $path);
+        }
 
         $password = $request->password;
         $verifiedPassword = $request->password2;
         if ($password != $verifiedPassword) {
             return redirect()->back()->withErrors(['password_confirmation' => 'The password confirmation does not match.']);
         }
+
+
+        if ($creator->typeable_type == "App\Models\Pharmacy") {
+            $pharmacy = Pharmacy::where('email', $creator->email)->first();
+        }
+
         $doctorCreate = Doctor::create([
             'name' => $input['name'],
             'email' => $input['email'],
@@ -74,7 +85,7 @@ class DoctorController extends Controller
             'national_id' => $input['national_id'],
             'avatar'=> $path,
             'is_banned'=> false,
-            'pharmacy_id' => 2,
+            'pharmacy_id' => (isset($pharmacy)) ? $pharmacy->id : null,
         ]);
 
         $check = $this->validate($request, [
@@ -83,14 +94,15 @@ class DoctorController extends Controller
              'password' => 'required|max:255|min:6',
          ]);
 
-
-        $user = User::create([
-            'name'=> $check['name'],
-            'email'=> $check['email'],
-            'password' => Hash::make($check['password']),
-            'typeable_id'=> $doctorCreate->id,
-            'typeable_type'=> 'app\Models\Doctor'
-        ]);
+        if ($doctorCreate) {
+            $user = User::create([
+                'name'=> $check['name'],
+                'email'=> $check['email'],
+                'password' => Hash::make($check['password']),
+                'typeable_id'=> $doctorCreate->id,
+                'typeable_type'=> 'app\Models\Doctor'
+            ]);
+        }
 
         if (!$user) {
             return redirect()->back()->withErrors(['Error' => 'Failed to register user']);
@@ -101,6 +113,7 @@ class DoctorController extends Controller
 
         $doctor->type()->save($user);
         $user->assignRole('doctor');
+
         return redirect()->route('doctors.index')->with('create', $doctorCreate);
     }
 
@@ -128,12 +141,15 @@ class DoctorController extends Controller
             ]);
         }
 
+        $oldDoctorEmail = $doctorFind->email;
+
         $doctorFind->update([
             'name'=> $input['name'],
             'email'=> $input['email'],
         ]);
 
-        $user = User::where('id', $doctorFind->id)->update([
+        $user = User::where('email', $oldDoctorEmail)->first();
+        $user->update([
             'name'=> $input['name'],
             'email'=> $input['email'],
         ]);
@@ -146,13 +162,18 @@ class DoctorController extends Controller
         $doctor=$doctorFind->refresh();
 
         $doctor->type()->save($user);
-
         return redirect()->route('doctors.index')->with('update', $doctorFind);
     }
 
     public function destroy($id)
     {
-        $deleted = Doctor::where('id', $id)->delete();
+        $doctor = Doctor::find($id);
+        $user = User::where('email', $doctor->email)->first();
+        $deleted = $doctor->delete();
+        $userDelete = $user->delete();
+        if (!$userDelete) {
+            return redirect()->back()->withErrors(['Error' => 'Failed to delete user']);
+        }
         return redirect()->route('doctors.index')->with('delete', $deleted);
     }
 }
