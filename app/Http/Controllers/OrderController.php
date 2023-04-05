@@ -8,7 +8,9 @@ use App\Models\Pharmacy;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\DataTables\OrdersDataTable;
+use App\Models\Client;
 use App\Models\Doctor;
+use App\Models\Useraddress;
 
 class OrderController extends Controller
 {
@@ -28,11 +30,13 @@ class OrderController extends Controller
     public function create()
     {
         $users = User::all();
+        $clients=Client::all();
         // $doctors = User::Role('Admin')->get();
         $doctors=Doctor::all();
         $medicines = Medicine::all();
         $pharmacy = Pharmacy::all();
-        return view('orders.create' ,['users'=>$users , 'medicines'=>$medicines , 'pharmacy'=>$pharmacy , 'doctors'=>$doctors]);
+        $userAddresses=Useraddress::all();
+        return view('orders.create' ,['users'=>$users , 'medicines'=>$medicines , 'pharmacy'=>$pharmacy , 'doctors'=>$doctors,'clients'=>$clients,'userAddresses'=>$userAddresses]);
     }
 
     /**

@@ -17,10 +17,10 @@
             <div class="card-body">
                     
                 <div class="form-group" data-select2-id="13">
-                  <label for="userName">User Name</label>
+                  <label for="userName">client Name</label>
                   <select name="userName" class="form-control select2" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                    @foreach($users as $user)
-                    <option>{{$user->name}}</option>
+                    @foreach($clients as $client)
+                    <option  value="{{$client->id}}">{{$client->name}}</option>
                     @endforeach
                   </select>
                   
@@ -79,7 +79,7 @@
                         <label for="DocName">Doctor Name</label>
                         <select name="DocName" class="form-control " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
                           @foreach($doctors as $doctor)
-                          <option>{{$doctor->name}}</option>
+                          <option value="{{$doctor->id}}">{{$doctor->name}}</option>
                           @endforeach
                         </select>
                   </div>
@@ -88,11 +88,36 @@
                         <label for="PharmacyName">Pharmacy Name</label>
                         <select name="PharmacyName" class="form-control " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
                           @foreach($pharmacy as $phar)
-                          <option>{{$phar->name}}</option>
+                          <option value="{{$phar->id}}">{{$phar->name}}</option>
                           @endforeach
                         </select>
                   </div>
             </div>
+
+
+
+            <div class="form-group">
+              <label for="delivering_address">Delivering Address</label>
+              <select name="delivering_address" class="form-control " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                @foreach($userAddresses as $userAddress)
+                <option value="{{$userAddress->id}}">{{$userAddress->street}}-{{$userAddress->city}}</option>
+                @endforeach
+              </select>
+        </div>
+  </div>
+            
+
+
+            <div class="form-group">
+              <label for="delivering_address">Delivering Address</label>
+              <select class="form-control"   name="delivering_address">
+                @foreach($medicines as $medicine)
+                <option value="{{$medicine->id}}">{{$medicine->name}}-{{$medicine->type}}</option>
+            @endforeach
+                  <!-- Add more options as needed -->
+              </select>
+          </div>
+
             <!-- /.card-body -->
 
             <div class="card-footer">
@@ -125,7 +150,7 @@
         $('#mySelect2').prop('disabled', true);
 
 
-
+        //& to select the same value multiple times
         $("select").on("select2:select", function (evt) {
         var element = evt.params.data.element;
         var $element = $(element);
