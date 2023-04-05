@@ -27,7 +27,8 @@ class AreaDataTable extends DataTable
                     'areas.action',
                     ['area' => $area]
                 );
-            })->addColumn(
+            })
+            ->addColumn(
                 'country_name',
                 function ($area) {
                     return
@@ -80,8 +81,6 @@ class AreaDataTable extends DataTable
                 ->printable(false)
                 ->width(180)
                 ->addClass('text-center'),
-
-
         ];
     }
 

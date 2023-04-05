@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -38,16 +39,20 @@ class OrdersDataTable extends DataTable
             })
             ->addColumn('creator_type', function (Order $order) {
                 $user = auth()->user();
-                $isAdmin = $user->hasRole('Admin');
-                if ($isAdmin) {
-                    return $order->user->getRoleNames()->first();
+                if (!$user) {
+                    return '-';
+                } else {
+                    $isAdmin = $user->hasRole('admin');
+                    if ($isAdmin && $order->user && $order->user->getRoleNames()->isNotEmpty()) {
+                        return $order->user->getRoleNames()->first();
+                    }
                 }
-                return '-';
             })
             ->addColumn('assigned_pharmacy', function (Order $order) {
                 $user = auth()->user();
-                $isAdmin = $user->hasRole('Admin');
-                if ($isAdmin) {
+                if (!$user) return '-';
+                $isAdmin = $user->hasRole('admin');
+                if ($isAdmin && $order->pharmacy) {
                     return $order->pharmacy ? $order->pharmacy->name : '';
                 }
                 return '-';
@@ -56,7 +61,10 @@ class OrdersDataTable extends DataTable
                 return $order->created_at->diffForHumans();
             })
             ->addColumn('Delivering Address', function (Order $order) {
-                return $order->pharmacy->area->address;
+                if ($order->pharmacy) {
+                    return $order->pharmacy->area->address;
+                }
+                return '-';
             })
             ->setRowId('id');
     }

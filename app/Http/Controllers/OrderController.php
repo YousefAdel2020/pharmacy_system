@@ -35,7 +35,7 @@ class OrderController extends Controller
         $doctors = Doctor::all();
         $medicines = Medicine::all();
         $pharmacy = Pharmacy::all();
-        return view('orders.create', ['users' => $users, 'medicine' => $medicines, 'pharmacy' => $pharmacy, 'doctors' => $doctors]);
+        return view('orders.create', ['users' => $users, 'medicines' => $medicines, 'pharmacy' => $pharmacy, 'doctors' => $doctors]);
     }
 
     /**
