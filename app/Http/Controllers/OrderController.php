@@ -12,8 +12,7 @@ use App\Http\Requests\StoreOrderRequest;
 use Illuminate\Http\Request;
 use App\DataTables\OrdersDataTable;
 use App\Models\Client;
-use App\Models\Doctor;
-use App\Models\Useraddress;
+use App\Models\OrderMedicine;
 
 class OrderController extends Controller
 {
@@ -49,37 +48,79 @@ class OrderController extends Controller
     public function store(StoreOrderRequest $request)
     {
 
-        $user = Auth::user();
-        //$useradd = UserAddress::find($request->delivering_address); //===needs the user address
-        $doctor = null;
-        $status = 'Processing';
+        // dd($request->all());
 
-        if ($user->hasRole('doctor')) {
-            $doctor = Doctor::find($user->typeable_id);
-            $creator = 'doctor';
-            $pharmacy = Pharmacy::find($doctor->pharmacy_id);
-            $doctor = $doctor->id;
-        } elseif ($user->hasRole('pharmacy')) {
-            $creator = 'pharmacy';
-            $pharmacy = Pharmacy::find($user->typeable_id);
-        } else {
-            $creator = 'admin';
-            $pharmacy = 1;  // needs the pirorty logic 
-            $status = 'New';
+
+        // $user = Auth::user();
+        // //$useradd = UserAddress::find($request->delivering_address); //===needs the user address
+        // $doctor = null;
+        // $status = 'processing';
+
+        // if ($user->hasRole('doctor')) {
+        //     $doctor = Doctor::find($user->typeable_id);
+        //     $creator = 'doctor';
+        //     $pharmacy = Pharmacy::find($doctor->pharmacy_id);
+        //     $doctor = $doctor->id;
+        // } elseif ($user->hasRole('pharmacy')) {
+        //     $creator = 'pharmacy';
+        //     $pharmacy = Pharmacy::find($user->typeable_id);
+        // } else {
+        //     $creator = 'admin';
+        //     $pharmacy = 1;  // needs the pirorty logic 
+        //     $status = 'New';
+        // }
+
+
+        // $doctor = Auth::user()->typeable_id;
+
+        $client_id=$request->client_id;
+        $doctor_id=$request->doctor_id;
+        $pharmacy_id=$request->Pharmacy_id;
+        $status = 'processing';
+        $is_insured=$request->is_insured;
+
+        $medicine_ids=$request->medicine_ids;
+        $qty=$request->qty;
+
+       
+
+        $orderTotalPrice=0;
+
+        for($i = 0 ; $i<count($medicine_ids);$i++){
+            $medicine = Medicine::find($medicine_ids[$i]);
+      
+         $orderTotalPrice+=(intval($medicine->price)*$qty[$i]);
         }
 
 
-        $doctor = Auth::user()->typeable_id;
-
-
         $order = Order::create([
-            'user_id' => $request->user_id,
+            'ordered_by_id' => $client_id,
             //'useraddress_id' => $request->delivering_address, //===needs the user address
-            'doctor_id' => $doctor,
-            'is_insured' => $request->is_insured ? $request->is_insured : 0,
+            'doctor_id' => $doctor_id,
+            'is_insured' => $is_insured,
             'status' => $status,
-            'pharmacy_id' => $pharmacy, // needs the pirorty logic
+            'pharmacy_id' => $pharmacy_id, // needs the pirorty logic
+            'total_price'=>$orderTotalPrice
         ]);
+
+
+        foreach ($medicine_ids as $key => $value) {
+
+            $order->medicines($value)->attach($value, ['quantity' => $qty[$key]]);
+        }
+
+        // for($i = 0 ; $i<count($medicine_ids);$i++){
+        //     $medicine= json_decode($medicine_ids[$i], true);
+        //     $medicine_order=OrderMedicine::create([
+               
+                
+        //         'order_id' =>$order['id'],
+        //         'medicine_id' =>$medicine_ids[$i],
+        //         'quantity' =>$qty[$i],
+        
+        //     ]);
+             
+        //  }
 
         return redirect()->route('orders.index')->with('success', 'Order created successfully.');
     }

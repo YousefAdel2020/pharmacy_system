@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Attribute;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,6 +16,7 @@ class Order extends Model
         'ordered_by_id',
         'pharmacy_id',
         'is_insured',
+        'total_price'
     ];
  
      public function orderable()
