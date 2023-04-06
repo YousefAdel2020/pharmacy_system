@@ -25,7 +25,12 @@ class MedicinesDataTable extends DataTable
             
             ->addColumn('action', function ($medicine) {
                 return view('medicine.action', ['id' => $medicine->id]);})
-            ->setRowId('id');
+            ->setRowId('id')
+
+            //& to show it as dollar in datatable 
+            ->addColumn('price', function (Medicine $medicine) {
+                return ($medicine->price/100)."$";
+            });
     }
 
     /**
