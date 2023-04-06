@@ -18,8 +18,8 @@ class Order extends Model
         'is_insured',
         'total_price'
     ];
- 
-     public function orderable()
+
+    public function orderable()
     {
         return $this->morphTo();
     }
@@ -30,11 +30,11 @@ class Order extends Model
 
     public function doctor()
     {
-        return $this->belongsTo(Doctor::class,'doctor_id');
+        return $this->belongsTo(Doctor::class, 'doctor_id');
     }
     public function pharmacy()
     {
-        return $this->belongsTo(Pharmacy::class,'pharmacy_id');
+        return $this->belongsTo(Pharmacy::class, 'pharmacy_id');
     }
     public function client()
     {
@@ -42,8 +42,12 @@ class Order extends Model
     }
     public function medicines()
     {
-        return $this->belongsToMany(Medicine::class,'order_medicine'
-            ,'order_id' ,'medicine_id')->withPivot('quantity');
+        return $this->belongsToMany(
+            Medicine::class,
+            'order_medicine',
+            'order_id',
+            'medicine_id'
+        )->withPivot('quantity');
     }
     protected function createdAt(): Attribute
     {
@@ -53,26 +57,26 @@ class Order extends Model
 
         );
     }
-     protected function status(): Attribute
+    protected function status(): Attribute
     {
-    return Attribute::make(
-        get: function (string $value) {
-            switch ($value) {
-                case 1:
-                    return "New";
-                case 2:
-                    return "Processing";
-                case 3:
-                    return "Waiting";
-                case 4:
-                    return "Cancelled";
-                case 5:
-                    return "Confirmed";
-                case 6:
-                    return "Delivered";
-                            }
-                                        },
-                        );
+        return Attribute::make(
+            get: function (string $value) {
+                switch ($value) {
+                    case 1:
+                        return "new";
+                    case 2:
+                        return "processing";
+                    case 3:
+                        return "waiting";
+                    case 4:
+                        return "cancelled";
+                    case 5:
+                        return "confirmed";
+                    case 6:
+                        return "delivered";
+                }
+            },
+        );
     }
     public static function totalPrice($qty, $med)
     {
