@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\NotifyUsersNotLoggedInForMonthCommand;
+use App\Jobs\AssignNewOrder;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,8 +15,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->job(new AssignNewOrder())->everyMinute();
         $schedule->command(NotifyUsersNotLoggedInForMonthCommand::class)->daily()->at('10:00');
-        $schedule->command(AssignOrdersCommand::class)->everyMinute();
     }
 
     /**
