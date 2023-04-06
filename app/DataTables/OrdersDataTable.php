@@ -104,7 +104,7 @@ class OrdersDataTable extends DataTable
     public function getColumns(): array
     {
         return   [
-            Column::make('id')->addClass('text-center')->hidden(),
+            Column::make('id')->addClass('text-center'),
             Column::make('status')->addClass('text-center'),
             Column::make('is_insured')->addClass('text-center'),
             Column::computed('User', 'Client Name')->addClass('text-center'),

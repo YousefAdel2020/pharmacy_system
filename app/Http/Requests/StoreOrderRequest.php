@@ -21,8 +21,22 @@ class StoreOrderRequest extends FormRequest
      */
     public function rules(): array
     {
+        $size = $this->input("medicine_ids") ? count($this->input("medicine_ids")) : 0;
+
+
         return [
-            // 'user_id' => 'required|exists:clients,id'
+            'medicine_ids' => ['required'],
+            'qty' => ['required', 'size:' . $size],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'qty.size' => 'Please Provide A Quantity For Each Medicine ',
+            'qty.required' => 'Please Check Your quantity Field is required',
+            'medicine_ids.required' => 'Please Check Your Medicine Field is required',
+            'medicine_ids.exists' => 'Please Create Medicine First',
         ];
     }
 }

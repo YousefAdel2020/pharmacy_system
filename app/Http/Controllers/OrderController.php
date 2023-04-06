@@ -11,6 +11,7 @@ use App\Models\Useraddress;
 use App\Http\Requests\StoreOrderRequest;
 use Illuminate\Http\Request;
 use App\DataTables\OrdersDataTable;
+use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Client;
 use App\Models\OrderMedicine;
 
@@ -34,7 +35,6 @@ class OrderController extends Controller
     {
         $users = User::all();
         $clients=Client::all();
-        // $doctors = User::Role('Admin')->get();
         $doctors = Doctor::all();
         $medicines = Medicine::all();
         $pharmacy = Pharmacy::all();
@@ -48,30 +48,7 @@ class OrderController extends Controller
     public function store(StoreOrderRequest $request)
     {
 
-        // dd($request->all());
-
-
-        // $user = Auth::user();
-        // //$useradd = UserAddress::find($request->delivering_address); //===needs the user address
-        // $doctor = null;
-        // $status = 'processing';
-
-        // if ($user->hasRole('doctor')) {
-        //     $doctor = Doctor::find($user->typeable_id);
-        //     $creator = 'doctor';
-        //     $pharmacy = Pharmacy::find($doctor->pharmacy_id);
-        //     $doctor = $doctor->id;
-        // } elseif ($user->hasRole('pharmacy')) {
-        //     $creator = 'pharmacy';
-        //     $pharmacy = Pharmacy::find($user->typeable_id);
-        // } else {
-        //     $creator = 'admin';
-        //     $pharmacy = 1;  // needs the pirorty logic 
-        //     $status = 'New';
-        // }
-
-
-        // $doctor = Auth::user()->typeable_id;
+      
 
         $client_id=$request->client_id;
         $doctor_id=$request->doctor_id;
@@ -95,11 +72,11 @@ class OrderController extends Controller
 
         $order = Order::create([
             'ordered_by_id' => $client_id,
-            //'useraddress_id' => $request->delivering_address, //===needs the user address
+           
             'doctor_id' => $doctor_id,
             'is_insured' => $is_insured,
             'status' => $status,
-            'pharmacy_id' => $pharmacy_id, // needs the pirorty logic
+            'pharmacy_id' => $pharmacy_id, 
             'total_price'=>$orderTotalPrice
         ]);
 
@@ -109,18 +86,7 @@ class OrderController extends Controller
             $order->medicines($value)->attach($value, ['quantity' => $qty[$key]]);
         }
 
-        // for($i = 0 ; $i<count($medicine_ids);$i++){
-        //     $medicine= json_decode($medicine_ids[$i], true);
-        //     $medicine_order=OrderMedicine::create([
-               
-                
-        //         'order_id' =>$order['id'],
-        //         'medicine_id' =>$medicine_ids[$i],
-        //         'quantity' =>$qty[$i],
-        
-        //     ]);
-             
-        //  }
+    
 
         return redirect()->route('orders.index')->with('success', 'Order created successfully.');
     }
@@ -140,24 +106,51 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit( $id)
     {
         $users = User::all();
+        $clients = Client::all();
         $doctors = User::Role('Admin')->get();
         $pharmacy = Pharmacy::all();
         $order = Order::find($id);
-        return view('orders.edit', ['order' => $order, 'users' => $users, 'pharmacy' => $pharmacy, 'doctors' => $doctors]);
+        return view('orders.edit', ['order' => $order, 'clients' => $clients, 'pharmacy' => $pharmacy, 'doctors' => $doctors]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateOrderRequest $request,  $id)
     {
-        //
-        return redirect()->route('orders.index')->with('success', 'Order updated successfully.');
-    }
+        $order=Order::findorFail($id);
+        $is_insured = $request->is_insured;
+        $client_id = $request->client_id;
+        $status=$request->status;
+        $pharmacy_id=$request->pharmacy_id;
 
+        if(!isset($client_id))
+        {
+            $client_id=$order->ordered_by_id;
+        }
+        if(!isset($is_insured))
+        {
+            $is_insured=$order->is_insured;
+        }
+        if(!isset($pharmacy_id))
+        {
+            $pharmacy_id=$order->pharmacy_id;
+        }
+        
+
+        $order->update([
+            'status'=>$status,
+            'is_insured' => $is_insured,
+            'ordered_by_id' => $client_id,
+            'pharmacy_id'=>$pharmacy_id,
+
+        ]);
+
+        return to_route('orders.index');
+    }
     /**
      * Remove the specified resource from storage.
      */
