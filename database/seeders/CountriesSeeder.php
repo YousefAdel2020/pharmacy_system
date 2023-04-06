@@ -5,7 +5,6 @@ use Webpatser\Countries\Countries;
 
 class CountriesSeeder extends Seeder
 {
-
     /**
      * Run the database seeds.
      *
