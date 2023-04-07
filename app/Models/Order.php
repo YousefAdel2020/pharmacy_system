@@ -46,10 +46,10 @@ class Order extends Model
             ,'order_id' ,'medicine_id')->withPivot('quantity');
     }
 
-    //& public function prescription()
-    // {
-    //     return $this->hasMany(Presciption::class, 'order_id');
-    // }
+     public function prescription()
+    {
+        return $this->hasMany(Prescription::class, 'order_id');
+    }
     protected function createdAt(): Attribute
     {
         return Attribute::make(
