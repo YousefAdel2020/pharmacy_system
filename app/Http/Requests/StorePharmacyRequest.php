@@ -26,10 +26,10 @@ class StorePharmacyRequest extends FormRequest
             'name' => ["required", "max:255"],
             'password' => ["required", "max:255", "min:6"],
             'email' => [
-                ['required',"max:255",'unique:pharmacies,national_id,'.$this->doctor]
+                ['required',"max:255",'unique:pharmacies,national_id,'.$this->pharmacy]
             ],
             'national_id' => [
-                ['required','unique:pharmacies,national_id,'.$this->doctor]
+                ['required','unique:pharmacies,national_id,'.$this->pharmacy]
                 ],
             'avatar' => 'file|mimes:jpeg,png,jpg|max:2048'
 

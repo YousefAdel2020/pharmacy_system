@@ -8,8 +8,7 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
+
 use Yajra\DataTables\Services\DataTable;
 
 class PharmaciesDataTable extends DataTable
@@ -23,10 +22,16 @@ class PharmaciesDataTable extends DataTable
     {
         $pharmacy = Pharmacy::withTrashed();
         return (new EloquentDataTable($query))
-        ->addColumn('action', function ($pharmacys) use ($pharmacy) {
-            return view('pharmacy.action', ['pharmacies'=>$pharmacys,'id' => $pharmacys->id,'pharmacy'=>$pharmacy]);
-        })
-    
+            ->addColumn('action', function ($pharmacys) use ($pharmacy) {
+                return view('pharmacy.action', ['pharmacies' => $pharmacys, 'id' => $pharmacys->id, 'pharmacy' => $pharmacy]);
+            })->addColumn(
+                'area',
+                function ($userAddress) {
+                    return
+                        $userAddress->area->name;
+                }
+            )
+
             ->setRowId('id');
     }
 
@@ -44,20 +49,19 @@ class PharmaciesDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('pharmacies-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('pharmacies-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -67,18 +71,17 @@ class PharmaciesDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('avatar'),
             Column::make('name'),
+            Column::make('area'),
             Column::make('email'),
             Column::make('national_id'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
-            
+
+
             Column::computed('action')
-            ->exportable(false)
-            ->printable(false)
-            ->width(60)
-            ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(260)
+                ->addClass('text-center'),
         ];
     }
 

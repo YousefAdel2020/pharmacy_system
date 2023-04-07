@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Area;
 use Illuminate\Support\Facades\Storage;
 use App\Jobs\PruneOldPostsJob;
 use App\Http\Middleware\Authenticate;
@@ -31,18 +32,20 @@ class PharmacyController extends Controller
         $update = null;
         $delete = null;
         $restore = null;
-    
-       return $pharamcyTable->render('pharmacy.index', compact(
-        'pharmacies',
-        'update',
-        'delete',
-        'restore',
 
-    ));
+        return $pharamcyTable->render('pharmacy.index', compact(
+            'pharmacies',
+            'update',
+            'delete',
+            'restore',
+
+        ));
     }
     public function create()
     {
-        return view('pharmacies.create');
+        $areas = Area::all();
+
+        return view('pharmacy.create', ["areas" => $areas]);
     }
     public function show($id)
     {
@@ -52,17 +55,17 @@ class PharmacyController extends Controller
         }
         return view('pharmacies.show')->with('pharmacy', $id);
 
-       
-       // $this->authorize('view',$id);
-       // return view('pharmacy.show', [
-         //   'pharmacy' => $id
-      //  ]);
+
+        // $this->authorize('view',$id);
+        // return view('pharmacy.show', [
+        //   'pharmacy' => $id
+        //  ]);
     }
-   
+
     public function store(StorePharmacyRequest $request)
     {
         $creator = Auth::user();
-        $input = $request->only(['name','password','email','national_id','avatar']);
+        $input = $request->only(['name', 'password', 'email', 'national_id', 'avatar', 'area_id']);
         $path = $request->file('avatar')->store('public/images');
         $path = str_replace('public', 'storage', $path);
 
@@ -74,12 +77,12 @@ class PharmacyController extends Controller
         $pharmacyCreate = Pharmacy::create([
             'name' => $input['name'],
             'email' => $input['email'],
-            'password'=> Hash::make($password),
+            'password' => Hash::make($password),
             'national_id' => $input['national_id'],
-            'avatar'=> $path,
-            'is_deleted'=> false,
-            'area_id' =>1,
-           
+            'avatar' => $path,
+            'is_deleted' => false,
+            'area_id' => 1,
+
         ]);
         $check = $this->validate($request, [
             'name' => 'required',
@@ -87,18 +90,18 @@ class PharmacyController extends Controller
             'password' => 'required|max:255|min:6',
         ]);
         $user = User::create([
-            'name'=> $check['name'],
-            'email'=> $check['email'],
+            'name' => $check['name'],
+            'email' => $check['email'],
             'password' => Hash::make($check['password']),
-            'typeable_id'=> $pharmacyCreate->id,
-            'typeable_type'=> 'app\Models\Pharmacy'
+            'typeable_id' => $pharmacyCreate->id,
+            'typeable_type' => 'app\Models\Pharmacy'
         ]);
         if (!$user) {
             return redirect()->back()->withErrors(['Error' => 'Failed to register user']);
         }
-        
+
         $user = $user->refresh();
-        $pharmacy=$pharmacyCreate->refresh();
+        $pharmacy = $pharmacyCreate->refresh();
 
         $pharmacy->type()->save($user);
         $user->assignRole('pharmacy');
@@ -114,13 +117,12 @@ class PharmacyController extends Controller
         if (!$pharmacy) {
             abort(404);
         }
-        return view('pharmacies.edit')->with('pharmacy', $pharmacy);
-  
+        return view('pharmacy.edit')->with('pharmacy', $pharmacy);
     }
 
     public function update(UpdatePharmacyRequest $request, $id)
     {
-        $input = $request->only(['name','email','avatar']);
+        $input = $request->only(['name', 'email', 'avatar']);
 
         $pharmacyFind = Pharmacy::find($id);
 
@@ -129,28 +131,28 @@ class PharmacyController extends Controller
             $path = str_replace('public', 'storage', $path);
 
             $pharmacyFind->update([
-                'avatar'=> $path
+                'avatar' => $path
             ]);
         }
 
         $pharmacyFind->update([
-            'name'=> $input['name'],
-            'email'=> $input['email'],
+            'name' => $input['name'],
+            'email' => $input['email'],
 
         ]);
         $user = User::where('id', $pharmacyFind->id)->update([
-            'name'=> $input['name'],
-            'email'=> $input['email'],
+            'name' => $input['name'],
+            'email' => $input['email'],
         ]);
         if (!$user) {
             return redirect()->back()->withErrors(['Error' => 'Failed to register user']);
         }
         $user = $user->refresh();
-        $pharmacy=$pharmacyFind->refresh();
+        $pharmacy = $pharmacyFind->refresh();
 
         $pharmacy->type()->save($user);
 
-        
+
         return redirect()->route('pharmacies.index')->with('update', $pharmacyFind);
     }
 
@@ -160,10 +162,10 @@ class PharmacyController extends Controller
         $deleted = Pharmacy::where('id', $id)->delete();
         return redirect()->route('pharmacies.index')->with('delete', $deleted);
     }
-   /////////////////////////////////
+    /////////////////////////////////
 
- public function Softdelete(Pharmacy $pharmacy, Request $request)
-    {    
+    public function Softdelete(Pharmacy $pharmacy, Request $request)
+    {
         $pharmacy->delete();
         return response()->json([
             'success' => 'Record deleted successfully!'
@@ -173,7 +175,7 @@ class PharmacyController extends Controller
     public function readsoftdelete()
     {
         $pharmacies = Pharmacy::onlyTrashed()
-                    ->get();
+            ->get();
         return view('pharmacy.softdelete', [
             'deletedPharmacies' => $pharmacies
         ]);
@@ -184,5 +186,10 @@ class PharmacyController extends Controller
         $pharmacy->restore();
         return redirect()->route('pharmacies.index');
     }
-
+    public function trash()
+    {
+        $pharmacies = Pharmacy::onlyTrashed()->all();
+        $data = compact('pharmacies');
+        return view('pharmacies.trash')->with($data);
+    }
 }
