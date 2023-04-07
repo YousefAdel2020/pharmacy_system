@@ -28,11 +28,11 @@ class AssignNewOrder implements ShouldQueue
      */
     public function handle(): void
     {
-        $orders = Order::where('status', 'new')->get();
+        $orders = Order::where('status', 1)->get();
         foreach ($orders as $order) {
             $orderArea = $order->client->addresses()->where('is_primary_address', 1)->first()->area_id;
             $order->pharmacy_id = Pharmacy::where('area_id', $orderArea)->orderBy('priority', 'desc')->first()->id ?? 1;
-            $order->status = 'processing';
+            $order->status = 2;
             $order->save();
         }
     }

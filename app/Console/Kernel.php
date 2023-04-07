@@ -2,10 +2,10 @@
 
 namespace App\Console;
 
+use App\Jobs\AssignNewOrder;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\NotifyUsersNotLoggedInForMonthCommand;
-use App\Jobs\AssignNewOrder;
 
 class Kernel extends ConsoleKernel
 {
@@ -31,6 +31,7 @@ class Kernel extends ConsoleKernel
         return [
             \App\Console\Commands\CreateAdminUser::class,
             \App\Console\Commands\NotifyUsersNotLoggedInForMonthCommand::class,
+            \App\Jobs\AssignNewOrder::class,
 
         ];
     }

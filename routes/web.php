@@ -33,6 +33,7 @@ Route::get('/', function () {
 })->name('index');
 
 
+Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 
 // ================= User Route
 Route::group(
@@ -68,7 +69,7 @@ Route::group(
 
 // =================  for Pharmacy ================
 
-Route::group(['middleware' => ['role:admin|pharmacy', 'auth'],], function () {
+Route::group(['middleware' => ['role:admin|pharmacy', 'auth']], function () {
     Route::get('/pharmacies', [PharmacyController::class, 'index'])->name('pharmacies.index');
     Route::get('/pharmacies/create', [PharmacyController::class, 'create'])->name('pharmacies.create');
     Route::post('/pharmacies', [PharmacyController::class, 'store'])->name('pharmacies.store');
@@ -88,9 +89,11 @@ Route::middleware(['auth', 'role:admin|pharmacy'])->group(function () {
     Route::post('/doctors', [DoctorController::class, 'store'])->name('doctors.store');
     Route::get('/doctors/{id}', [DoctorController::class, 'show'])->name('doctors.show');
     Route::get('/doctors/{id}/edit', [DoctorController::class, 'edit'])->name('doctors.edit');
-    Route::put('/doctors/{id}', [DoctorController::class, 'update'])->name('doctors.update');
+    
     Route::delete('/doctors/{id}', [DoctorController::class, 'destroy'])->name('doctors.destroy');
 });
+Route::put('/doctors/{id}', [DoctorController::class, 'update'])->name('doctors.update');
+
 Route::middleware(['auth', 'role:admin|pharmacy'])->group(function () {
     Route::post('/bans', [BanController::class, 'ban'])->name('doctors.ban');
     Route::post('/unbans', [BanController::class, 'unban'])->name('doctors.unban');
@@ -149,23 +152,27 @@ Route::group(
 // ajax
 Route::get('countries/{id}/fetch-areas', [AreaController::class, 'fetchArea']);
 
-
 // =================  for Order ================
-Route::prefix('orders')->group(function () {
-    Route::get('/', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/create', [
-        OrderController::class, 'create'
-    ])->name('orders.create');
-    Route::post('/', [OrderController::class, 'store'])->name('orders.store');
-    Route::get('/{order}', [OrderController::class, 'show'])->name('orders.show');
-    Route::get('/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
-    Route::put('/{order}', [OrderController::class, 'update'])->name('orders.update');
-    Route::delete('/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
-    Route::put('/{id}/assign', [OrderController::class, 'assignOrderToPharmacy']);
+Route::group(
+    [
+        'prefix' => 'orders',
+        'middleware' => ['role:admin|pharmacy|doctor', 'auth'],
+    ],
+    function () {
+        Route::get('/', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/create', [OrderController::class, 'create'])->name('orders.create');
+        Route::post('/', [OrderController::class, 'store'])->name('orders.store');
+        Route::get('/{order}', [OrderController::class, 'show'])->name('orders.show');
+        Route::get('/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+        Route::put('/{order}', [OrderController::class, 'update'])->name('orders.update');
+        Route::delete('/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
+        Route::put('/{id}/assign', [OrderController::class, 'assignOrderToPharmacy']);
 
-    Route::get('/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
-    Route::get('/{order}/confirm', [OrderController::class, 'confirm'])->name('orders.confirm');
-});
+        Route::get('/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+        Route::get('/{order}/confirm', [OrderController::class, 'confirm'])->name('orders.confirm');
+    }
+);
+
 //=================== for revenue ==============
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/revenue', [RevnueController::class, 'index'])->name('revenues.index');
@@ -175,7 +182,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 //=================== for stripe payment ==============
-Route::controller(StripePaymentController::class)->group(function(){
+Route::controller(StripePaymentController::class)->group(function () {
     Route::get('stripe/{order}', 'stripe')->name("stripe.confirm");
     Route::post('stripe/{order}', 'stripePost')->name('stripe.post');
 });

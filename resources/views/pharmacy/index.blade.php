@@ -37,35 +37,20 @@
     </div>
 
 
- <table id="pharmacies-table" class="table-striped">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Pharmacy Name</th>
-                <th scope="col">Area-ID</th>
-                <th scope="col">Email</th>
-                <th scope="col">National-ID</th>
-                <th scope="col">Created_At</th>
-                <th scope="col">Updated_at</th>
-                <th scope="col">Actions</th>
 
-            </tr>
-        </thead>
-      
-    </table>
-   
+    {{ $dataTable->table() }}
     <div class="text-center">
         <a href="{{ route('pharmacies.create') }}" class="m-4 btn btn-success">Add New Pharmacy</a>
     </div>
-    @if($update)
-<div id="updateMsg" class="alert alert-success">Updated Successfully</div>
-@endif
-
-@if($delete)
-<div id="deleteMsg" class="alert alert-success">Deleted Successfully</div>
-@endif
-
 @endsection
+@if ($update)
+    <div id="updateMsg" class="alert alert-success">Updated Successfully</div>
+@endif
+
+@if ($delete)
+    <div id="deleteMsg" class="alert alert-success">Deleted Successfully</div>
+@endif
+
 
 
 
@@ -79,22 +64,21 @@
                 "info": true
             });
         });
-    
     </script>
     <script>
-	const updateMsg = document.getElementById("updateMsg");
-	const deleteMsg = document.getElementById("deleteMsg");
-	window.addEventListener('load', function() {
-		setTimeout(function() {
-			updateMsg.remove();
-		}, 1500);
+        const updateMsg = document.getElementById("updateMsg");
+        const deleteMsg = document.getElementById("deleteMsg");
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                updateMsg.remove();
+            }, 1500);
 
-		setTimeout(function() {
-			deleteMsg.remove();
-		}, 1500);
-	});
-</script>
+            setTimeout(function() {
+                deleteMsg.remove();
+            }, 1500);
+        });
+    </script>
     {{ $dataTable->scripts() }}
-  
+
 
 @endsection
