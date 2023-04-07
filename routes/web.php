@@ -89,7 +89,7 @@ Route::middleware(['auth', 'role:admin|pharmacy'])->group(function () {
     Route::post('/doctors', [DoctorController::class, 'store'])->name('doctors.store');
     Route::get('/doctors/{id}', [DoctorController::class, 'show'])->name('doctors.show');
     Route::get('/doctors/{id}/edit', [DoctorController::class, 'edit'])->name('doctors.edit');
-    
+
     Route::delete('/doctors/{id}', [DoctorController::class, 'destroy'])->name('doctors.destroy');
 });
 Route::put('/doctors/{id}', [DoctorController::class, 'update'])->name('doctors.update');
@@ -99,7 +99,7 @@ Route::middleware(['auth', 'role:admin|pharmacy'])->group(function () {
     Route::post('/unbans', [BanController::class, 'unban'])->name('doctors.unban');
 });
 //=============== UserAddress Routes
-Route::prefix('/user-address')->group(
+Route::prefix('/user-address')->middleware(['auth', 'role:admin|pharmacy'])->group(
     function () {
         Route::get(
             '/',
@@ -137,7 +137,7 @@ Route::get('medicines/data', [MedicinesDataTable::class, 'query'])->name('medici
 
 
 // =================  for roles
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::resource('roles', RoleController::class);
     // Route::resource('users', 'UserController');
 });

@@ -54,12 +54,6 @@ class PharmacyController extends Controller
             abort(404);
         }
         return view('pharmacies.show')->with('pharmacy', $id);
-
-
-        // $this->authorize('view',$id);
-        // return view('pharmacy.show', [
-        //   'pharmacy' => $id
-        //  ]);
     }
 
     public function store(StorePharmacyRequest $request)
@@ -111,8 +105,7 @@ class PharmacyController extends Controller
 
     public function edit($id)
     {
-        //$pharmacy = Pharmacy::findorFail($id);
-        //return view('pharmacy.edit', ['pharmacy' => $pharmacy]);
+
         $pharmacy = Pharmacy::where('id', $id)->first();
         if (!$pharmacy) {
             abort(404);
@@ -170,7 +163,6 @@ class PharmacyController extends Controller
         return response()->json([
             'success' => 'Record deleted successfully!'
         ]);
-        // return redirect()->route('pharmacies.index');
     }
     public function readsoftdelete()
     {

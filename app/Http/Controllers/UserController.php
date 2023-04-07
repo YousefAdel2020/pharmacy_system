@@ -41,8 +41,8 @@ class UserController extends Controller
         } elseif ($getUser->typeable_type == 'App\Models\Pharmacy') {
             $userType = Pharmacy::where('email', $getUser->email)->first();
         }
-        
-        switch($role->name) {
+
+        switch ($role->name) {
             case "admin":
                 $myRoute = route('users.update', $user->id);
                 break;
@@ -58,9 +58,9 @@ class UserController extends Controller
 
         return view('profile')->with([
             'user' => $getUser,
-            'role'=> $role->name ,
-            'userType'=>$userType,
-            'myRoute'=> $myRoute
+            'role' => $role->name,
+            'userType' => $userType,
+            'myRoute' => $myRoute
         ]);
     }
 
@@ -81,7 +81,6 @@ class UserController extends Controller
             'role' => $role,
             'is_insured' => $is_insured,
         ]);
-        // $user->assignRole($request->input('role'));
         return redirect()->route("users.index");
     }
     public function update(User $user, UpdateUserRequest $request)

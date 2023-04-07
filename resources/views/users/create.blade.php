@@ -23,8 +23,7 @@
             <div class="card-header">
                 <h3 class="card-title">Create User</h3>
             </div>
-            <!-- /.card-header -->
-            <!-- form start -->
+           
             <form action="{{ route('users.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('post')
@@ -57,13 +56,11 @@
                         <label class="form-check-label" for="is_insured">Has insurance</label>
                     </div>
                 </div>
-                <!-- /.card-body -->
 
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>
-        <!-- /.card -->
     </div>
 @endsection
