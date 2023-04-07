@@ -162,7 +162,7 @@ class DoctorController extends Controller
         $doctor=$doctorFind->refresh();
 
         $doctor->type()->save($user);
-        return redirect()->route('doctors.index')->with('update', $doctorFind);
+        return back();
     }
 
     public function destroy($id)

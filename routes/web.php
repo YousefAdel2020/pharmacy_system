@@ -33,6 +33,7 @@ Route::get('/', function () {
 })->name('index');
 
 
+Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 
 // ================= User Route
 Route::group(
@@ -88,9 +89,11 @@ Route::middleware(['auth', 'role:admin|pharmacy'])->group(function () {
     Route::post('/doctors', [DoctorController::class, 'store'])->name('doctors.store');
     Route::get('/doctors/{id}', [DoctorController::class, 'show'])->name('doctors.show');
     Route::get('/doctors/{id}/edit', [DoctorController::class, 'edit'])->name('doctors.edit');
-    Route::put('/doctors/{id}', [DoctorController::class, 'update'])->name('doctors.update');
+    
     Route::delete('/doctors/{id}', [DoctorController::class, 'destroy'])->name('doctors.destroy');
 });
+Route::put('/doctors/{id}', [DoctorController::class, 'update'])->name('doctors.update');
+
 Route::middleware(['auth', 'role:admin|pharmacy'])->group(function () {
     Route::post('/bans', [BanController::class, 'ban'])->name('doctors.ban');
     Route::post('/unbans', [BanController::class, 'unban'])->name('doctors.unban');
