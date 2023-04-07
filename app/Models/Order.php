@@ -18,8 +18,8 @@ class Order extends Model
         'is_insured',
         'total_price'
     ];
- 
-     public function orderable()
+
+    public function orderable()
     {
         return $this->morphTo();
     }
@@ -30,11 +30,11 @@ class Order extends Model
 
     public function doctor()
     {
-        return $this->belongsTo(Doctor::class,'doctor_id');
+        return $this->belongsTo(Doctor::class, 'doctor_id');
     }
     public function pharmacy()
     {
-        return $this->belongsTo(Pharmacy::class,'pharmacy_id');
+        return $this->belongsTo(Pharmacy::class, 'pharmacy_id');
     }
     public function client()
     {
@@ -42,8 +42,12 @@ class Order extends Model
     }
     public function medicines()
     {
-        return $this->belongsToMany(Medicine::class,'order_medicine'
-            ,'order_id' ,'medicine_id')->withPivot('quantity');
+        return $this->belongsToMany(
+            Medicine::class,
+            'order_medicine',
+            'order_id',
+            'medicine_id'
+        )->withPivot('quantity');
     }
 
     //& public function prescription()
@@ -58,26 +62,26 @@ class Order extends Model
 
         );
     }
-     protected function status(): Attribute
+    protected function status(): Attribute
     {
-    return Attribute::make(
-        get: function (string $value) {
-            switch ($value) {
-                case 1:
-                    return "new";
-                case 2:
-                    return "processing";
-                case 3:
-                    return "waiting";
-                case 4:
-                    return "cancelled";
-                case 5:
-                    return "confirmed";
-                case 6:
-                    return "delivered";
-                            }
-                                        },
-                        );
+        return Attribute::make(
+            get: function (string $value) {
+                switch ($value) {
+                    case 1:
+                        return "new";
+                    case 2:
+                        return "processing";
+                    case 3:
+                        return "waiting";
+                    case 4:
+                        return "cancelled";
+                    case 5:
+                        return "confirmed";
+                    case 6:
+                        return "delivered";
+                }
+            },
+        );
     }
     public static function totalPrice($qty, $med)
     {
@@ -91,15 +95,5 @@ class Order extends Model
         }
 
         return $total;
-    }
-    public static function createOrderMedicine($order, $med, $qty)
-    {
-
-        for ($x = 0; $x < count($med); $x++) {
-
-            $id = Medicine::all()->where('name', $med[$x])->first()->id;
-
-            $order->medicines($id)->attach(1, ['quantity' => $qty[$x]]);
-        }
     }
 }
