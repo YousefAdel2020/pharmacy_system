@@ -12,8 +12,10 @@ use App\Http\Requests\StoreOrderRequest;
 use Illuminate\Http\Request;
 use App\DataTables\OrdersDataTable;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Mail\ConfirmPriceMail;
 use App\Models\Client;
 use App\Models\OrderMedicine;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -86,6 +88,27 @@ class OrderController extends Controller
             $order->medicines($value)->attach($value, ['quantity' => $qty[$key]]);
         }
 
+
+        $confirmUrl = url("stripe/$order->id");
+        $cancelUrl = url("/orders/$order->id/cancel");
+        $orderInfo = [];
+        foreach ($medicine_ids as $index => $medicine) {
+            $medicine = Medicine::find($medicine);
+            $orderInfo[] = [
+                'medicines' => $medicine->name,
+                'quantity'=> $qty[$index],
+                'price'=> ($medicine->price * $qty[$index])/100,
+            ];
+        }
+      
+        $client=Client::findOrFail($client_id);
+        Mail::to($client->email)
+        ->queue(new ConfirmPriceMail(
+            $confirmUrl
+            ,$cancelUrl
+            ,$orderInfo,
+            $orderTotalPrice));
+
     
 
         return redirect()->route('orders.index')->with('success', 'Order created successfully.');
@@ -96,7 +119,7 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        
 
 
         $order = Order::find($id);
@@ -175,4 +198,28 @@ class OrderController extends Controller
 
         // Other logic for assigning order to a pharmacy
     }
+
+
+    
+    public function cancel($id)
+    {
+    $order=Order::findOrFail($id);
+    $order->update([
+        'status' => 4
+    ]);
+
+    return view('stripes.cancel');
+    
+    }
+
+    public function confirm($id)
+    {
+    
+
+    return view('stripes.thank-you');
+    
+    }
+
+
+
 }

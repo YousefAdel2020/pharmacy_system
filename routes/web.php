@@ -11,10 +11,7 @@ use App\Http\Controllers\BanController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RevnueController;
 use App\Http\Controllers\RevenuePharmController;
-
-
-
-
+use App\Http\Controllers\StripePaymentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Models\Area;
@@ -165,6 +162,9 @@ Route::prefix('orders')->group(function () {
     Route::put('/{order}', [OrderController::class, 'update'])->name('orders.update');
     Route::delete('/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
     Route::put('/{id}/assign', [OrderController::class, 'assignOrderToPharmacy']);
+
+    Route::get('/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+    Route::get('/{order}/confirm', [OrderController::class, 'confirm'])->name('orders.confirm');
 });
 //=================== for revenue ==============
 Route::group(['middleware' => ['auth']], function () {
@@ -173,6 +173,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/revenuePer', [RevenuePharmController::class, 'index'])->name('revenuePerPharmacy.index');
 });
 
+
+//=================== for stripe payment ==============
+Route::controller(StripePaymentController::class)->group(function(){
+    Route::get('stripe/{order}', 'stripe')->name("stripe.confirm");
+    Route::post('stripe/{order}', 'stripePost')->name('stripe.post');
+});
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -37,7 +37,7 @@ class ConfirmPriceMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.confirm-price',
+            markdown: 'emails.confirm-price',
             with: [
                 'confirmUrl' => $this->confirmUrl,
                 'cancelUrl' => $this->cancelUrl,

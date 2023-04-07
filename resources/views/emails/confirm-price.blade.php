@@ -1,17 +1,19 @@
-<p>Dear Customer,</p>
+<x-mail::message>
+# your order info:
+ 
+Dear Customer,
+the order total price is: {{($totalPrice)/100}}$
+please confirm you order or cancel it
 
-<p>Please confirm your order by clicking the following link:</p>
-<p><a href="{{ $confirmUrl }}">Confirm Order</a></p>
+ 
+<x-mail::button :url="$confirmUrl">
+    confirm
+</x-mail::button>
 
-<p>If you want to cancel your order, please click the following link:</p>
-<p><a href="{{ $cancelUrl }}">Cancel Order</a></p>
+<x-mail::button :url="$cancelUrl">
+    cancel
+</x-mail::button>
+Thank you for choosing our pharmacy!
+</x-mail::message>
 
-<p>Order Information:</p>
-<ul>
-    <li>Product: {{ $orderInfo['product'] }}</li>
-    <li>Quantity: {{ $orderInfo['quantity'] }}</li>
-    <li>Price: {{ $orderInfo['price'] }}</li>
-    <li>Total: {{ $totalPrice }}</li>
-</ul>
 
-<p>Thank you for choosing our pharmacy!</p>
