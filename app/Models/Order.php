@@ -49,6 +49,11 @@ class Order extends Model
             'medicine_id'
         )->withPivot('quantity');
     }
+
+    //& public function prescription()
+    // {
+    //     return $this->hasMany(Presciption::class, 'order_id');
+    // }
     protected function createdAt(): Attribute
     {
         return Attribute::make(
@@ -90,15 +95,5 @@ class Order extends Model
         }
 
         return $total;
-    }
-    public static function createOrderMedicine($order, $med, $qty)
-    {
-
-        for ($x = 0; $x < count($med); $x++) {
-
-            $id = Medicine::all()->where('name', $med[$x])->first()->id;
-
-            $order->medicines($id)->attach(1, ['quantity' => $qty[$x]]);
-        }
     }
 }

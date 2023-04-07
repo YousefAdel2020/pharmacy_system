@@ -12,8 +12,10 @@ use App\Http\Requests\StoreOrderRequest;
 use Illuminate\Http\Request;
 use App\DataTables\OrdersDataTable;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Mail\ConfirmPriceMail;
 use App\Models\Client;
 use App\Models\OrderMedicine;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -34,12 +36,12 @@ class OrderController extends Controller
     public function create()
     {
         $users = User::all();
-        $clients=Client::all();
+        $clients = Client::all();
         $doctors = Doctor::all();
         $medicines = Medicine::all();
         $pharmacy = Pharmacy::all();
-        $userAddresses=Useraddress::all();
-        return view('orders.create' ,['users'=>$users , 'medicines'=>$medicines , 'pharmacy'=>$pharmacy , 'doctors'=>$doctors,'clients'=>$clients,'userAddresses'=>$userAddresses]);
+        $userAddresses = Useraddress::all();
+        return view('orders.create', ['users' => $users, 'medicines' => $medicines, 'pharmacy' => $pharmacy, 'doctors' => $doctors, 'clients' => $clients, 'userAddresses' => $userAddresses]);
     }
 
     /**
@@ -48,36 +50,36 @@ class OrderController extends Controller
     public function store(StoreOrderRequest $request)
     {
 
-      
 
-        $client_id=$request->client_id;
-        $doctor_id=$request->doctor_id;
-        $pharmacy_id=$request->Pharmacy_id;
+
+        $client_id = $request->client_id;
+        $doctor_id = $request->doctor_id;
+        $pharmacy_id = $request->Pharmacy_id;
         $status = 'processing';
-        $is_insured=$request->is_insured;
+        $is_insured = $request->is_insured;
 
-        $medicine_ids=$request->medicine_ids;
-        $qty=$request->qty;
+        $medicine_ids = $request->medicine_ids;
+        $qty = $request->qty;
 
-       
 
-        $orderTotalPrice=0;
 
-        for($i = 0 ; $i<count($medicine_ids);$i++){
+        $orderTotalPrice = 0;
+
+        for ($i = 0; $i < count($medicine_ids); $i++) {
             $medicine = Medicine::find($medicine_ids[$i]);
-      
-         $orderTotalPrice+=(intval($medicine->price)*$qty[$i]);
+
+            $orderTotalPrice += (intval($medicine->price) * $qty[$i]);
         }
 
 
         $order = Order::create([
             'ordered_by_id' => $client_id,
-           
+
             'doctor_id' => $doctor_id,
             'is_insured' => $is_insured,
             'status' => $status,
-            'pharmacy_id' => $pharmacy_id, 
-            'total_price'=>$orderTotalPrice
+            'pharmacy_id' => $pharmacy_id,
+            'total_price' => $orderTotalPrice
         ]);
 
 
@@ -86,7 +88,29 @@ class OrderController extends Controller
             $order->medicines($value)->attach($value, ['quantity' => $qty[$key]]);
         }
 
-    
+
+        $confirmUrl = url("stripe/$order->id");
+        $cancelUrl = url("/orders/$order->id/cancel");
+        $orderInfo = [];
+        foreach ($medicine_ids as $index => $medicine) {
+            $medicine = Medicine::find($medicine);
+            $orderInfo[] = [
+                'medicines' => $medicine->name,
+                'quantity' => $qty[$index],
+                'price' => ($medicine->price * $qty[$index]) / 100,
+            ];
+        }
+
+        $client = Client::findOrFail($client_id);
+        Mail::to($client->email)
+            ->queue(new ConfirmPriceMail(
+                $confirmUrl,
+                $cancelUrl,
+                $orderInfo,
+                $orderTotalPrice
+            ));
+
+
 
         return redirect()->route('orders.index')->with('success', 'Order created successfully.');
     }
@@ -96,7 +120,7 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+
 
 
         $order = Order::find($id);
@@ -106,7 +130,7 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit( $id)
+    public function edit($id)
     {
         $users = User::all();
         $clients = Client::all();
@@ -121,31 +145,28 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request,  $id)
     {
-        $order=Order::findorFail($id);
+        $order = Order::findorFail($id);
         $is_insured = $request->is_insured;
         $client_id = $request->client_id;
-        $status=$request->status;
-        $pharmacy_id=$request->pharmacy_id;
+        $status = $request->status;
+        $pharmacy_id = $request->pharmacy_id;
 
-        if(!isset($client_id))
-        {
-            $client_id=$order->ordered_by_id;
+        if (!isset($client_id)) {
+            $client_id = $order->ordered_by_id;
         }
-        if(!isset($is_insured))
-        {
-            $is_insured=$order->is_insured;
+        if (!isset($is_insured)) {
+            $is_insured = $order->is_insured;
         }
-        if(!isset($pharmacy_id))
-        {
-            $pharmacy_id=$order->pharmacy_id;
+        if (!isset($pharmacy_id)) {
+            $pharmacy_id = $order->pharmacy_id;
         }
-        
+
 
         $order->update([
-            'status'=>$status,
+            'status' => $status,
             'is_insured' => $is_insured,
             'ordered_by_id' => $client_id,
-            'pharmacy_id'=>$pharmacy_id,
+            'pharmacy_id' => $pharmacy_id,
 
         ]);
 
@@ -174,5 +195,24 @@ class OrderController extends Controller
         $order->save();
 
         // Other logic for assigning order to a pharmacy
+    }
+
+
+
+    public function cancel($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->update([
+            'status' => 4
+        ]);
+
+        return view('stripes.cancel');
+    }
+
+    public function confirm($id)
+    {
+
+
+        return view('stripes.thank-you');
     }
 }
