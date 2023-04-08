@@ -39,13 +39,21 @@ class OrdersDataTable extends DataTable
             })
             ->addColumn('creator_type', function (Order $order) {
                 $user = auth()->user();
+                $isAdmin = $user->hasRole('admin');
+                $isClient = $user->hasRole('client');
+                $isDoct = $user->hasRole('doctor');
+                $isPharm = $user->hasRole('pharmacy');
                 if (!$user) {
                     return '-';
-                } else {
-                    $isAdmin = $user->hasRole('admin');
-                    if ($isAdmin && $order->user && $order->user->getRoleNames()->isNotEmpty()) {
-                        return $order->user->getRoleNames()->first();
-                    }
+                } else if ($isAdmin && $order->user && $order->user->getRoleNames()->isNotEmpty()) {
+
+                    return $order->user->getRoleNames()->first();
+                } else if ($isClient && $order->user && $order->user->getRoleNames()->isNotEmpty()) {
+                    return $order->user->getRoleNames()->first();
+                } else if ($isDoct && $order->user && $order->user->getRoleNames()->isNotEmpty()) {
+                    return $order->user->getRoleNames()->first();
+                } else if ($isPharm && $order->user && $order->user->getRoleNames()->isNotEmpty()) {
+                    return $order->user->getRoleNames()->first();
                 }
             })
             ->addColumn('assigned_pharmacy', function (Order $order) {

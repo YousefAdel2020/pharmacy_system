@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    public function update(UpdateUserRequest $request,Client $client)
+    public function update(UpdateUserRequest $request, Client $client)
     {
         $client->update($request->validated());
 

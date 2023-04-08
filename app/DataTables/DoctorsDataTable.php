@@ -25,7 +25,7 @@ class DoctorsDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($doctor) {
-                return view('doctors.action', ['id' => $doctor->id, 'banned_at'=>$doctor->banned_at]);
+                return view('doctors.action', ['id' => $doctor->id, 'banned_at' => $doctor->banned_at]);
             })->addColumn('pharmacy', function ($user) {
                 if (!isset($user->pharmacy)) {
                     return "Made By Admin";
@@ -52,7 +52,7 @@ class DoctorsDataTable extends DataTable
         $user = Auth::user();
 
         $model = $model->newQuery()->with('pharmacy');
-        
+
         if (!$user->hasRole('admin')) {
             $model->where('pharmacy_id', $user->typeable_id);
         }
@@ -65,20 +65,20 @@ class DoctorsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('doctors-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('doctors-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -96,11 +96,11 @@ class DoctorsDataTable extends DataTable
             Column::make('pharmacy')->title('Pharmacy')->visible(Auth::user()->hasRole('admin'))->width(100),
             Column::make('banned_at')->title('Status'),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(120)
-                  ->addClass('text-center')
-                  ->escape(false),
+                ->exportable(false)
+                ->printable(false)
+                ->width(120)
+                ->addClass('text-center')
+                ->escape(false),
         ];
     }
 

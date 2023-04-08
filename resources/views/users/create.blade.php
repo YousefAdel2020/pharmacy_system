@@ -51,10 +51,6 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="is_insured" name="is_insured">
-                        <label class="form-check-label" for="is_insured">Has insurance</label>
-                    </div>
                 </div>
 
                 <div class="card-footer">

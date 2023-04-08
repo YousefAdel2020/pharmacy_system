@@ -14,7 +14,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
         $schedule->job(new AssignNewOrder())->everyMinute();
         $schedule->command(NotifyUsersNotLoggedInForMonthCommand::class)->daily()->at('10:00');
     }

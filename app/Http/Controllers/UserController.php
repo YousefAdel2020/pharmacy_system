@@ -83,12 +83,12 @@ class UserController extends Controller
     }
     public function update(UpdateUserRequest $request, $id)
     {
-        $input = $request->only(['name','password','email']);
+        $input = $request->only(['name', 'password', 'email']);
         $user = User::find($id);
 
         $user->update([
-            'name'=> $input['name'],
-            'email'=> $input['email'],
+            'name' => $input['name'],
+            'email' => $input['email'],
         ]);
         return back();
     }

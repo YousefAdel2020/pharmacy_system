@@ -6,9 +6,6 @@
 
 @section('content')
     <div class="container">
-        <div class="text-center">
-            <a href="{{ route('users.create') }}" class="mt-4 btn btn-success">Create User</a>
-        </div>
         <div class="row justify-content-md-center mt-3">
             <div class="col col-lg-4 mr-4 small-box bg-gradient-success">
                 <div class="inner">
