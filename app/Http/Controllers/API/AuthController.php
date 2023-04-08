@@ -18,11 +18,11 @@ use Illuminate\Foundation\Auth\VerifiesEmails;
 
 class AuthController extends Controller
 {
-     public function getToken(SanctumTokenRequest $request)
+    public function getToken(SanctumTokenRequest $request)
     {
 
         $user = User::where('email', $request->email)
-        ->first();
+            ->first();
 
 
         if (!$user || !Hash::check($request->password, $user->password)) {
@@ -37,16 +37,15 @@ class AuthController extends Controller
 
 
         return $user->createToken($request->device_name)->plainTextToken;
-
     }
     public function register(RegisterUserRequest $request)
     {
 
         //$data = $request->validate();
-        $data = $request->only(['name', 'email','password' ,'national_id', 'avatar', 'gender', 'date_of_birth', 'mobile_number']);
-        $user =User::create([
-            'name'=> $data['name'],
-            'email'=> $data['email'],
+        $data = $request->only(['name', 'email', 'password', 'national_id', 'avatar', 'gender', 'date_of_birth', 'mobile_number']);
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
             'password' => Hash::make($data['password']),
 
         ]);
@@ -56,23 +55,22 @@ class AuthController extends Controller
 
             $data["profile_image"] = $path;
         }
-         $client = Client::create([
-            'name'=> $data['name'],
-            'email'=> $data['email'],
-            'gender'=> $data['gender'],
-            'password'=> Hash::make($data['password']),
-            'date_of_birth'=> $data['date_of_birth'],
+        $client = Client::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'gender' => $data['gender'],
+            'password' => Hash::make($data['password']),
+            'date_of_birth' => $data['date_of_birth'],
             'mobile_number' => $data['mobile_number'],
-            'national_id'=> $data['national_id'],
+            'national_id' => $data['national_id'],
         ]);
         $user = $user->refresh();
-        $client=$client->refresh();
+        $client = $client->refresh();
+        $user->assignRole('client');
 
         $client->type()->save($user);
         SendVerifyEmailJob::dispatch($client);
-        
+
         return new ClientResource($client);
     }
-    
-
 }

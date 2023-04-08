@@ -10,7 +10,7 @@ class Prescription extends Model
     use HasFactory;
     protected $fillable = [
         'order_id',
-        "path",
+        'path',
     ];
     public function order()
     {
@@ -20,7 +20,7 @@ class Prescription extends Model
     {
         return Attribute::make(
 
-            get: fn (string $value) => asset('storage/prescription/' . $value),
+            get: fn (string $value) => asset('storage/image/' . $value),
         );
     }
 }

@@ -17,24 +17,27 @@
 
                 <div class="form-group">
                     <label for="user-name">User Name</label>
-                    <input type="text" value="{{ $order->user->name }}" class="form-control" disabled>
+                    <input type="text" value="{{ $order->client->name }}" class="form-control" disabled>
                 </div>
                 @if($order->prescription )
                 <div class="mb-3 mt-3 col-4 p-0 d-flex">
                 <label for="exampleFormControlInput1" class="form-label">Prescription</label>
                     @foreach($order->prescription as $orderPrescription)
-                    <img id="exampleFormControlInput1"src="{{url('storage/image/'.$orderPrescription)}}" style="width:200px;height:200px"/>
+                    
+                    <img id="exampleFormControlInput1"src="{{'/'.'storage/'.$orderPrescription->path}}" style="width:200px;height:200px"/>
                     @endforeach
                 </div>
                 @endif
 
 
 
-
+                @if($order->doctor)
                 <div class="form-group">
                     <label for="user-name">Doctor ID</label>
                     <input type="text" value="{{ $order->doctor->id }}" class="form-control" disabled>
                 </div>
+                @endif
+
 
                 <div class="form-group">
                     <label for="user-name">Status</label>

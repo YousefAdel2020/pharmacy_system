@@ -39,18 +39,12 @@ class OrderController extends Controller
         if ($request->hasFile('prescription')) {
 
 
-            $files = $request->file('prescription');
-
-            foreach ($files as $file) {
-
-                $path = $file->store('order-' . $order->id, ['disk' => 'prescription']);
-
-                Prescription::Create([
-                    'order_id' => $order->id,
-                    'path' => $path,
-                ]);
-            }
+            $path = $request->file('prescription')->store('image', ['disk' => "public"]);
         }
+        $order->prescription()->create([
+            'path' => $path,
+            'order_id' => $order->id,
+        ]);
         return new OrderResource($order);
     }
     public function update(StoreOrderRequest $request, Order $order)
