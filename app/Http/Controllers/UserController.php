@@ -23,8 +23,6 @@ class UserController extends Controller
     {
         $roles = Role::pluck('name', 'name')->all();
 
-        // dd($roles);
-
         return view('users.create', compact('roles'));
     }
 
@@ -84,11 +82,16 @@ class UserController extends Controller
         // $user->assignRole($request->input('role'));
         return redirect()->route("users.index");
     }
-    public function update(User $user, UpdateUserRequest $request)
+    public function update(UpdateUserRequest $request, $id)
     {
-        $data = $request->validate();
-        $user->update($data);
-        return redirect()->route("users.index");
+        $input = $request->only(['name','password','email']);
+        $user = User::find($id);
+
+        $user->update([
+            'name'=> $input['name'],
+            'email'=> $input['email'],
+        ]);
+        return back();
     }
     public function edit($id)
     {
