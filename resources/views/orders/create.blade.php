@@ -79,9 +79,6 @@
                             <option value="{{ $x }}">{{ $x }}</option>
                         @endfor
                     </select>
-
-
-
                 </div>
 
 
