@@ -27,7 +27,7 @@
                     <select name="user_id" class="form-control " style="width: 100%;" data-select2-id="1" tabindex="-1"
                         aria-hidden="true">
                         @foreach ($users as $user)
-                            <option value="{{ $user['user_id'] }}">{{ $user->name }}</option>
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
                         @endforeach
                     </select>
 

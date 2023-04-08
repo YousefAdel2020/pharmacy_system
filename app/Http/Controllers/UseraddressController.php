@@ -43,7 +43,7 @@ class UseraddressController extends Controller
 
         //get data from request
 
-        dd($user_id = $request['user_id']);
+       $user_id = $request['user_id'];
         // $user_id = 1;
 
         $street = $request['street'];
@@ -58,7 +58,7 @@ class UseraddressController extends Controller
 
         UserAddress::create([
             'user_id' => $user_id,
-            'client_id' => $user_id,
+            'client_id' => 1,
             'area_id' => $city,
             'street' => $street,
             'city' => $city,

@@ -92,7 +92,7 @@
                   <div class="form-group">
                         <label for="DocName">Doctor Name</label>
                         <select name="doctor_id" class="form-control " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                          <option value="">select doctor</option>
+                         
                           @foreach($doctors as $doctor)
                           <option value="{{$doctor->id}}">{{$doctor->name}}</option>
                           @endforeach
