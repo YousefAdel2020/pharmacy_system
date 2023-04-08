@@ -8,8 +8,7 @@
         <div class="card-header">
             <h3 class="card-title">Add New Address</h3>
         </div>
-        <!-- /.card-header -->
-        <!-- form start -->
+
         <form action="{{ route('user-address.store') }} " method="POST">
             @csrf
             @if ($errors->any())
@@ -77,7 +76,6 @@
                     <label class="form-check-label" for="primaryAddress">Make This a Primary Address</label>
                 </div>
             </div>
-            <!-- /.card-body -->
 
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>

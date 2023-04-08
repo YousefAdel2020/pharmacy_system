@@ -23,8 +23,7 @@
             <div class="card-header">
                 <h3 class="card-title">Create User</h3>
             </div>
-            <!-- /.card-header -->
-            <!-- form start -->
+
             <form action="{{ route('users.update', $user->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('put')
@@ -54,13 +53,11 @@
                         <label class="form-check-label" for="primaryAddress">Has insurance</label>
                     </div>
                 </div>
-                <!-- /.card-body -->
 
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>
-        <!-- /.card -->
     </div>
 @endsection

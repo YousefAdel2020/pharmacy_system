@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateDoctorRequest;
 use App\Models\Doctor;
 use App\Models\Pharmacy;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -103,6 +104,8 @@ class DoctorController extends Controller
                 'typeable_type'=> 'app\Models\Doctor'
             ]);
         }
+
+        event(new Registered($user));
 
         if (!$user) {
             return redirect()->back()->withErrors(['Error' => 'Failed to register user']);
