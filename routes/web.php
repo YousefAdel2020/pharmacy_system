@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\Auth\VerificationController;
 use App\DataTables\MedicinesDataTable;
 use App\Http\Controllers\PharmacyController;
@@ -84,23 +85,23 @@ Route::group(['middleware' => ['role:admin|pharmacy', 'auth', 'verified'],], fun
 
 
 // ================= Doctor Route
-Route::middleware(['auth' ,'verified','role:admin|pharmacy'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin|pharmacy'])->group(function () {
     Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');
     Route::get('/doctors/create', [DoctorController::class, 'create'])->name('doctors.create');
     Route::post('/doctors', [DoctorController::class, 'store'])->name('doctors.store');
     Route::get('/doctors/{id}', [DoctorController::class, 'show'])->name('doctors.show');
     Route::get('/doctors/{id}/edit', [DoctorController::class, 'edit'])->name('doctors.edit');
-    
+
     Route::delete('/doctors/{id}', [DoctorController::class, 'destroy'])->name('doctors.destroy');
 });
-Route::put('/doctors/{id}', [DoctorController::class, 'update'])->middleware(['auth','verified'])->name('doctors.update');
+Route::put('/doctors/{id}', [DoctorController::class, 'update'])->middleware(['auth', 'verified'])->name('doctors.update');
 
-Route::middleware(['auth', 'role:admin|pharmacy','verified'])->group(function () {
+Route::middleware(['auth', 'role:admin|pharmacy', 'verified'])->group(function () {
     Route::post('/bans', [BanController::class, 'ban'])->name('doctors.ban');
     Route::post('/unbans', [BanController::class, 'unban'])->name('doctors.unban');
 });
 //=============== UserAddress Routes
-Route::prefix('/user-address')->group(
+Route::prefix('/user-address')->middleware(['auth', 'role:admin|pharmacy'])->group(
     function () {
         Route::get(
             '/',
@@ -138,14 +139,14 @@ Route::get('medicines/data', [MedicinesDataTable::class, 'query'])->name('medici
 
 
 // =================  for roles
-Route::group(['middleware' => ['auth','verified']], function () {
+Route::group(['middleware' => ['auth', 'verified', 'role:admin']], function () {
     Route::resource('roles', RoleController::class);
     // Route::resource('users', 'UserController');
 });
 
 // =================  for Areas ================
 Route::group(
-    ['middleware' => ['auth',  'permission:area-all','verified']],
+    ['middleware' => ['auth',  'permission:area-all', 'verified']],
     function () {
         Route::resource('areas', AreaController::class);
     }
@@ -157,7 +158,7 @@ Route::get('countries/{id}/fetch-areas', [AreaController::class, 'fetchArea']);
 Route::group(
     [
         'prefix' => 'orders',
-        'middleware' => ['role:admin|pharmacy|doctor', 'auth' , 'verified'],
+        'middleware' => ['role:admin|pharmacy|doctor', 'auth', 'verified'],
     ],
     function () {
         Route::get('/', [OrderController::class, 'index'])->name('orders.index');
@@ -175,7 +176,7 @@ Route::group(
 );
 
 //=================== for revenue ==============
-Route::group(['middleware' => ['auth','verified']], function () {
+Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/revenue', [RevnueController::class, 'index'])->name('revenues.index');
     Route::delete('/revenue', [RevnueController::class, 'destroy'])->name('revenues.destroy');
     Route::get('/revenuePer', [RevenuePharmController::class, 'index'])->name('revenuePerPharmacy.index');

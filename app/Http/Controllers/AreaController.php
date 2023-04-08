@@ -108,7 +108,6 @@ class AreaController extends Controller
     public function fetchArea($id)
     {
         $data = Country::find($id)->area;
-        // dd(response()->json($data));
         return response()->json($data);
     }
 }

@@ -44,7 +44,6 @@ class CreateAdminUser extends Command
 
         $email = $this->option('email');
         $password = $this->input->getOption('password');
-        // dd($password);
 
 
         $user = new User();
